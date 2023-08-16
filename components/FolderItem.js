@@ -1,12 +1,12 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome";
+import Icon from "react-native-vector-icons/Ionicons";
 
 const FolderItem = ({ name, description }) => {
   return (
     <View style={styles.card}>
       <View style={styles.iconContainer}>
-        <Icon name="folder" size={40} color="#007AFF" />
+        <Icon name="enter-outline" size={50} color="#004725" />
       </View>
       <View style={styles.infoContainer}>
         <Text style={styles.name}>{name}</Text>
@@ -18,13 +18,14 @@ const FolderItem = ({ name, description }) => {
 
 const styles = StyleSheet.create({
   card: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: "column",
     backgroundColor: "white",
     borderRadius: 8,
     padding: 10,
     marginBottom: 10,
     elevation: 2,
+    width: 150,
+    margin: 15
   },
   iconContainer: {
     marginRight: 10,

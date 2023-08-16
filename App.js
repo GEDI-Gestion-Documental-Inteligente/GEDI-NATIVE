@@ -1,10 +1,9 @@
-import * as React from "react";
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { NavigationContainer } from '@react-navigation/native';
+import React from "react";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Login } from "./screens/Login";
-import { Register } from "./screens/Register";
-import FolderScreen from "./screens/FolderScreen";
 
+import { NavigationContainer } from "@react-navigation/native"; // Asegúrate de importar NavigationContainer
+import TabNavigator from "./components/TabNavigator";
 
 const Stack = createNativeStackNavigator();
 
@@ -15,22 +14,13 @@ export default function App() {
         <Stack.Screen
           name="Login"
           component={Login}
-          options={{ title: "Inicio",
-          headerShown:false }}
+          options={{ title: "Inicio", headerShown: false }}
         />
         <Stack.Screen
-          name="Register"
-          component={Register}
-          options={{ title: "Registro",
-          headerShown:false }}
+          name="Home"
+          options={{headerShown: false }}
+          component={TabNavigator}
         />
-           <Stack.Screen
-          name="FolderScreen"
-          component={FolderScreen}
-          options={{ title: "Registro",
-          headerShown:false }}
-        />
-
       </Stack.Navigator>
     </NavigationContainer>
   );

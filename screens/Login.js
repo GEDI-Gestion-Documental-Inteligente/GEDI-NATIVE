@@ -39,7 +39,7 @@ export const Login = () => {
         const ticket = res.data.entry.id;
         console.log(btoa(ticket));
 
-        navigation.navigate("FolderScreen");
+        navigation.navigate("Home");
       })
       .catch((err) => console.log("no se puede", err.message));
   };
