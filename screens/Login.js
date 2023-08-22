@@ -31,7 +31,7 @@ export const Login = () => {
     console.log(data);
     axios
       .post(
-        "http:192.168.217.211:8080/alfresco/api/-default-/public/authentication/versions/1/tickets",
+        "http:192.168.137.1:8080/alfresco/api/-default-/public/authentication/versions/1/tickets",
         data,
         config
       )
@@ -39,7 +39,7 @@ export const Login = () => {
         const ticket = res.data.entry.id;
         console.log(btoa(ticket));
 
-        navigation.navigate("Home");
+        navigation.navigate("Sites");
       })
       .catch((err) => console.log("no se puede", err.message));
   };
@@ -47,7 +47,7 @@ export const Login = () => {
   return (
     <View style={styles.container}>
       <View style={styles.formContainer}>
-        <Text style={styles.formTitle}>Iniciar Sesión</Text>
+        <Text style={styles.formTitle}>Alfredo IA</Text>
 
         <View style={styles.formBody}>
           <TextInput
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     height: 400,
     shadowColor: "black",
-    width: 400,
+    width: 350,
     elevation: 10,
 
     shadowOffset: {
@@ -119,8 +119,8 @@ const styles = StyleSheet.create({
   },
   formTitle: {
     position: "absolute",
-    top: 50,
-    fontSize: 30,
+    top: 25,
+    fontSize: 25,
     fontWeight: "bold",
     color: "#004725",
   },

@@ -1,17 +1,20 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
-const FolderItem = ({ name, description }) => {
+const FolderItem = ({ name, description, onPress }) => {
   return (
     <View style={styles.card}>
-      <View style={styles.iconContainer}>
-        <Icon name="enter-outline" size={50} color="#004725" />
-      </View>
-      <View style={styles.infoContainer}>
-        <Text style={styles.name}>{name}</Text>
-        <Text style={styles.description}>{description}</Text>
-      </View>
+      <Pressable onPress={onPress}>
+        <View style={styles.iconContainer}>
+          <Icon name="folder" size={50} color="#004725" />
+        </View>
+
+        <View style={styles.infoContainer}>
+          <Text style={styles.name}>{name}</Text>
+          <Text style={styles.description}>{description}</Text>
+        </View>
+      </Pressable>
     </View>
   );
 };
@@ -25,7 +28,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     elevation: 2,
     width: 150,
-    margin: 15
+    margin: 15,
+
   },
   iconContainer: {
     marginRight: 10,
