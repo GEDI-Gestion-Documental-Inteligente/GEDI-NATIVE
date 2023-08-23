@@ -60,7 +60,7 @@ export const Login = () => {
           <TextInput
             ref={inputPassword}
             style={styles.formInput}
-            placeholder="Ingrese su password"
+            placeholder="Ingrese su contraseña"
             placeholderTextColor="#000000"
             onChangeText={(text) => setData({ ...data, password: text })}
           />
