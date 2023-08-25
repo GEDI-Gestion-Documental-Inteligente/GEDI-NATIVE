@@ -12,8 +12,8 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { Picker } from "@react-native-picker/picker";
 import axios from "axios"; // Importa axios
-import { IPV4_ADDRESS } from "../screens/SiteScreen";
-import FolderItem from "./FolderItem";
+import { IPV4_ADDRESS } from "./SiteScreen";
+import FolderItem from "../components/FolderItem";
 
 export const NodeComponent = ({ route }) => {
   const { id, ticket } = route.params;
@@ -114,6 +114,7 @@ export const NodeComponent = ({ route }) => {
             renderItem={({ item }) => (
               <FolderItem
                 name={item.entry.name}
+                type = {item.entry.nodeType}
                 description={item.entry.id} // Asegúrate de que la estructura de tu data tenga 'entry.description'
                 onPress={() => handleNodePress(item)}
               />

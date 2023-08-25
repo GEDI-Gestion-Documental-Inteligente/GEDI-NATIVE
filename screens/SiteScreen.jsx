@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react' // Importa React correctamente
-import { Text, StyleSheet, View, StatusBar, Pressable } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
-import { encode } from 'base-64'
-
+import React, { useState, useEffect } from 'react';
+import { View, StatusBar, Pressable, Text, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import SiteItem from '../components/SiteItem'; // Importamos el componente SiteItem
+import { encode } from 'base-64';
+import { FlatList } from 'react-native';
 export const IPV4_ADDRESS = '192.168.137.1'
 
 export const SiteScreen = () => {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
+  const [columns, setColumns] = useState(2)
 
-  const [sites, setSites] = useState([])
+  const [sites, setSites] = useState([]);
 
   const fetchTicket = async () => {
     const myheaders = {
@@ -22,14 +24,12 @@ export const SiteScreen = () => {
     const response = await fetch(
       `http://${IPV4_ADDRESS}:8080/alfresco/api/-default-/public/authentication/versions/1/tickets`,
       myheaders
-    )
-    const data = await response.json()
-    console.log(encode(data.entry.id))
+    );
+    const data = await response.json();
+    return encode(data.entry.id);
+  };
 
-    return encode(data.entry.id)
-  }
-
-  const fetchSites = async (ticket) => {
+  const fetchSitesData = async (ticket) => {
     const myheaders = {
       method: 'GET',
       headers: {
@@ -41,49 +41,59 @@ export const SiteScreen = () => {
     const response = await fetch(
       `http://${IPV4_ADDRESS}:8080/alfresco/api/-default-/public/alfresco/versions/1/sites`,
       myheaders
-    )
-    const data = await response.json()
+    );
+    const data = await response.json();
     console.log(data.list.entries)
-    setSites(data.list.entries)
-  }
+    return data.list.entries;
+  };
 
   useEffect(() => {
     const fetchData = async () => {
-      const ticket = await fetchTicket()
-      await fetchSites(ticket)
-    }
+      const ticket = await fetchTicket();
+      const sitesData = await fetchSitesData(ticket);
+      setSites(sitesData);
+    };
 
-    fetchData()
-  }, [])
+    fetchData();
+  }, []);
+
+  const renderItem = ({ item }) => (
+    <SiteItem
+      siteData={item}
+      onPress={async () => {
+        const ticket = await fetchTicket();
+        navigation.navigate('Children', {
+          id: item.entry.guid,
+          ticket,
+        });
+      }}
+    />
+  );
 
   return (
-    <View>
-      {sites?.map((value, index) => (
-        <Pressable
-          key={index}
-          style={styles.site}
-          onPress={async () => {
-            const ticket = await fetchTicket()
-            navigation.navigate('Children', {
-              id: value.entry.guid,
-              ticket
-            })
-          }}
-        >
-          <Text>{value.entry.title}</Text>
-          <Text>{value.entry.guid}</Text>
-        </Pressable>
-      ))}
+    <View style={styles.container}>
+      <FlatList
+      numColumns={columns}
+        data={sites}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => index.toString()}
+      />
       <StatusBar style='auto' />
     </View>
-  )
-}
+  );
+};
+
+
 
 const styles = StyleSheet.create({
-  site: {
-    backgroundColor: '#f3f3f3',
-    borderWidth: 1, // Cambia 'border' por 'borderWidth'
-    borderColor: 'black', // Cambia 'border' por 'borderColor'
-    cursor: 'pointer'
+  container: {
+    flex:1,
+    width: "auto",
+    height: "100%",
+    padding: 30,
+    backgroundColor: "#4D6F5F",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   }
 })

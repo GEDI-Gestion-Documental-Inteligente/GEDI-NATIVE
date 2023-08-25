@@ -5,7 +5,7 @@ import { NavigationContainer } from "@react-navigation/native"; // Asegúrate de
 import TabNavigator from "./components/TabNavigator";
 import { SiteScreen } from "./screens/SiteScreen";
 import { ChildrenComponent } from "./components/ChildrenComponent";
-import { NodeComponent } from "./components/NodeComponent";
+import { NodeComponent } from "./screens/NodeComponent";
 import { NodeContent } from "./components/NodeContent";
 
 const Stack = createNativeStackNavigator();
@@ -26,13 +26,13 @@ export default function App() {
         />
         <Stack.Screen
           name="Sites"
-          options={{ headerShown: false }}
+          options={{headerBackVisible: false }}
           component={SiteScreen}
         />
         <Stack.Screen name="Children" component={ChildrenComponent} />
 
-        <Stack.Screen name="NodeComponent" component={NodeComponent} />
-        <Stack.Screen name="NodeContent" component={NodeContent} />
+        <Stack.Screen name="NodeComponent" component={NodeComponent}  />
+        <Stack.Screen name="NodeContent" component={NodeContent} options={{headerBackVisible: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

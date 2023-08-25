@@ -55,6 +55,7 @@ export const ChildrenComponent = ({ route }) => {
     <View>
       {childNodes.length > 0 ? (
         <FlatList
+        
           data={childNodes}
           renderItem={renderItem}
           keyExtractor={(item) => item.entry.id}

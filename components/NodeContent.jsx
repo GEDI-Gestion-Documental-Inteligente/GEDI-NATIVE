@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import axios from 'axios'; // Importamos Axios
+import { View, Text, SafeAreaView, StyleSheet } from 'react-native';
+import PdfRendererView from 'react-native-pdf-renderer';
 import { IPV4_ADDRESS } from '../screens/SiteScreen';
+
+
 
 export const NodeContent = ({ route }) => {
   const { id, ticket } = route.params;
@@ -9,18 +11,18 @@ export const NodeContent = ({ route }) => {
 
   const fetchContentNode = async (id, ticket) => {
     const myheaders = {
-      headers: {
-        Authorization: 'Basic ' + ticket
-      }
+      Authorization: 'Basic ' + ticket
     };
 
     try {
-      const response = await axios.get(
+      const response = await fetch(
         `http://${IPV4_ADDRESS}:8080/alfresco/api/-default-/public/alfresco/versions/1/nodes/${id}/content`,
-        myheaders
+        { headers: myheaders }
       );
-      
-      return response.request.responseURL;
+      const pdfUrl = response.url;
+      setPdfUrl(pdfUrl);
+      console.log(pdfUrl);
+      return pdfUrl;
     } catch (error) {
       console.error('Error fetching PDF content:', error);
       return null;
@@ -38,43 +40,27 @@ export const NodeContent = ({ route }) => {
     fetchData();
   }, [id, ticket]);
 
-  const openPdf = async () => {
-    try {
-      if (pdfUrl) {
-        await Print.printAsync({
-          uri: pdfUrl
-        });
-      } else {
-        console.log('No PDF URL available');
-      }
-    } catch (error) {
-      console.error('Error opening PDF:', error);
-    }
-  };
-
   return (
-    <View style={styles.container}>
-      <TouchableOpacity onPress={openPdf} style={styles.button}>
-        <Text style={styles.buttonText}>Open PDF</Text>
-      </TouchableOpacity>
-    </View>
+    <SafeAreaView style={styles.container}>
+      {pdfUrl ? (
+        <PdfRendererView
+          style={{ flex: 1, backgroundColor: 'black' }}
+          source={pdfUrl}
+          distanceBetweenPages={10}
+          maxZoom={10}
+          onPageChange={(current, total) => {
+            console.log(current, total);
+          }}
+        />
+      ) : (
+        <Text>No PDF available</Text>
+      )}
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
   },
-  button: {
-    backgroundColor: '#007AFF',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 16
-  }
 });
