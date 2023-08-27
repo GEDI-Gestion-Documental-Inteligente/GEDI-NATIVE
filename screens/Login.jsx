@@ -1,47 +1,30 @@
-import React, { useRef, useState } from "react";
-import { encode, decode } from "base-64";
+import React, { useState } from "react";
 import { View, StyleSheet, TextInput, Text, Pressable } from "react-native";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { loginAndFetchTicket } from "../services/authThunks";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 
 export const Login = () => {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
-  const inputUser = useRef();
-  const inputPassword = useRef();
-  const [data, setData] = useState({
-    userId: "",
-    password: "",
-  });
-  const config = {
-    headers: {
-      "content-type": "application/json",
-    },
-  };
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
-  // Configuración global de la biblioteca base-64
-  if (!global.btoa) {
-    global.btoa = encode;
-  }
+  const [userId, setUserId] = useState("");
+  const [password, setPassword] = useState("");
 
-  if (!global.atob) {
-    global.atob = decode;
-  }
-
-  const loguear = () => {
-    console.log(data);
-    axios
-      .post(
-        "http:192.168.137.1:8080/alfresco/api/-default-/public/authentication/versions/1/tickets",
-        data,
-        config
-      )
-      .then((res) => {
-        const ticket = res.data.entry.id;
-        console.log(btoa(ticket));
-
-        navigation.navigate("Sites");
-      })
-      .catch((err) => console.log("no se puede", err.message));
+  const loguear = async () => {
+    try {
+      dispatch(loginAndFetchTicket({ userId, password }))
+        .then((ticket) => {
+          ticket && navigation.navigate("Sites");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (error) {
+      console.log("Error al iniciar sesión:", error.message);
+    }
   };
 
   return (
@@ -51,18 +34,19 @@ export const Login = () => {
 
         <View style={styles.formBody}>
           <TextInput
-            ref={inputUser}
+            value={userId}
+            onChangeText={setUserId}
             style={styles.formInput}
             placeholder="Ingrese su usuario"
             placeholderTextColor="#000000"
-            onChangeText={(text) => setData({ ...data, userId: text })}
           />
           <TextInput
-            ref={inputPassword}
+            value={password}
+            onChangeText={setPassword}
             style={styles.formInput}
             placeholder="Ingrese su contraseña"
             placeholderTextColor="#000000"
-            onChangeText={(text) => setData({ ...data, password: text })}
+            secureTextEntry={true}
           />
         </View>
 
@@ -71,6 +55,8 @@ export const Login = () => {
             <Text style={styles.textButton}>Ingresar</Text>
           </Pressable>
         </View>
+
+        {isAuthenticated && <Text>Autenticado correctamente</Text>}
       </View>
     </View>
   );
@@ -139,3 +125,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
+
+export default Login;

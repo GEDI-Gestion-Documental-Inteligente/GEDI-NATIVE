@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, SafeAreaView, StyleSheet } from 'react-native';
-import PdfRendererView from 'react-native-pdf-renderer';
-import { IPV4_ADDRESS } from '../screens/SiteScreen';
-
-
+import React, { useEffect, useState } from "react";
+import { View, Text, SafeAreaView, StyleSheet } from "react-native";
+import { IPV4_ADDRESS } from "../screens/SiteScreen";
+import * as Linking from "expo-linking";
 
 export const NodeContent = ({ route }) => {
   const { id, ticket } = route.params;
-  const [pdfUrl, setPdfUrl] = useState('');
+  const [pdfUrl, setPdfUrl] = useState("");
 
   const fetchContentNode = async (id, ticket) => {
     const myheaders = {
-      Authorization: 'Basic ' + ticket
+      Authorization: "Basic " + ticket,
     };
 
     try {
@@ -21,10 +19,10 @@ export const NodeContent = ({ route }) => {
       );
       const pdfUrl = response.url;
       setPdfUrl(pdfUrl);
-      console.log(pdfUrl);
+      console.log(response.url);
       return pdfUrl;
     } catch (error) {
-      console.error('Error fetching PDF content:', error);
+      console.error("Error fetching PDF content:", error);
       return null;
     }
   };
@@ -36,25 +34,24 @@ export const NodeContent = ({ route }) => {
     }
   };
 
+  const openPdfWithLinking = async () => {
+    if (pdfUrl) {
+      const supported = await Linking.canOpenURL(pdfUrl);
+      if (supported) {
+        await Linking.openURL(pdfUrl);
+      } else {
+        console.error("Cannot open PDF URL:", pdfUrl);
+      }
+    }
+  };
+
   useEffect(() => {
     fetchData();
   }, [id, ticket]);
 
   return (
     <SafeAreaView style={styles.container}>
-      {pdfUrl ? (
-        <PdfRendererView
-          style={{ flex: 1, backgroundColor: 'black' }}
-          source={pdfUrl}
-          distanceBetweenPages={10}
-          maxZoom={10}
-          onPageChange={(current, total) => {
-            console.log(current, total);
-          }}
-        />
-      ) : (
-        <Text>No PDF available</Text>
-      )}
+
     </SafeAreaView>
   );
 };

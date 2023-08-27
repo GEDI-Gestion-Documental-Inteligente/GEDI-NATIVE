@@ -7,11 +7,14 @@ import { SiteScreen } from "./screens/SiteScreen";
 import { ChildrenComponent } from "./components/ChildrenComponent";
 import { NodeComponent } from "./screens/NodeComponent";
 import { NodeContent } from "./components/NodeContent";
+import { Provider } from "react-redux";
+import store from "./store/store";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
+    <Provider store={store}>
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
         <Stack.Screen
@@ -35,5 +38,6 @@ export default function App() {
         <Stack.Screen name="NodeContent" component={NodeContent} options={{headerBackVisible: false }} />
       </Stack.Navigator>
     </NavigationContainer>
+    </Provider>
   );
 }
