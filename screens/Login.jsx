@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { View, StyleSheet, TextInput, Text, Pressable } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { loginAndFetchTicket } from "../services/authThunks";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
+import { loginAndFetchTicket } from "../redux/services/authThunks";
 
 export const Login = () => {
   const dispatch = useDispatch();

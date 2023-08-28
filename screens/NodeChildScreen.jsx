@@ -12,11 +12,13 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { Picker } from "@react-native-picker/picker";
 import axios from "axios"; // Importa axios
-import { IPV4_ADDRESS } from "./SiteScreen";
 import FolderItem from "../components/FolderItem";
+import { useSelector } from "react-redux";
+import { IPV4_ADDRESS } from "../redux/services/SitesThunks";
 
-export const NodeComponent = ({ route }) => {
-  const { id, ticket } = route.params;
+export const NodeChildScreen = ({ route }) => {
+  const { id } = route.params;
+  const ticket = useSelector(state => state.auth.ticket)
   const [childNodes, setChildNodes] = useState([]);
   const [isModalVisible, setModalVisible] = useState(false);
   const [nodeName, setNodeName] = useState("");
@@ -24,7 +26,7 @@ export const NodeComponent = ({ route }) => {
   const [selectedNodeType, setSelectedNodeType] = useState("cm:content");
   const navigation = useNavigation();
 
-  const fetchChildNodes = async (id, ticket) => {
+  const fetchChildNodes = async (id) => {
     const myheaders = {
       headers: {
         Authorization: "Basic " + ticket,

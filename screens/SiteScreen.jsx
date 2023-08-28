@@ -4,7 +4,8 @@ import { View, StatusBar, FlatList, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import SiteItem from "../components/SiteItem";
 import { useDispatch, useSelector } from "react-redux";
-import { getMySites } from "../services/SitesThunks";
+import { getMySites } from "../redux/services/SitesThunks";
+
 
 export const SiteScreen = () => {
   const navigation = useNavigation();

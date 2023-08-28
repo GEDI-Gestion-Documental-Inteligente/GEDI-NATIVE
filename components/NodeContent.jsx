@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, SafeAreaView, StyleSheet } from "react-native";
-import { IPV4_ADDRESS } from "../screens/SiteScreen";
 import * as Linking from "expo-linking";
+import { useSelector } from "react-redux";
+import { IPV4_ADDRESS } from "../redux/services/SitesThunks";
 
 export const NodeContent = ({ route }) => {
-  const { id, ticket } = route.params;
+  const { id } = route.params;
   const [pdfUrl, setPdfUrl] = useState("");
+  const ticket = useSelector(state => state.auth.ticket)
 
-  const fetchContentNode = async (id, ticket) => {
+  const fetchContentNode = async (id) => {
     const myheaders = {
       Authorization: "Basic " + ticket,
     };

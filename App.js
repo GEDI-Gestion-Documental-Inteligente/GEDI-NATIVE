@@ -5,10 +5,11 @@ import { NavigationContainer } from "@react-navigation/native"; // Asegúrate de
 import TabNavigator from "./components/TabNavigator";
 import { SiteScreen } from "./screens/SiteScreen";
 import { ChildrenComponent } from "./components/ChildrenComponent";
-import { NodeComponent } from "./screens/NodeComponent";
+import { NodeChildScreen} from "./screens/NodeChildScreen";
 import { NodeContent } from "./components/NodeContent";
 import { Provider } from "react-redux";
-import store from "./store/store";
+import store from "./redux/store/store";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -34,7 +35,7 @@ export default function App() {
         />
         <Stack.Screen name="Children" component={ChildrenComponent} />
 
-        <Stack.Screen name="NodeComponent" component={NodeComponent}  />
+        <Stack.Screen name="Carpetas" component={NodeChildScreen}  />
         <Stack.Screen name="NodeContent" component={NodeContent} options={{headerBackVisible: false }} />
       </Stack.Navigator>
     </NavigationContainer>

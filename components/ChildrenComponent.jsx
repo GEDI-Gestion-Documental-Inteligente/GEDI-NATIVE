@@ -2,14 +2,17 @@ import React, { useEffect, useState } from 'react'
 import { View, Text, Pressable, FlatList } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import axios from 'axios' // Importa axios
-import { IPV4_ADDRESS } from '../screens/SiteScreen'
+import { IPV4_ADDRESS } from '../redux/services/SitesThunks'
+import { useSelector } from 'react-redux'
+
 
 export const ChildrenComponent = ({ route }) => {
-  const { id, ticket } = route.params
+  const { id } = route.params
+  const ticket = useSelector(state => state.auth.ticket)
   const [childNodes, setChildNodes] = useState([])
   const navigation = useNavigation()
 
-  const fetchChildNodes = async (id, ticket) => {
+  const fetchChildNodes = async (id) => {
     const myheaders = {
       headers: {
         Authorization: 'Basic ' + ticket
@@ -42,7 +45,7 @@ export const ChildrenComponent = ({ route }) => {
   const renderItem = ({ item }) => (
     <Pressable
       onPress={() =>
-        navigation.navigate('NodeComponent', {
+        navigation.navigate('Carpetas', {
           ticket,
           id: item.entry.id
         })}
