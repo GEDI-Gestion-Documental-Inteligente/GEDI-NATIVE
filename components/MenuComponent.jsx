@@ -44,7 +44,7 @@ const DropdownMenu = () => {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.textButton}
-                onPress={() => console.log("Option 2 selected")}
+                onPress={() => navigate.navigate("Sites")}
               >
                 <Text>Gestionar sitios</Text>
               </TouchableOpacity>

@@ -15,6 +15,7 @@ export const getMyActivities = createAsyncThunk('people/getMyActivities', async(
         const response = await axios.get(`http://${IPV4_ADDRESS}:8080/alfresco/api/-default-/public/alfresco/versions/1/people/${id}/activities`, myheaders)
 
         const activities = response.data.list.entries
+        console.log(activities[1].entry)
         return activities.slice(1, 10);
       } catch (error) {
         console.log(error)

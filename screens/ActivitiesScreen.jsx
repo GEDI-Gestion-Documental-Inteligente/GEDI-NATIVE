@@ -5,6 +5,7 @@ import { getMyActivities } from "../redux/services/peopleThunks";
 import { StyleSheet } from "react-native";
 import { View } from "react-native";
 import { Text } from "react-native";
+import DropdownMenu from "../components/MenuComponent";
 
 export const ActivitiesScreen = () => {
   const ticket = useSelector((state) => state.auth.ticket);
@@ -16,9 +17,6 @@ export const ActivitiesScreen = () => {
     dispatch(getMyActivities({ id, ticket }));
   }, []);
 
-  useEffect(() => {
-    console.log("aqui:", activities);
-  }, [activities]);
 
   const renderActivity = ({ item }) => (
     <View style={styles.activityContainer}>
@@ -30,6 +28,7 @@ export const ActivitiesScreen = () => {
 
   return (
     <View style={styles.container}>
+        <DropdownMenu/>
       <Text style={styles.activityText}>Últimos movimientos</Text>
       <FlatList
         data={activities}
