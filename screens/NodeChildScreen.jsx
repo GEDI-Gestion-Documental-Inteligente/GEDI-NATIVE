@@ -13,77 +13,58 @@ import { useNavigation } from "@react-navigation/native";
 import { Picker } from "@react-native-picker/picker";
 import axios from "axios"; // Importa axios
 import FolderItem from "../components/FolderItem";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { IPV4_ADDRESS } from "../redux/services/SitesThunks";
+import { getNodes } from "../redux/services/NodeThunks";
 
 export const NodeChildScreen = ({ route }) => {
   const { id } = route.params;
   const ticket = useSelector(state => state.auth.ticket)
-  const [childNodes, setChildNodes] = useState([]);
   const [isModalVisible, setModalVisible] = useState(false);
   const [nodeName, setNodeName] = useState("");
-  const [columns, setColumns] = useState(2);
   const [selectedNodeType, setSelectedNodeType] = useState("cm:content");
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const nodesChildren = useSelector(state => state.nodes.nodes)
+  
 
-  const fetchChildNodes = async (id) => {
-    const myheaders = {
-      headers: {
-        Authorization: "Basic " + ticket,
-      },
-    };
 
-    try {
-      const response = await axios.get(
-        `http://${IPV4_ADDRESS}:8080/alfresco/api/-default-/public/alfresco/versions/1/nodes/${id}/children`,
-        myheaders
-      );
-      console.log(response.data.list.entries)
-      return response.data.list.entries;
-    } catch (error) {
-      console.error("Error fetching child nodes:", error);
-      return [];
-    }
-  };
 
-  const fetchData = async () => {
-    const nodes = await fetchChildNodes(id, ticket);
-    setChildNodes(nodes);
-  };
+  useEffect(()=>{
+    dispatch(getNodes({id, ticket}))
+  
+  }, [id])
+ 
 
-  useEffect(() => {
-    fetchData();
-  }, [id, ticket]);
+  // const createNode = async () => {
+  //   const myheaders = {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: "Basic " + ticket,
+  //     },
+  //   };
+  //   const body = {
+  //     name: nodeName,
+  //     nodeType: selectedNodeType,
+  //   };
 
-  const createNode = async () => {
-    const myheaders = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + ticket,
-      },
-    };
-    const body = {
-      name: nodeName,
-      nodeType: selectedNodeType,
-    };
-
-    try {
-      const response = await axios.post(
-        `http://${IPV4_ADDRESS}:8080/alfresco/api/-default-/public/alfresco/versions/1/nodes/${id}/children`,
-        body,
-        myheaders
-      );
-      if (response.status === 201) {
-        // Node created successfully, update the list of child nodes
-        fetchData();
-        setModalVisible(false);
-      } else {
-        console.error("Error creating node");
-      }
-    } catch (error) {
-      console.error("Error creating node:", error);
-    }
-  };
+  //   try {
+  //     const response = await axios.post(
+  //       `http://${IPV4_ADDRESS}:8080/alfresco/api/-default-/public/alfresco/versions/1/nodes/${id}/children`,
+  //       body,
+  //       myheaders
+  //     );
+  //     if (response.status === 201) {
+  //       // Node created successfully, update the list of child nodes
+  //       fetchData();
+  //       setModalVisible(false);
+  //     } else {
+  //       console.error("Error creating node");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error creating node:", error);
+  //   }
+  // };
 
   const handleNodePress = (node) => {
     if (node.entry.nodeType === "cm:content") {
@@ -94,7 +75,7 @@ export const NodeChildScreen = ({ route }) => {
 
       console.log("Se ha seleccionado un archivo:", node.entry.name);
     } else if (node.entry.nodeType === "cm:folder") {
-      navigation.navigate("NodeComponent", {
+      navigation.navigate("Carpetas", {
         ticket,
         id: node.entry.id,
       });
@@ -108,10 +89,10 @@ export const NodeChildScreen = ({ route }) => {
       </Pressable>
 
       <View style={styles.container}>
-        {childNodes.length > 0 ? (
+        {nodesChildren.length ? (
           <FlatList
         
-            data={childNodes}
+            data={nodesChildren}
             numColumns={2}
             renderItem={({ item }) => (
               <FolderItem
@@ -144,7 +125,7 @@ export const NodeChildScreen = ({ route }) => {
             <Picker.Item label="Carpeta" value="cm:folder" />
             {/* Add more types as needed */}
           </Picker>
-          <Button title="Crear" onPress={createNode} />
+          {/* <Button title="Crear" onPress={createNode} /> */}
           <Button title="Cancelar" onPress={() => setModalVisible(false)} />
         </View>
       </Modal>

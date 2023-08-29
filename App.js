@@ -33,7 +33,7 @@ export default function App() {
           options={{headerBackVisible: false }}
           component={SiteScreen}
         />
-        <Stack.Screen name="Children" component={ChildrenComponent} />
+   
 
         <Stack.Screen name="Carpetas" component={NodeChildScreen}  />
         <Stack.Screen name="NodeContent" component={NodeContent} options={{headerBackVisible: false }} />

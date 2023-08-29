@@ -9,6 +9,7 @@ import { getMySites } from "../redux/services/SitesThunks";
 
 export const SiteScreen = () => {
   const navigation = useNavigation();
+  const ticket = useSelector(state => state.auth.ticket)
   const dispatch = useDispatch();
   const sites = useSelector((state) => state.sites.sites);
 
@@ -20,8 +21,9 @@ export const SiteScreen = () => {
     <SiteItem
       siteData={item}
       onPress={() => {
-        navigation.navigate("Children", {
+        navigation.navigate("Carpetas", {
           id: item.entry.guid,
+          ticket
         });
       }}
     />
