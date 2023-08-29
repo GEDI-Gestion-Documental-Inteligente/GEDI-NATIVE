@@ -7,6 +7,7 @@ import { NodeChildScreen} from "./screens/NodeChildScreen";
 import { NodeContent } from "./components/NodeContent";
 import { Provider } from "react-redux";
 import store from "./redux/store/store";
+import { ActivitiesScreen } from "./screens/ActivitiesScreen";
 
 
 const Stack = createNativeStackNavigator();
@@ -22,19 +23,16 @@ export default function App() {
           options={{ title: "Inicio", headerShown: false }}
         />
         <Stack.Screen
-          name="Home"
-          options={{ headerShown: false }}
-          component={TabNavigator}
-        />
-        <Stack.Screen
           name="Sites"
-          options={{headerBackVisible: false }}
+          options={{headerBackVisible: false, headerShown: false  }}
           component={SiteScreen}
         />
    
 
         <Stack.Screen name="Nodes" component={NodeChildScreen}  />
         <Stack.Screen name="NodeContent" component={NodeContent} options={{headerBackVisible: false }} />
+
+        <Stack.Screen name="Activities" component={ActivitiesScreen} options={{headerBackVisible: false,  title: "Inicio" }} />
       </Stack.Navigator>
     </NavigationContainer>
     </Provider>
