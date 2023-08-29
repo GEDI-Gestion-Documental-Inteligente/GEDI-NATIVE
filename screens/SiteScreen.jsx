@@ -21,7 +21,7 @@ export const SiteScreen = () => {
     <SiteItem
       siteData={item}
       onPress={() => {
-        navigation.navigate("Carpetas", {
+        navigation.navigate("Nodes", {
           id: item.entry.guid,
           ticket
         });

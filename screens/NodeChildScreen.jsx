@@ -75,7 +75,7 @@ export const NodeChildScreen = ({ route }) => {
 
       console.log("Se ha seleccionado un archivo:", node.entry.name);
     } else if (node.entry.nodeType === "cm:folder") {
-      navigation.navigate("Carpetas", {
+      navigation.navigate("Nodes", {
         ticket,
         id: node.entry.id,
       });
