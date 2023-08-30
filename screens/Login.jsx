@@ -16,7 +16,7 @@ export const Login = () => {
     try {
       dispatch(loginAndFetchTicket({ userId, password }))
         .then((ticket) => {
-          ticket && navigation.navigate("Activities");
+          ticket && navigation.navigate("Dashboard");
         })
         .catch((err) => {
           console.log(err);
