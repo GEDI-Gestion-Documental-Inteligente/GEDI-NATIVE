@@ -29,7 +29,7 @@ export const ActivitiesScreen = () => {
   return (
     <View style={styles.container}>
         <DropdownMenu/>
-      <Text style={styles.activityText}>Últimos movimientos</Text>
+
       <FlatList
         data={activities}
         renderItem={renderActivity}
@@ -41,16 +41,15 @@ export const ActivitiesScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    display: "flex",
-    paddingHorizontal: 25,
-    paddingVertical: 10,
-    height: "auto",
-    backgroundColor: "#004725",
+    flex: 1, 
+    paddingHorizontal: 20,
+    backgroundColor: "#4D6F5F",
+    paddingVertical: 50,
   },
   activityContainer: {
     backgroundColor: "#ffffff",
     padding: 10,
-    marginBottom: 10,
+    marginBottom: 15, // Adjust the margin to create more space between items
     borderRadius: 5,
     elevation: 2,
   },
@@ -62,10 +61,6 @@ const styles = StyleSheet.create({
   activityDate: {
     color: "#888888",
   },
-  activityText: {
-    fontSize: 25,
-    marginBottom: 25,
-    fontWeight: "bold",
-    color: "#ffffff",
-  },
+ 
 });
+

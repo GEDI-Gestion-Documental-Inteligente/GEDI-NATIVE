@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   },
   menuButton: {
     backgroundColor: "lightgray",
-    borderRadius: 20,
+    borderRadius: 5,
     padding: 10,
   },
   menuButtonText: {

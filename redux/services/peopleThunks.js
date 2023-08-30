@@ -16,7 +16,7 @@ export const getMyActivities = createAsyncThunk('people/getMyActivities', async(
 
         const activities = response.data.list.entries
         console.log(activities[1].entry)
-        return activities.slice(1, 10);
+        return activities.slice(1, 6);
       } catch (error) {
         console.log(error)
         throw Error;

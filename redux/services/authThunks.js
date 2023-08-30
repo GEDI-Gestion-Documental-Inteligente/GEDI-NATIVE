@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage'; // Importa AsyncStorage
 import { encode } from 'base-64';
+import { IPV4_ADDRESS } from './SitesThunks';
 
 export const loginAndFetchTicket = createAsyncThunk(
   'auth/loginAndFetchTicket',
@@ -9,7 +10,7 @@ export const loginAndFetchTicket = createAsyncThunk(
     try {
     
       const response = await axios.post(
-        "http://192.168.137.1:8080/alfresco/api/-default-/public/authentication/versions/1/tickets",
+        `http:${IPV4_ADDRESS}:8080/alfresco/api/-default-/public/authentication/versions/1/tickets`,
         {
           userId,
           password
