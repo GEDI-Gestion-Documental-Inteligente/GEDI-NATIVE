@@ -27,33 +27,29 @@ export const Login = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.body}>
       <View style={styles.formContainer}>
         <Text style={styles.formTitle}>Alfredo IA</Text>
 
-        <View style={styles.formBody}>
-          <TextInput
-            value={userId}
-            onChangeText={setUserId}
-            style={styles.formInput}
-            placeholder="Ingrese su usuario"
-            placeholderTextColor="#000000"
-          />
-          <TextInput
-            value={password}
-            onChangeText={setPassword}
-            style={styles.formInput}
-            placeholder="Ingrese su contraseña"
-            placeholderTextColor="#000000"
-            secureTextEntry={true}
-          />
-        </View>
+        <TextInput
+          value={userId}
+          onChangeText={setUserId}
+          style={styles.formInput}
+          placeholder="Ingrese su usuario"
+          placeholderTextColor="#000000"
+        />
+        <TextInput
+          value={password}
+          onChangeText={setPassword}
+          style={styles.formInput}
+          placeholder="Ingrese su contraseña"
+          placeholderTextColor="#000000"
+          secureTextEntry={true}
+        />
 
-        <View>
-          <Pressable style={styles.formButton} onPress={loguear}>
-            <Text style={styles.textButton}>Ingresar</Text>
-          </Pressable>
-        </View>
+        <Pressable style={styles.formButton} onPress={loguear}>
+          <Text style={styles.textButton}>Ingresar</Text>
+        </Pressable>
 
         {isAuthenticated && <Text>Autenticado correctamente</Text>}
       </View>
@@ -62,60 +58,45 @@ export const Login = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
+  body: {
     backgroundColor: "#4D6F5F",
+    margin: 0,
+    padding: 0,
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    justifyContent: "center",
     alignItems: "center",
-    fontFamily: "sans-serif",
   },
   formContainer: {
     display: "flex",
-    padding: 30,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "white",
-    borderRadius: 15,
-    height: 400,
-    shadowColor: "black",
-    width: 350,
-    elevation: 10,
-
-    shadowOffset: {
-      width: 2,
-      height: 2,
-    },
-    shadowOpacity: 1,
-    shadowRadius: 15,
-    paddingHorizontal: 75,
-    paddingVertical: 35,
+    backgroundColor: "#fff",
+    borderRadius: 5,
+    gap:20,
+    paddingHorizontal:30,
+    paddingVertical:30,
+    minWidth:250,
+    alignItems:"center"
+  
   },
   formInput: {
-    width: 300,
-    height: 50,
-    borderWidth: 0.5,
-    borderRadius: 20,
-    paddingHorizontal: 10,
-    marginVertical: 15,
-    borderWidth: 1,
-  },
-  formBody: {
-    marginVertical: 15,
+    paddingVertical:10,
+    paddingHorizontal:5,
+    borderBottomWidth:1,
+    borderBottomColor:"#797979"
   },
   formTitle: {
-    position: "absolute",
-    top: 25,
+    textAlign: "center",
+    padding: 10,
     fontSize: 25,
     fontWeight: "bold",
     color: "#004725",
   },
   formButton: {
-    display: "flex",
-    justifyContent: "center",
-    width: 135,
-    height: 50,
     backgroundColor: "#004725",
-    borderRadius: 25,
+    borderRadius: 5,
+    paddingVertical:10,
+    width:"100px",
   },
   textButton: {
     textAlign: "center",
