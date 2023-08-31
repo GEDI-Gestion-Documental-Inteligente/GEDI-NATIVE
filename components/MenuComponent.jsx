@@ -79,15 +79,6 @@ const DropdownMenu = () => {
 };
 
 const styles = StyleSheet.create({
-  menuContainer: {
-    display: "flex",
-    position: "absolute",
-    top: 0, // Cambiar a 'bottom' si se desea que esté en la parte inferior
-    right: 7,
-    width: "100%",
-    alignItems: "flex-end", // Alinea el botón a la derecha
-    zIndex: 1,
-  },
   menuButton: {
     backgroundColor: "lightgray",
     borderRadius: 5,
