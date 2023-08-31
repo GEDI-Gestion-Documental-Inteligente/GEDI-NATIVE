@@ -39,7 +39,7 @@ export const logoutAndClearTicket = createAsyncThunk(
   async (ticket, thunkAPI) => {
     try {
       await axios.delete(
-        `http://192.168.137.1:8080/alfresco/api/-default-/public/authentication/versions/1/tickets/${ticket}`
+        `http://${IPV4_ADDRESS}:8080/alfresco/api/-default-/public/authentication/versions/1/tickets/${ticket}`
       );
 
       // Limpiar el ticket en AsyncStorage

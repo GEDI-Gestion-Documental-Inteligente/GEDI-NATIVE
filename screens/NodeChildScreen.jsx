@@ -35,6 +35,10 @@ export const NodeChildScreen = ({ route }) => {
   
   }, [id])
  
+  useEffect(()=>{
+    console.log(id)
+  
+  }, [id])
 
   // const createNode = async () => {
   //   const myheaders = {

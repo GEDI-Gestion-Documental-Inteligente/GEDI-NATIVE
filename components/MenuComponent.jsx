@@ -8,9 +8,13 @@ import {
   TouchableWithoutFeedback,
   StyleSheet,
 } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutAndClearTicket } from "../redux/services/authThunks";
 
 const DropdownMenu = () => {
+  const ticket = useSelector(state => state.auth.ticket)
   const navigate = useNavigation();
+  const dispatch= useDispatch();
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
   const toggleDropdown = () => {
@@ -60,7 +64,10 @@ const DropdownMenu = () => {
               >
                 <Text>Actividad</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.textButton}>
+              <TouchableOpacity
+                style={styles.textButton}
+                onPress={() => dispatch(logoutAndClearTicket({ticket}))}
+              >
                 <Text>Cerrar sesión</Text>
               </TouchableOpacity>
             </View>
