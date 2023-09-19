@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const IPV4_ADDRESS = "192.168.217.216"
+export const IPV4_ADDRESS = "127.0.0.1"
 export const getMySites = createAsyncThunk(
   "sites/getMySites",
   async () => {
