@@ -13,7 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Picker } from "@react-native-picker/picker";
 import FolderItem from "../components/FolderItem";
 import { useDispatch, useSelector } from "react-redux";
-import { getNodes } from "../redux/nodes/NodeThunks";
+import { getNodes } from "../redux/modules/nodes/NodeThunks";
 
 export const NodeChildScreen = ({ route }) => {
   const { id } = route.params;

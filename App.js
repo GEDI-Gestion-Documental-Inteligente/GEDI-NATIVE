@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Login } from "./screens/Login";
 import { NavigationContainer } from "@react-navigation/native";
 import { Provider } from "react-redux";
-import store from "./redux/store/store";
+import store from "./redux/store";
 import TabNavigator from "./components/TabNavigator";
 import { NodeChildScreen } from "./screens/NodeChildScreen";
 
