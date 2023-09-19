@@ -2,7 +2,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const IPV4_ADDRESS = "127.0.0.1"
 export const getMySites = createAsyncThunk(
   "sites/getMySites",
   async () => {
@@ -12,7 +11,7 @@ export const getMySites = createAsyncThunk(
       if (!ticket) {
         throw new Error('Ticket no encontrado'); // Manejar caso donde no haya ticket
       }
-
+      const url_base = process.env.URL_BASE
       const myheaders = {
         method: 'GET',
         headers: {
@@ -21,7 +20,7 @@ export const getMySites = createAsyncThunk(
         }
       }
    
-      const response = await axios.get(`http://${IPV4_ADDRESS}:8080/alfresco/api/-default-/public/alfresco/versions/1/sites`, myheaders);
+      const response = await axios.get(`${url_base}/sites`, myheaders);
 
       return response.data.list.entries;
     } catch (error) {

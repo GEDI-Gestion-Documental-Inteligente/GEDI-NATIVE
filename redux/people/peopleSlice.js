@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getMyActivities } from "../services/peopleThunks";
+import { getMyActivities } from "./peopleThunks";
 
 const initialState = {
     activities: [],

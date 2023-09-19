@@ -1,12 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import AsyncStorage from "@react-native-async-storage/async-storage"; // Importa AsyncStorage
-import { IPV4_ADDRESS } from "./SitesThunks";
+
 
 export const loginAndFetchTicket = createAsyncThunk(
   "auth/loginAndFetchTicket",
   async ({ userId, password }) => {
     try {
-      const response = await fetch("https://localhost:4000/auth", {
+      const url_base = process.env.URL_BASE
+      const response = await fetch(`${url_base}/auth`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

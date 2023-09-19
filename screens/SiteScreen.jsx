@@ -4,7 +4,7 @@ import { View, StatusBar, FlatList, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import SiteItem from "../components/SiteItem";
 import { useDispatch, useSelector } from "react-redux";
-import { getMySites } from "../redux/services/SitesThunks";
+import { getMySites } from "../redux/sites/SitesThunks";
 import DropdownMenu from "../components/MenuComponent";
 
 

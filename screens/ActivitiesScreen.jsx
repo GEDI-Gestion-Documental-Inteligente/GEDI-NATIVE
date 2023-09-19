@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { FlatList } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { getMyActivities } from "../redux/services/peopleThunks";
+import { getMyActivities } from "../redux/people/peopleThunks";
 import { StyleSheet } from "react-native";
 import { View } from "react-native";
 import { Text } from "react-native";

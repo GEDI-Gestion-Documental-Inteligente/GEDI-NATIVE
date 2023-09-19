@@ -11,11 +11,9 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Picker } from "@react-native-picker/picker";
-import axios from "axios"; // Importa axios
 import FolderItem from "../components/FolderItem";
 import { useDispatch, useSelector } from "react-redux";
-import { IPV4_ADDRESS } from "../redux/services/SitesThunks";
-import { getNodes } from "../redux/services/NodeThunks";
+import { getNodes } from "../redux/nodes/NodeThunks";
 
 export const NodeChildScreen = ({ route }) => {
   const { id } = route.params;

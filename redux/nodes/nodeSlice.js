@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getNodes } from "../services/NodeThunks";
+import { getNodes } from "./NodeThunks";
 
 const initialState = {
   nodes: [],

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getMySites } from '../services/SitesThunks';
+import { getMySites } from './SitesThunks';
 
 const siteSlice = createSlice({
   name: 'sites',

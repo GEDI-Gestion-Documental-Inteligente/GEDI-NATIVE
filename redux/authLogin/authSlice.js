@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { loginAndFetchTicket, logoutAndClearTicket } from '../services/authThunks';
+import { loginAndFetchTicket, logoutAndClearTicket } from './authThunks';
 
 
 const authSlice = createSlice({
