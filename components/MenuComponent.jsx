@@ -9,7 +9,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutAndClearTicket } from "../redux/services/authThunks";
+import { logoutAndClearTicket } from "../redux/modules/authLogin/authThunks";
 
 const DropdownMenu = () => {
   const ticket = useSelector(state => state.auth.ticket)

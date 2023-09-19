@@ -2,23 +2,22 @@ import React, { useEffect, useState } from "react";
 import { View, Text, SafeAreaView, StyleSheet } from "react-native";
 import * as Linking from "expo-linking";
 import { useSelector } from "react-redux";
-import { IPV4_ADDRESS } from "../redux/services/SitesThunks";
 
 export const NodeContent = ({ route }) => {
   const { id } = route.params;
   const [pdfUrl, setPdfUrl] = useState("");
-  const ticket = useSelector(state => state.auth.ticket)
+  const ticket = useSelector((state) => state.auth.ticket);
 
   const fetchContentNode = async (id) => {
+    const url_base = process.env.EXPO_PUBLIC_API_URL;
     const myheaders = {
       Authorization: "Basic " + ticket,
     };
 
     try {
-      const response = await fetch(
-        `http://${IPV4_ADDRESS}:8080/alfresco/api/-default-/public/alfresco/versions/1/nodes/${id}/content`,
-        { headers: myheaders }
-      );
+      const response = await fetch(`${url_base}/nodeContent`, {
+        headers: myheaders,
+      });
       const pdfUrl = response.url;
       setPdfUrl(pdfUrl);
       console.log(response.url);
@@ -51,11 +50,7 @@ export const NodeContent = ({ route }) => {
     fetchData();
   }, [id, ticket]);
 
-  return (
-    <SafeAreaView style={styles.container}>
-
-    </SafeAreaView>
-  );
+  return <SafeAreaView style={styles.container}></SafeAreaView>;
 };
 
 const styles = StyleSheet.create({

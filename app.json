@@ -2,6 +2,9 @@
   "expo": {
     "name": "alfrescotest",
     "slug": "alfrescotest",
+    "extra":{
+      "URL_BASE": "http://192.168.217.54:4000/api"
+    },
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
