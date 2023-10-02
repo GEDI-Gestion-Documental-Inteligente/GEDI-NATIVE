@@ -14,29 +14,39 @@ import { Picker } from "@react-native-picker/picker";
 import FolderItem from "../components/FolderItem";
 import { useDispatch, useSelector } from "react-redux";
 import { getNodes } from "../redux/modules/nodes/NodeThunks";
+import { getContainerDocumentLibrary } from "../redux/modules/sites/SitesThunks";
 
 export const NodeChildScreen = ({ route }) => {
-  const { id } = route.params;
-  const ticket = useSelector(state => state.auth.ticket)
+  const { id, siteName } = route.params;
+  const ticket = useSelector((state) => state.auth.ticket);
   const [isModalVisible, setModalVisible] = useState(false);
   const [nodeName, setNodeName] = useState("");
   const [selectedNodeType, setSelectedNodeType] = useState("cm:content");
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const nodesChildren = useSelector(state => state.nodes.nodes)
-  
+  const nodesChildren = useSelector((state) => state.nodes.nodes);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const idContainer = await dispatch(
+          getContainerDocumentLibrary(siteName)
+        );
+        // Asegurémonos de que idContainer tiene un valor antes de llamar a getNodes()
+        if (idContainer.payload != null) {
+          await dispatch(getNodes({ id: idContainer.payload, ticket }));
+          
+        } else {
+          await dispatch(getNodes({ id, ticket }));
+        }
+      } catch (error) {
+        // Maneja errores si es necesario
+        console.error("Error al obtener datos:", error);
+      }
+    };
 
-
-  useEffect(()=>{
-    dispatch(getNodes({id, ticket}))
-  
-  }, [id])
- 
-  useEffect(()=>{
-    console.log(id)
-  
-  }, [id])
+    fetchData(); // Llama a la función asincrónica
+  }, [id, ticket]);
 
   // const createNode = async () => {
   //   const myheaders = {
@@ -93,13 +103,12 @@ export const NodeChildScreen = ({ route }) => {
       <View style={styles.container}>
         {nodesChildren.length ? (
           <FlatList
-        
             data={nodesChildren}
             numColumns={2}
             renderItem={({ item }) => (
               <FolderItem
                 name={item.entry.name}
-                type = {item.entry.nodeType}
+                type={item.entry.nodeType}
                 description={item.entry.id} // Asegúrate de que la estructura de tu data tenga 'entry.description'
                 onPress={() => handleNodePress(item)}
               />

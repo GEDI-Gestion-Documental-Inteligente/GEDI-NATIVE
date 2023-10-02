@@ -18,8 +18,7 @@ export const Login = () => {
         .then((ticket) => {
           // ticket && navigation.navigate("Dashboard");
           if(ticket){
-            console.log(ticket)
-            // navigation.navigate('Dashboard')
+            navigation.navigate('Dashboard')
           }
         })
         .catch((err) => {

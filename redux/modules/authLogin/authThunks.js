@@ -18,12 +18,9 @@ export const loginAndFetchTicket = createAsyncThunk(
       }
 
       const ticket = response.data.token;
-      // Guardar el ticket en AsyncStorage
-      await AsyncStorage.setItem("ticket", ticket);
-
+      AsyncStorage.setItem("ticket", ticket);
       return ticket;
     } catch (error) {
-      console.error("aaaa", error);
       throw error;
     }
   }

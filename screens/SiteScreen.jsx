@@ -7,10 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { getMySites } from "../redux/modules/sites/SitesThunks";
 import DropdownMenu from "../components/MenuComponent";
 
-
 export const SiteScreen = () => {
   const navigation = useNavigation();
-  const ticket = useSelector(state => state.auth.ticket)
+  const ticket = useSelector((state) => state.auth.ticket);
   const dispatch = useDispatch();
   const sites = useSelector((state) => state.sites.sites);
 
@@ -24,7 +23,7 @@ export const SiteScreen = () => {
       onPress={() => {
         navigation.navigate("Nodes", {
           id: item.entry.guid,
-          ticket
+          siteName: item.entry.id
         });
       }}
     />
@@ -32,13 +31,16 @@ export const SiteScreen = () => {
 
   return (
     <View style={styles.container}>
-      <DropdownMenu/>
-      <FlatList
-        numColumns={2}
-        data={sites}
-        renderItem={renderItem}
-        keyExtractor={(item, index) => index.toString()}
-      />
+      <DropdownMenu />
+      {sites.length > 0 && (
+        <FlatList
+          numColumns={2}
+          data={sites}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => index.toString()}
+        />
+      )}
+
       <StatusBar style="auto" />
     </View>
   );

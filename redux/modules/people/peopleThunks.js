@@ -9,12 +9,12 @@ export const getMyActivities = createAsyncThunk(
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + ticket,
+        Authorization: ticket,
       },
     };
 
     try {
-      const response = await axios.get(`${url_base}/people`, myheaders);
+      const response = await axios.get(`${url_base}/people/allPeople`, myheaders);
 
       const activities = response.data.list.entries;
       console.log(activities[1].entry);

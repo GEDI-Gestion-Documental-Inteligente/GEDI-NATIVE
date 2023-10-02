@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getMySites } from './SitesThunks';
+import { getContainerDocumentLibrary, getMySites } from './SitesThunks';
 
 const siteSlice = createSlice({
   name: 'sites',
   initialState: {
     sites: [],
-    loading: 'idle'
+    loading: 'idle',
+    containerDL:""
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -19,6 +20,13 @@ const siteSlice = createSlice({
     builder.addCase(getMySites.rejected, (state) => {
       state.loading = 'failed';
     });
+    builder.addCase(getContainerDocumentLibrary.pending, (state)=> {
+      state.loading = 'pending'
+    });
+    builder.addCase(getContainerDocumentLibrary.fulfilled, (state, action) =>{
+      state.loading = 'success'
+      state.containerDL= action.payload
+    })
   },
 });
 

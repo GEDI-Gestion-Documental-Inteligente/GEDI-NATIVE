@@ -9,12 +9,12 @@ export const getNodes = createAsyncThunk(
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + ticket,
+        Authorization: ticket,
       },
     };
     try {
-      const response = await axios.get(`${url_base}/nodes`, myheaders);
-      return response.data.list.entries;
+      const response = await axios.get(`${url_base}/nodes/${id}/childrens`, myheaders);
+      return response.data.nodes.list.entries;
     } catch (error) {
       console.log(error);
       throw error; // Asegúrate de propagar el error para que el slice pueda manejarlo
