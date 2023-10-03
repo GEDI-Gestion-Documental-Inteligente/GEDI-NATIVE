@@ -5,6 +5,7 @@ import { NodeChildScreen } from "../screens/NodeChildScreen";
 import { NodeContent } from "./NodeContent";
 import { ActivitiesScreen } from "../screens/ActivitiesScreen";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { ChatScreen } from "../screens/ChatAlfredo";
 
 const Tab = createBottomTabNavigator();
 
@@ -14,7 +15,7 @@ const TabNavigator = () => {
       <Tab.Screen
         name="Sites"
         options={{
-          
+          tabBarLabel: "Mis sitios",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="md-home" size={size} color={color} /> // Icono de Ionicons
           ),
@@ -26,7 +27,7 @@ const TabNavigator = () => {
       <Tab.Screen
         name="Activities"
         options={{
-          tabBarLabel: "Activities",
+          tabBarLabel: "Actividades",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="md-calendar" size={size} color={color} />
           ),
@@ -35,7 +36,16 @@ const TabNavigator = () => {
         component={ActivitiesScreen}
       />
 
-    
+      <Tab.Screen
+        name="Chat"
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="md-chatbubble" size={size} color={color} />
+          ),
+          headerShown: false,
+        }}
+        component={ChatScreen}
+      />
     </Tab.Navigator>
   );
 };
