@@ -80,12 +80,11 @@ const DropdownMenu = () => {
 
 const styles = StyleSheet.create({
   menuButton: {
-    backgroundColor: "lightgray",
     borderRadius: 5,
     padding: 10,
   },
   menuButtonText: {
-    fontSize: 18,
+    fontSize: 30,
   },
   modalOverlay: {
     flex: 1,
@@ -107,6 +106,12 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderRadius: 1,
   },
+  menuContainer:{
+    display: "flex",
+    height: "5vh",
+    backgroundColor: "#4D6F5F",
+    justifyContent: "center"
+  }
 });
 
 export default DropdownMenu;

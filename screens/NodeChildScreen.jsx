@@ -150,7 +150,6 @@ const styles = StyleSheet.create({
     width: "auto",
     height: "100%",
     padding: 30,
-    backgroundColor: "#4D6F5F",
     flexDirection: "row",
   },
 });

@@ -14,10 +14,11 @@ const TabNavigator = () => {
       <Tab.Screen
         name="Sites"
         options={{
-          tabBarLabel: "Sites", // Texto para la etiqueta de la pestaña
+          
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="md-home" size={size} color={color} /> // Icono de Ionicons
           ),
+          headerShown: false,
         }}
         component={SiteScreen}
       />
@@ -29,6 +30,7 @@ const TabNavigator = () => {
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="md-calendar" size={size} color={color} />
           ),
+          headerShown: false,
         }}
         component={ActivitiesScreen}
       />

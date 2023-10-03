@@ -23,7 +23,7 @@ export const SiteScreen = () => {
       onPress={() => {
         navigation.navigate("Nodes", {
           id: item.entry.guid,
-          siteName: item.entry.id
+          siteName: item.entry.id,
         });
       }}
     />
@@ -32,14 +32,17 @@ export const SiteScreen = () => {
   return (
     <View style={styles.container}>
       <DropdownMenu />
-      {sites.length > 0 && (
-        <FlatList
-          numColumns={2}
-          data={sites}
-          renderItem={renderItem}
-          keyExtractor={(item, index) => index.toString()}
-        />
-      )}
+
+      <View style={styles.cardContainer}>
+        {sites.length > 0 && (
+          <FlatList
+            numColumns={2}
+            data={sites}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => index.toString()}
+          />
+        )}
+      </View>
 
       <StatusBar style="auto" />
     </View>
@@ -51,10 +54,12 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "auto",
     height: "100%",
-    padding: 30,
-    backgroundColor: "#4D6F5F",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+
   },
-});
+  cardContainer:{
+    flex: 1,
+    alignItems: "center",
+    height: "100vh",
+
+  }
+})
