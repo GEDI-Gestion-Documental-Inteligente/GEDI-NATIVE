@@ -28,14 +28,15 @@ export const NodeChildScreen = ({ route }) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      let idContainer = ""
       try {
-        const idContainer = await dispatch(
-          getContainerDocumentLibrary(siteName)
-        );
-        // Asegurémonos de que idContainer tiene un valor antes de llamar a getNodes()
+        if (siteName) {
+          idContainer = await dispatch(
+            getContainerDocumentLibrary(siteName)
+          );
+        }
         if (idContainer.payload != null) {
           await dispatch(getNodes({ id: idContainer.payload, ticket }));
-          
         } else {
           await dispatch(getNodes({ id, ticket }));
         }

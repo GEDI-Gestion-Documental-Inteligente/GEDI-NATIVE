@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 import TabNavigator from "./components/TabNavigator";
 import { NodeChildScreen } from "./screens/NodeChildScreen";
+import { NodeContent } from "./components/NodeContent";
 
 const Stack = createNativeStackNavigator();
 
@@ -26,6 +27,7 @@ export default function App() {
           />
 
           <Stack.Screen name="Nodes" options={{headerShown: false}} component={NodeChildScreen} />
+          <Stack.Screen name="NodeContent" options={{headerShown: false}} component={NodeContent} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

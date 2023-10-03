@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getNodes } from "./NodeThunks";
+import { fetchContentNode, getNodes } from "./NodeThunks";
 
 const initialState = {
   nodes: [],
   loading: "idle",
+  buffer: [],
 };
 
 const nodeSlice = createSlice({
@@ -21,8 +22,10 @@ const nodeSlice = createSlice({
     builder.addCase(getNodes.rejected, (state) => {
       state.loading = "failed";
     });
+    builder.addCase(fetchContentNode.fulfilled, (state, action) => {
+      state.buffer = action.payload;
+    });
   },
 });
-
 
 export default nodeSlice.reducer;
