@@ -4,7 +4,7 @@ import { Login } from "./screens/Login";
 import { NavigationContainer } from "@react-navigation/native";
 import { Provider } from "react-redux";
 import store from "./redux/store";
-import TabNavigator from "./components/TabNavigator";
+import TabNavigator from "./routes/TabNavigator";
 import { NodeChildScreen } from "./screens/NodeChildScreen";
 import { NodeContent } from "./components/NodeContent";
 
@@ -26,8 +26,7 @@ export default function App() {
             options={{ headerShown: false }}
           />
 
-          <Stack.Screen name="Nodes" options={{headerShown: false}} component={NodeChildScreen} />
-          <Stack.Screen name="NodeContent" options={{headerShown: false}} component={NodeContent} />
+         
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

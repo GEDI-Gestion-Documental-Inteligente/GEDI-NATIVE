@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "auto",
     height: "100%",
+    backgroundColor: "#E6E7E6"
 
   },
   cardContainer:{

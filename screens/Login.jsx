@@ -50,7 +50,7 @@ export const Login = () => {
           secureTextEntry={true}
         />
 
-        <Pressable style={styles.formButton} onPress={loguear}>
+        <Pressable style={[styles.formButton, {width: 120}]} onPress={loguear}>
           <Text style={styles.textButton}>Ingresar</Text>
         </Pressable>
 
@@ -62,7 +62,7 @@ export const Login = () => {
 
 const styles = StyleSheet.create({
   body: {
-    backgroundColor: "#4D6F5F",
+    backgroundColor: "#03484c",
     margin: 0,
     padding: 0,
     width: "100%",
@@ -86,20 +86,20 @@ const styles = StyleSheet.create({
     paddingVertical:10,
     paddingHorizontal:5,
     borderBottomWidth:1,
-    borderBottomColor:"#797979"
+    borderBottomColor:"#03484c",
+    width: 170
   },
   formTitle: {
     textAlign: "center",
     padding: 10,
     fontSize: 25,
     fontWeight: "bold",
-    color: "#004725",
+    color: "#03484c",
   },
   formButton: {
-    backgroundColor: "#004725",
+    backgroundColor: "#03484c",
     borderRadius: 5,
     paddingVertical:10,
-    width:"100px",
   },
   textButton: {
     textAlign: "center",

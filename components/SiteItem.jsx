@@ -23,10 +23,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 10,
     marginBottom: 10,
-    elevation: 2,
+    elevation: 4,
     width: 150,
     margin: 10,
-    height: 150
+    height: 150,
+
   },
  
   infoContainer: {
@@ -35,10 +36,10 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: "black"
+    color: "#03484c"
   },
   description: {
-    color: '#666',
+    color: '#03484c',
     fontSize: 12
   },
 });

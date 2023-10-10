@@ -10,65 +10,87 @@ import {
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutAndClearTicket } from "../redux/modules/authLogin/authThunks";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 const DropdownMenu = () => {
-  const ticket = useSelector(state => state.auth.ticket)
+  const ticket = useSelector((state) => state.auth.ticket);
   const navigate = useNavigation();
-  const dispatch= useDispatch();
-  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  const dispatch = useDispatch();
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const [isMenuAccionVisible, setIsMenuAccionVisible] = useState(false);
 
   const toggleDropdown = () => {
-    setIsDropdownVisible(!isDropdownVisible);
+    setIsMenuVisible(!isMenuVisible);
   };
 
   const closeDropdown = () => {
-    setIsDropdownVisible(false);
+    setIsMenuVisible(false);
+  };
+
+  const toggleMenu = () => {
+    setIsMenuAccionVisible(!isMenuAccionVisible);
+  };
+
+  const closeMenu = () => {
+    setIsMenuAccionVisible(false);
   };
 
   return (
     <View style={styles.menuContainer}>
-      <TouchableOpacity style={styles.menuButton} onPress={toggleDropdown}>
-        <Text style={styles.menuButtonText}>☰</Text>
-      </TouchableOpacity>
+      <View style={styles.containerButtons}>
+        <TouchableOpacity style={styles.menuButton} onPress={toggleDropdown}>
+          <Ionicons name="md-menu" size={45} color="#03484c" />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.menuButton} onPress={toggleMenu}>
+          <Ionicons name="md-add" size={45} color="#03484c" />
+        </TouchableOpacity>
+      </View>
 
       <Modal
         animationType="slide"
         transparent={true}
-        visible={isDropdownVisible}
+        visible={isMenuVisible}
         onRequestClose={closeDropdown}
       >
         <TouchableWithoutFeedback onPress={closeDropdown}>
           <View style={styles.modalOverlay}>
             <View style={styles.dropdownContent}>
               <TouchableOpacity
-                style={styles.textButton}
-                onPress={() => console.log("Option 1 selected")}
+                style={styles.iconButton}
+                onPress={() => navigate.navigate("Profile")}
               >
-                <Text>Gestionar usuarios</Text>
+                <Ionicons name="md-person" size={30} color="white" />
+                <Text style={styles.text}>Perfil</Text>
               </TouchableOpacity>
+
               <TouchableOpacity
-                style={styles.textButton}
-                onPress={() => navigate.navigate("Sites")}
+                style={styles.iconButton}
+                onPress={() => dispatch(logoutAndClearTicket({ ticket }))}
               >
-                <Text>Gestionar sitios</Text>
+                <Ionicons name="md-exit" size={30} color="white" />
+                <Text style={styles.text}>Cerrar sesión</Text>
               </TouchableOpacity>
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isMenuAccionVisible}
+        onRequestClose={closeDropdown}
+      >
+        <TouchableWithoutFeedback onPress={closeMenu}>
+          <View style={styles.modalOverlay}>
+            <View style={styles.dropdownContent}>
               <TouchableOpacity
-                style={styles.textButton}
-                onPress={() => console.log("Option 3 selected")}
+                style={styles.iconButton}
+                onPress={() => console.log("Crear sitio nuevo")}
               >
-                <Text>Gestionar grupos</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.textButton}
-                onPress={() => navigate.navigate("Activities")}
-              >
-                <Text>Actividad</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.textButton}
-                onPress={() => dispatch(logoutAndClearTicket({ticket}))}
-              >
-                <Text>Cerrar sesión</Text>
+                <Ionicons name="md-add" size={55} color="black" />
+                <Text style={styles.text}>Crear sitio nuevo</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -82,9 +104,13 @@ const styles = StyleSheet.create({
   menuButton: {
     borderRadius: 5,
     padding: 10,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignContent: "center",
   },
-  menuButtonText: {
-    fontSize: 30,
+  menuButtonMas: {
+    fontSize: 25,
   },
   modalOverlay: {
     flex: 1,
@@ -93,24 +119,35 @@ const styles = StyleSheet.create({
   },
   dropdownContent: {
     display: "flex",
-    justifyContent: "flex-end",
-    backgroundColor: "white",
+    backgroundColor: "#03484c",
     width: "100%",
     height: "auto", // Altura del menú desplegable
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     elevation: 1,
+    
   },
-  textButton: {
-    padding: 25,
-    borderWidth: 0.5,
-    borderRadius: 1,
-  },
-  menuContainer:{
+  menuContainer: {
     display: "flex",
     height: "5vh",
-    backgroundColor: "#4D6F5F",
-    justifyContent: "center"
+    justifyContent: "center",
+  },
+  containerButtons: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignContent: "center",
+    flexDirection: "row",
+    marginBottom: 10
+  },
+  iconButton: {
+    alignItems: "center",
+    marginBottom: 20,
+    flexDirection: "row",
+    margin: 15
+  },
+  text:{
+    marginLeft: 10,
+    color: "white"
   }
 });
 

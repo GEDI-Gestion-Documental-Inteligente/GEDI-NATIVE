@@ -15,6 +15,7 @@ import FolderItem from "../components/FolderItem";
 import { useDispatch, useSelector } from "react-redux";
 import { getNodes } from "../redux/modules/nodes/NodeThunks";
 import { getContainerDocumentLibrary } from "../redux/modules/sites/SitesThunks";
+import { MenuActions } from "../components/MenuActions";
 
 export const NodeChildScreen = ({ route }) => {
   const { id, siteName } = route.params;
@@ -28,12 +29,10 @@ export const NodeChildScreen = ({ route }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      let idContainer = ""
+      let idContainer = "";
       try {
         if (siteName) {
-          idContainer = await dispatch(
-            getContainerDocumentLibrary(siteName)
-          );
+          idContainer = await dispatch(getContainerDocumentLibrary(siteName));
         }
         if (idContainer.payload != null) {
           await dispatch(getNodes({ id: idContainer.payload, ticket }));
@@ -96,30 +95,28 @@ export const NodeChildScreen = ({ route }) => {
   };
 
   return (
-    <View>
-      <Pressable onPress={() => setModalVisible(true)}>
-        <Text>CARGAR</Text>
-      </Pressable>
-
-      <View style={styles.container}>
-        {nodesChildren.length ? (
-          <FlatList
-            data={nodesChildren}
-            numColumns={2}
-            renderItem={({ item }) => (
-              <FolderItem
-                name={item.entry.name}
-                type={item.entry.nodeType}
-                description={item.entry.id} // Asegúrate de que la estructura de tu data tenga 'entry.description'
-                onPress={() => handleNodePress(item)}
-              />
-            )}
-            keyExtractor={(item) => item.entry.id}
-          />
-        ) : (
-          <Text>No hay carpetas hijas.</Text>
-        )}
+    <View style={styles.container}>
+      <View>
+        <MenuActions />
       </View>
+
+      {nodesChildren.length ? (
+        <FlatList
+        style={styles.list}
+          data={nodesChildren}
+          renderItem={({ item }) => (
+            <FolderItem
+              name={item.entry.name}
+              type={item.entry.nodeType}
+              description={item.entry.id} // Asegúrate de que la estructura de tu data tenga 'entry.description'
+              onPress={() => handleNodePress(item)}
+            />
+          )}
+          keyExtractor={(item) => item.entry.id}
+        />
+      ) : (
+        <Text>No hay carpetas hijas.</Text>
+      )}
 
       <Modal visible={isModalVisible} animationType="slide">
         <View>
@@ -147,9 +144,12 @@ export const NodeChildScreen = ({ route }) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: "auto",
+    flex: 1,
     height: "100%",
-    padding: 30,
-    flexDirection: "row",
+    backgroundColor: "#D7DFD7",
   },
+  list:{
+    width:"100%",
+    display: "flex",
+  }
 });
