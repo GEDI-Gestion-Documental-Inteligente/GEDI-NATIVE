@@ -10,11 +10,11 @@ import DropdownMenu from "../components/MenuComponent";
 export const ActivitiesScreen = () => {
   const ticket = useSelector((state) => state.auth.ticket);
   const activities = useSelector((state) => state.peoples.activities);
-  const id = "admin";
+  const userLoggued = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getMyActivities({ id, ticket }));
+    dispatch(getMyActivities({ userLoggued, ticket }));
   }, []);
 
   const renderActivity = ({ item }) => (
@@ -26,18 +26,16 @@ export const ActivitiesScreen = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        
-        <Text style={styles.activityText}>Últimos movimientos</Text>
-        <DropdownMenu />
-      </View>
-      <View style={styles.body}>
-        <FlatList
-          data={activities}
-          renderItem={renderActivity}
-          keyExtractor={(item) => item.entry.id.toString()}
-          numColumns={1}
-        />
+      <DropdownMenu />
+      <View>
+        {activities.length > 0 && (
+          <FlatList
+            data={activities}
+            renderItem={renderActivity}
+            keyExtractor={(item) => item.entry.id.toString()}
+            numColumns={1}
+          />
+        )}
       </View>
     </View>
   );
@@ -45,47 +43,29 @@ export const ActivitiesScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#4D6F5F",
-    margin: 0,
-    padding: 0,
-    width: "100%",
+    flex: 1,
+    width: "auto",
     height: "100%",
-  },
-  header: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent:"space-between",
-    paddingHorizontal:10,
-    paddingVertical:10,
-  },
-  body: {
-    flex:1,
-    backgroundColor:"#d7d7d7",
-    padding:10,
-    margin:20,
-    borderWidth:1
+    backgroundColor: "#E6E7E6",
   },
   activityContainer: {
-    flex:1,
-    gap:10,
-    margin:10,
-    minWidth:100,
-    borderBottomWidth:1,
-    borderBottomColor:"#797979"
+    flex: 1,
+    gap: 10,
+    margin: 10,
+    minWidth: 100,
+    backgroundColor: "#E6E7E6",
+    padding: 10,
+    borderRadius: 8,
+    borderWidth:1,
+    borderColor: "#03484c"
   },
   activityType: {
     fontSize: 16,
     fontWeight: "bold",
     marginBottom: 5,
+    color: "#03484c",
   },
   activityDate: {
     color: "#888888",
   },
-  activityText: {
-    fontSize: 25,
-    fontWeight: "bold",
-    color: "#ffffff",
-  },
 });
-

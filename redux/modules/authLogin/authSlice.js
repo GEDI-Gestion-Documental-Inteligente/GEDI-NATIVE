@@ -6,6 +6,7 @@ const authSlice = createSlice({
   name: 'auth',
   initialState: {
     isAuthenticated: false,
+    user: '',
     ticket: '',
     loading: 'idle'
   },
@@ -22,7 +23,8 @@ const authSlice = createSlice({
     builder.addCase(loginAndFetchTicket.fulfilled, (state, action) => {
       state.loading = 'succeeded';
       state.isAuthenticated = true;
-      state.ticket = action.payload;
+      state.ticket = action.payload.token;
+      state.user = action.payload.userId
     });
     builder.addCase(loginAndFetchTicket.rejected, (state) => {
       state.loading = 'failed';

@@ -17,9 +17,9 @@ export const loginAndFetchTicket = createAsyncThunk(
         throw new Error("Error al iniciar sesión");
       }
 
-      const ticket = response.data.token;
-      AsyncStorage.setItem("ticket", ticket);
-      return ticket;
+      const dataLoggued = response.data;
+      AsyncStorage.setItem("ticket", dataLoggued.token);
+      return dataLoggued;
     } catch (error) {
       throw error;
     }

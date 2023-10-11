@@ -17,7 +17,7 @@ export const getMyActivities = createAsyncThunk(
       const response = await axios.get(`${url_base}/people/allActivities`, myheaders);
 
       const activities = response.data.peopleActivities.list.entries;
-      return activities.slice(1, 6);
+      return activities.slice(1, 20);
     } catch (error) {
       console.log(error);
       throw Error;
