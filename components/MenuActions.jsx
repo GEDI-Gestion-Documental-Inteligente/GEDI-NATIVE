@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logoutAndClearTicket } from "../redux/modules/authLogin/authThunks";
 import { AntDesign } from "@expo/vector-icons";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { SearchNodes } from "./SearchNodes";
 
 export const MenuActions = () => {
   const ticket = useSelector((state) => state.auth.ticket);
@@ -29,15 +30,20 @@ export const MenuActions = () => {
 
   return (
     <View style={styles.menuContainer}>
-      <TouchableOpacity style={styles.menuButton} onPress={toggleDropdown}>
-        <View style={styles.menuItem}>
-          <AntDesign name="addfolder" size={40} color="#03484c" />
-        </View>
+      <View style={styles.containerTab}>
 
-        <View style={styles.menuItem}>
-          <AntDesign name="upload" size={40} color="#03484c" />
+        <SearchNodes />
+
+
+        <View style={styles.menuButton}>
+          <TouchableOpacity style={styles.menuItem} onPress={toggleDropdown}>
+            <AntDesign name="addfolder" size={40} color="#03484c" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.menuItem}>
+            <AntDesign name="upload" size={40} color="#03484c" />
+          </TouchableOpacity>
         </View>
-      </TouchableOpacity>
+      </View>
 
       <Modal
         animationType="slide"
@@ -52,7 +58,7 @@ export const MenuActions = () => {
                 style={styles.iconButton}
                 onPress={() => navigate.navigate("newFolder")}
               >
-                <Ionicons name="md-folder-open" size={50} color="#03484c" />
+                <Ionicons name="md-folder-open" size={40} color="#03484c" />
                 <Text>Nueva carpeta</Text>
               </TouchableOpacity>
 
@@ -60,7 +66,7 @@ export const MenuActions = () => {
                 style={styles.iconButton}
                 onPress={() => navigate.navigate("newContent")}
               >
-                <Ionicons name="md-cloud-upload" size={50} color="#03484c" />
+                <Ionicons name="md-cloud-upload" size={40} color="#03484c" />
                 <Text>Subir archivo</Text>
               </TouchableOpacity>
             </View>
@@ -74,12 +80,11 @@ export const MenuActions = () => {
 const styles = StyleSheet.create({
   menuButton: {
     borderRadius: 5,
-    padding: 15,
     display: "flex",
     flexDirection: "row-reverse",
   },
-  menuItem:{
-    marginHorizontal:10
+  menuItem: {
+    marginHorizontal: 5,
   },
   menuButtonMas: {
     fontSize: 25,
@@ -113,5 +118,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 20,
     margin: 10,
+  },
+  containerTab: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    height: 60,
+    alignItems:"center",
+    padding: 5
   },
 });

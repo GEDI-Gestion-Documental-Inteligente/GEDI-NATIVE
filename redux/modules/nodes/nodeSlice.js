@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchContentNode, getNodes } from "./NodeThunks";
+import { SearchNodesForTerm, fetchContentNode, getNodes } from "./NodeThunks";
 
 const initialState = {
   nodes: [],
   loading: "idle",
   buffer: [],
+  searchNodes: []
 };
 
 const nodeSlice = createSlice({
@@ -24,6 +25,9 @@ const nodeSlice = createSlice({
     });
     builder.addCase(fetchContentNode.fulfilled, (state, action) => {
       state.buffer = action.payload;
+    });
+    builder.addCase(SearchNodesForTerm.fulfilled, (state, action) => {
+      state.searchNodes = action.payload;
     });
   },
 });

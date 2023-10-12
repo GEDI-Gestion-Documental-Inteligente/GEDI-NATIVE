@@ -26,6 +26,7 @@ export const NodeChildScreen = ({ route }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const nodesChildren = useSelector((state) => state.nodes.nodes);
+  const resultSearch = useSelector((state) => state.nodes.searchNodes);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -100,22 +101,24 @@ export const NodeChildScreen = ({ route }) => {
         <MenuActions />
       </View>
 
-      {nodesChildren.length ? (
+      {nodesChildren.length || (resultSearch && resultSearch.length) ? (
         <FlatList
-        style={styles.list}
-          data={nodesChildren}
+          style={styles.list}
+          data={
+            resultSearch && resultSearch.length ? resultSearch : nodesChildren
+          }
           renderItem={({ item }) => (
             <FolderItem
               name={item.entry.name}
               type={item.entry.nodeType}
-              description={item.entry.id} // Asegúrate de que la estructura de tu data tenga 'entry.description'
+              description={item.entry.id}
               onPress={() => handleNodePress(item)}
             />
           )}
           keyExtractor={(item) => item.entry.id}
         />
       ) : (
-        <Text>No hay carpetas hijas.</Text>
+        <Text>No hay carpetas hijas o nodos hijos.</Text>
       )}
 
       <Modal visible={isModalVisible} animationType="slide">
@@ -145,11 +148,11 @@ export const NodeChildScreen = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: "100%",
+    height: "auto",
     backgroundColor: "#D7DFD7",
   },
-  list:{
-    width:"100%",
+  list: {
+    width: "100%",
     display: "flex",
-  }
+  },
 });

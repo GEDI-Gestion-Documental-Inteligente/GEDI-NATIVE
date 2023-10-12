@@ -1,6 +1,6 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-
 
 const url_base = process.env.EXPO_PUBLIC_API_URL;
 
@@ -30,7 +30,6 @@ export const getNodes = createAsyncThunk(
 export const fetchContentNode = createAsyncThunk(
   "nodes/getContentNode",
   async ({ id, ticket }) => {
-
     try {
       const response = await axios.get(`${url_base}/nodes/${id}/content`, {
         headers: {
@@ -49,9 +48,30 @@ export const fetchContentNode = createAsyncThunk(
       // // Establece la URL del Blob como fuente de la imagen
       // console.log(blobUrl)
 
-      console.log(blobb)
+      console.log(blobb);
     } catch (error) {
       console.error("Error fetching PDF content:", error);
+      return null;
+    }
+  }
+);
+
+export const SearchNodesForTerm = createAsyncThunk(
+  "nodes/searchFormTerm",
+  async ({ term }) => {
+    try {
+      const ticket = await AsyncStorage.getItem("ticket");
+      const response = await axios.get(`${url_base}/queries/searchNodes?term=${term}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: ticket,
+        },
+      });
+
+      const searchResult = response.data.resultQuery.list.entries
+      return searchResult
+    } catch (error) {
+      console.error("Error fetching nodes", error);
       return null;
     }
   }
