@@ -58,10 +58,10 @@ export const fetchContentNode = createAsyncThunk(
 
 export const SearchNodesForTerm = createAsyncThunk(
   "nodes/searchFormTerm",
-  async ({ term }) => {
+  async ({ term, root }) => {
     try {
       const ticket = await AsyncStorage.getItem("ticket");
-      const response = await axios.get(`${url_base}/queries/searchNodes?term=${term}`, {
+      const response = await axios.get(`${url_base}/queries/searchNodes?term=${term}&root=${root}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: ticket,

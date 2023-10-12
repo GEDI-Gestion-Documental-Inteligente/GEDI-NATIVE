@@ -9,10 +9,11 @@ export const SearchNodes = () => {
   const [term, setTerm] = useState("");
   const searchResult = useSelector((state) => state.nodes.searchNodes);
   const ticket = useSelector((state) => state.auth.ticket);
+  const root = useSelector((state) => state.sites.containerDL);
   const dispatch = useDispatch();
 
   const handleSearch = async () => {
-    await dispatch(SearchNodesForTerm({ term, ticket }));
+    await dispatch(SearchNodesForTerm({ term, root }));
   };
 
 

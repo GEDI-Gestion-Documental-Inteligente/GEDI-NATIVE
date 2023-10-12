@@ -3,6 +3,7 @@ import { SearchNodesForTerm, fetchContentNode, getNodes } from "./NodeThunks";
 
 const initialState = {
   nodes: [],
+  rootId:'',
   loading: "idle",
   buffer: [],
   searchNodes: []
