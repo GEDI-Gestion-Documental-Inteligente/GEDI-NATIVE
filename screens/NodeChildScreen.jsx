@@ -47,7 +47,7 @@ export const NodeChildScreen = ({ route }) => {
     };
 
     fetchData(); // Llama a la función asincrónica
-  }, [id, ticket]);
+  }, []);
 
   // const createNode = async () => {
   //   const myheaders = {

@@ -8,8 +8,8 @@ const SiteItem = ({ siteData, onPress }) => {
       <Pressable onPress={onPress}>
 
         <View style={styles.infoContainer}>
-          <Text style={styles.name}>{siteData.entry.title}</Text>
-          <Text style={styles.description}>{siteData.entry.description}</Text>
+          <Text style={styles.name}>{siteData.entry.site.title}</Text>
+          <Text style={styles.description}>{siteData.entry.site.description}</Text>
         </View>
       </Pressable>
     </View>

@@ -13,9 +13,15 @@ export const SearchNodes = () => {
   const dispatch = useDispatch();
 
   const handleSearch = async () => {
-    await dispatch(SearchNodesForTerm({ term, root }));
+    if (term.length >= 3) {
+      await dispatch(SearchNodesForTerm({ term, root }));
+      setTerm("");
+      return;
+    } else {
+      alert("Escriba al menos 3 letras");
+      return;
+    }
   };
-
 
   return (
     <View style={styles.containerSearch}>

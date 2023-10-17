@@ -1,32 +1,39 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { getContainerDocumentLibrary, getMySites } from './SitesThunks';
+import { createSlice } from "@reduxjs/toolkit";
+import {
+  createSite,
+  getContainerDocumentLibrary,
+  getMySites,
+} from "./SitesThunks";
 
 const siteSlice = createSlice({
-  name: 'sites',
+  name: "sites",
   initialState: {
     sites: [],
-    loading: 'idle',
-    containerDL:""
+    loading: "idle",
+    containerDL: "",
   },
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getMySites.pending, (state) => {
-      state.loading = 'pending';
+      state.loading = "pending";
     });
     builder.addCase(getMySites.fulfilled, (state, action) => {
-      state.loading = 'succeeded';
+      state.loading = "succeeded";
       state.sites = action.payload;
     });
     builder.addCase(getMySites.rejected, (state) => {
-      state.loading = 'failed';
+      state.loading = "failed";
     });
-    builder.addCase(getContainerDocumentLibrary.pending, (state)=> {
-      state.loading = 'pending'
+    builder.addCase(getContainerDocumentLibrary.pending, (state) => {
+      state.loading = "pending";
     });
-    builder.addCase(getContainerDocumentLibrary.fulfilled, (state, action) =>{
-      state.loading = 'success'
-      state.containerDL= action.payload
-    })
+    builder.addCase(getContainerDocumentLibrary.fulfilled, (state, action) => {
+      state.loading = "success";
+      state.containerDL = action.payload;
+    });
+    builder.addCase(createSite.fulfilled, (state, action) => {
+      state.loading = "success";
+    });
   },
 });
 

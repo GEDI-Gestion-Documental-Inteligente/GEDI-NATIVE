@@ -11,6 +11,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { logoutAndClearTicket } from "../redux/modules/authLogin/authThunks";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import FormAddSite from "./FormAddSite";
 
 const DropdownMenu = () => {
   const ticket = useSelector((state) => state.auth.ticket);
@@ -18,6 +19,7 @@ const DropdownMenu = () => {
   const dispatch = useDispatch();
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isMenuAccionVisible, setIsMenuAccionVisible] = useState(false);
+  const [isFormVisible, setIsFormVisible] = useState(false);
 
   const toggleDropdown = () => {
     setIsMenuVisible(!isMenuVisible);
@@ -34,6 +36,14 @@ const DropdownMenu = () => {
   const closeMenu = () => {
     setIsMenuAccionVisible(false);
   };
+
+
+  const handleSubmit = (siteData) => {
+    setIsMenuAccionVisible(false);
+    // Cierra el formulario después de enviar los datos
+    setIsFormVisible(false);
+  };
+
 
   return (
     <View style={styles.menuContainer}>
@@ -80,14 +90,14 @@ const DropdownMenu = () => {
         animationType="slide"
         transparent={true}
         visible={isMenuAccionVisible}
-        onRequestClose={closeDropdown}
+        onRequestClose={closeMenu}
       >
         <TouchableWithoutFeedback onPress={closeMenu}>
           <View style={styles.modalOverlay}>
             <View style={styles.dropdownContent}>
               <TouchableOpacity
                 style={styles.iconButton}
-                onPress={() => console.log("Crear sitio nuevo")}
+                onPress={() => setIsFormVisible(true)}
               >
                 <Ionicons name="md-add" size={55} color="black" />
                 <Text style={styles.text}>Crear sitio nuevo</Text>
@@ -95,6 +105,10 @@ const DropdownMenu = () => {
             </View>
           </View>
         </TouchableWithoutFeedback>
+      </Modal>
+
+      <Modal visible={isFormVisible} animationType="slide">
+        <FormAddSite onSubmit={handleSubmit}/>
       </Modal>
     </View>
   );

@@ -22,8 +22,8 @@ export const SiteScreen = () => {
       siteData={item}
       onPress={() => {
         navigation.navigate("Nodes", {
-          id: item.entry.guid,
-          siteName: item.entry.id,
+          id: item.entry.site.guid,
+          siteName: item.entry.site.id,
         });
       }}
     />

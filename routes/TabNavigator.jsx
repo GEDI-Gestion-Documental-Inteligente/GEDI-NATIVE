@@ -1,13 +1,14 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { ActivitiesScreen } from "../screens/ActivitiesScreen";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import { Entypo } from "@expo/vector-icons";
 import { ChatScreen } from "../screens/ChatAlfredo";
 import { StackNodes } from "./StackNodes";
-import { FontAwesome5 } from '@expo/vector-icons'; 
-import { Feather } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons'; 
-
+import { FontAwesome5 } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const Tab = createBottomTabNavigator();
 
@@ -19,7 +20,7 @@ const TabNavigator = () => {
         options={{
           tabBarLabel: "Inicio",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="md-home" size={30} color="#03484c" /> // Icono de Ionicons
+            <Entypo name="home" size={30} color="#03484c" /> // Icono de Ionicons
           ),
           headerShown: false,
         }}
@@ -31,7 +32,11 @@ const TabNavigator = () => {
         options={{
           tabBarLabel: "Actividades",
           tabBarIcon: ({ color, size }) => (
-            <Feather name="activity" size={30} color="#03484c" />
+            <MaterialCommunityIcons
+              name="clipboard-list"
+              size={30}
+              color="#03484c"
+            />
           ),
           headerShown: false,
         }}
@@ -43,7 +48,7 @@ const TabNavigator = () => {
         options={{
           tabBarLabel: "Tareas",
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome5 name="tasks" size={30} color="#03484c" />
+            <MaterialIcons name="pending-actions" size={30} color="#03484c" />
           ),
           headerShown: false,
         }}
@@ -55,7 +60,23 @@ const TabNavigator = () => {
         options={{
           tabBarLabel: "Herramientas",
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="admin-panel-settings" size={30} color="#03484c" />
+            <MaterialIcons
+              name="admin-panel-settings"
+              size={30}
+              color="#03484c"
+            />
+          ),
+          headerShown: false,
+        }}
+        component={ChatScreen}
+      />
+
+      <Tab.Screen
+        name="notifications"
+        options={{
+          tabBarLabel: "Notificaciones",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="notifications" size={30} color="#03484c" />
           ),
           headerShown: false,
         }}
@@ -72,7 +93,6 @@ const TabNavigator = () => {
         }}
         component={ChatScreen}
       />
-
     </Tab.Navigator>
   );
 };
