@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Picker } from "@react-native-picker/picker";
 import { View, TextInput, StyleSheet, Text, Pressable } from "react-native";
 import { useDispatch } from "react-redux";
-import { createSite, getMySites } from "../redux/modules/sites/SitesThunks";
+import { createSite, getMySites } from "../../redux/modules/sites/SitesThunks";
 
 const FormAddSite = ({ onSubmit }) => {
   const dispatch = useDispatch()

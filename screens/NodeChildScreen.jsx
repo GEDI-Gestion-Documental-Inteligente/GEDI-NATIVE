@@ -11,11 +11,11 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Picker } from "@react-native-picker/picker";
-import FolderItem from "../components/FolderItem";
+import FolderItem from "../components/nodes/FolderItem";
 import { useDispatch, useSelector } from "react-redux";
 import { getNodes } from "../redux/modules/nodes/NodeThunks";
 import { getContainerDocumentLibrary } from "../redux/modules/sites/SitesThunks";
-import { MenuActions } from "../components/MenuActions";
+import { MenuActions } from "../components/nodes/MenuActions";
 
 export const NodeChildScreen = ({ route }) => {
   const { id, siteName } = route.params;

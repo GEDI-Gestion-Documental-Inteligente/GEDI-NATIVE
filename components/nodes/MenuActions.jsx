@@ -9,7 +9,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutAndClearTicket } from "../redux/modules/authLogin/authThunks";
+import { logoutAndClearTicket } from "../../redux/modules/authLogin/authThunks";
 import { AntDesign } from "@expo/vector-icons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { SearchNodes } from "./SearchNodes";

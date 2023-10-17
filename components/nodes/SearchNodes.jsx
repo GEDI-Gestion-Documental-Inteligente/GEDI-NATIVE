@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { TextInput, StyleSheet, View, Pressable } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { SearchNodesForTerm } from "../redux/modules/nodes/NodeThunks";
+import { SearchNodesForTerm } from "../../redux/modules/nodes/NodeThunks";
 import { useEffect } from "react";
 
 export const SearchNodes = () => {

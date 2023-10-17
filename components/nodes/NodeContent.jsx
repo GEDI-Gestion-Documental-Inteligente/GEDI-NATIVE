@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, SafeAreaView, StyleSheet } from "react-native";
 import * as Linking from "expo-linking";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchContentNode } from "../redux/modules/nodes/NodeThunks";
+import { fetchContentNode } from "../../redux/modules/nodes/NodeThunks";
 
 export const NodeContent = ({ route }) => {
   const { id } = route.params;

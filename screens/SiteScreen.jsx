@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { View, StatusBar, FlatList, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import SiteItem from "../components/SiteItem";
+import SiteItem from "../components/sites/SiteItem";
 import { useDispatch, useSelector } from "react-redux";
 import { getMySites } from "../redux/modules/sites/SitesThunks";
 import DropdownMenu from "../components/MenuComponent";

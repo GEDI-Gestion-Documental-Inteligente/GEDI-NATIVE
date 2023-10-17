@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 import TabNavigator from "./routes/TabNavigator";
 import { NodeChildScreen } from "./screens/NodeChildScreen";
-import { NodeContent } from "./components/NodeContent";
+import { NodeContent } from "./components/nodes/NodeContent";
 
 const Stack = createNativeStackNavigator();
 
