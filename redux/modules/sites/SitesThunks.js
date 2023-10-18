@@ -18,7 +18,7 @@ export const getMySites = createAsyncThunk("sites/getMySites", async () => {
       },
     };
 
-    const response = await axios.get(`${url_base}/sites/getMySites`, myheaders);
+    const response = await axios.get(`${url_base}/sites/my-sites`, myheaders);
     const listSites = response.data.mysites.list.entries;
     return listSites;
   } catch (error) {
@@ -45,7 +45,7 @@ export const getContainerDocumentLibrary = createAsyncThunk(
       };
 
       const response = await axios.get(
-        `${url_base}/sites/getContainerSite/${siteName}`,
+        `${url_base}/sites/document-library/${siteName}`,
         myheaders
       );
       const documentLibrary = await response.data.containerDocumentLibrary.entry
