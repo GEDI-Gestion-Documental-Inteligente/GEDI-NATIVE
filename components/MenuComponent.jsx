@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -7,19 +7,39 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   StyleSheet,
+  Animated,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutAndClearTicket } from "../redux/modules/authLogin/authThunks";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FormAddSite from "./sites/FormAddSite";
+import { FontAwesome } from "@expo/vector-icons";
 
 const DropdownMenu = () => {
   const ticket = useSelector((state) => state.auth.ticket);
+  const user = useSelector((state) => state.auth.user);
   const navigate = useNavigation();
   const dispatch = useDispatch();
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isMenuAccionVisible, setIsMenuAccionVisible] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const [slideAnim] = useState(new Animated.Value(-50));
+
+  useEffect(() => {
+    if (isMenuVisible) {
+      Animated.timing(slideAnim, {
+        toValue: 0,
+        duration: 800,
+        useNativeDriver: false,
+      }).start();
+    } else {
+      Animated.timing(slideAnim, {
+        toValue: -100,
+        duration: 5900,
+        useNativeDriver: false,
+      }).start();
+    }
+  }, [isMenuVisible]);
 
   const toggleDropdown = () => {
     setIsMenuVisible(!isMenuVisible);
@@ -37,13 +57,10 @@ const DropdownMenu = () => {
     setIsMenuAccionVisible(false);
   };
 
-
   const handleSubmit = (siteData) => {
     setIsMenuAccionVisible(false);
-    // Cierra el formulario después de enviar los datos
     setIsFormVisible(false);
   };
-
 
   return (
     <View style={styles.menuContainer}>
@@ -57,35 +74,52 @@ const DropdownMenu = () => {
         </TouchableOpacity>
       </View>
 
+      {/* MODAL DEL MENU  */}
       <Modal
-        animationType="slide"
+        animationType="none"
         transparent={true}
         visible={isMenuVisible}
         onRequestClose={closeDropdown}
       >
         <TouchableWithoutFeedback onPress={closeDropdown}>
           <View style={styles.modalOverlay}>
-            <View style={styles.dropdownContent}>
-              <TouchableOpacity
-                style={styles.iconButton}
-                onPress={() => navigate.navigate("Profile")}
-              >
-                <Ionicons name="md-person" size={30} color="white" />
-                <Text style={styles.text}>Perfil</Text>
-              </TouchableOpacity>
+            <Animated.View
+              style={[
+                styles.dropdownContent,
+                {
+                  left: slideAnim, // Aplica la animación a la propiedad left
+                },
+              ]}
+            >
+              <View style={styles.containerHeader}>
+                <FontAwesome name="user-circle-o" size={50} color="white" />
 
-              <TouchableOpacity
-                style={styles.iconButton}
-                onPress={() => dispatch(logoutAndClearTicket({ ticket }))}
-              >
-                <Ionicons name="md-exit" size={30} color="white" />
-                <Text style={styles.text}>Cerrar sesión</Text>
-              </TouchableOpacity>
-            </View>
+                <Text style={styles.titleHeader}>{user}</Text>
+              </View>
+
+              <View style={styles.bodyMenu}>
+                <TouchableOpacity
+                  style={styles.iconButton}
+                  onPress={() => navigate.navigate("Profile")}
+                >
+                  <Ionicons name="md-person" size={30} color="white" />
+                  <Text style={styles.text}>Perfil</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={styles.iconButton}
+                  onPress={() => dispatch(logoutAndClearTicket({ ticket }))}
+                >
+                  <Ionicons name="md-exit" size={30} color="white" />
+                  <Text style={styles.text}>Cerrar sesión</Text>
+                </TouchableOpacity>
+              </View>
+            </Animated.View>
           </View>
         </TouchableWithoutFeedback>
       </Modal>
 
+      {/* MODAL DE ACCIONES DE LA SCREEN SITIOS  */}
       <Modal
         animationType="slide"
         transparent={true}
@@ -94,7 +128,7 @@ const DropdownMenu = () => {
       >
         <TouchableWithoutFeedback onPress={closeMenu}>
           <View style={styles.modalOverlay}>
-            <View style={styles.dropdownContent}>
+            <View style={styles.dropdownContentAction}>
               <TouchableOpacity
                 style={styles.iconButton}
                 onPress={() => setIsFormVisible(true)}
@@ -108,7 +142,7 @@ const DropdownMenu = () => {
       </Modal>
 
       <Modal visible={isFormVisible} animationType="slide">
-        <FormAddSite onSubmit={handleSubmit}/>
+        <FormAddSite onSubmit={handleSubmit} />
       </Modal>
     </View>
   );
@@ -123,23 +157,33 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignContent: "center",
   },
-  menuButtonMas: {
-    fontSize: 25,
-  },
   modalOverlay: {
     flex: 1,
-    justifyContent: "flex-end", // Alinea el contenido hacia abajo
+    justifyContent: "flex-end",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  bodyMenu: {
+    marginVertical: 40,
   },
   dropdownContent: {
     display: "flex",
     backgroundColor: "#03484c",
-    width: "100%",
-    height: "auto", // Altura del menú desplegable
+    width: "80%",
+    height: "100%",
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     elevation: 1,
-    
+    position: "absolute", // Asegura que la animación funcione correctamente
+  },
+  dropdownContentAction: {
+    display: "flex",
+    backgroundColor: "#03484c",
+    width: "100%",
+    height: "auto",
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    elevation: 1,
+    position: "absolute", // Asegura que la animación funcione correctamente
   },
   menuContainer: {
     display: "flex",
@@ -151,18 +195,33 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignContent: "center",
     flexDirection: "row",
-    marginBottom: 10
+    marginBottom: 10,
   },
   iconButton: {
     alignItems: "center",
     marginBottom: 20,
     flexDirection: "row",
-    margin: 15
+    margin: 15,
   },
-  text:{
+  text: {
     marginLeft: 10,
-    color: "white"
-  }
+    color: "white",
+  },
+  containerHeader: {
+    width: "auto",
+    height: 120,
+    borderBottomColor: "white",
+    borderBottomWidth: 1,
+    flexDirection: "row",
+    padding: 10,
+    alignItems: "center"
+  },
+  titleHeader: {
+    color: "white",
+    fontWeight: "bold",
+    marginHorizontal: 10,
+    fontSize: 25
+  },
 });
 
 export default DropdownMenu;
