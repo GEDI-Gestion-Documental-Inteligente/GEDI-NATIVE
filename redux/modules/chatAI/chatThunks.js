@@ -1,31 +1,37 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const sendMessage = createAsyncThunk("chat/senMessage", async (ticket, msg) => {
+export const sendMessage = createAsyncThunk("chat/sendMessage", async ({ticket, text}) => {
+  console.log("chat thunk:", text)
   try {
-    const url_base = process.env.EXPO_PUBLIC_API_URL;
-    const myheaders = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: ticket,
-      },
-      body: JSON.stringify({
-        message: msg
-      }),
-    };
+    const url_base = process.env.EXPO_PUBLIC_API_AI;
 
-    const response = await axios.post(
-      `${url_base}/chat/sendMessage`,
-      myheaders
-    );
+    const response = await axios.post(url_base, {
+      'prompt': `${text}`,
+    });
 
-    if (response.data.ok) {
-      return response.data.responseMsg;
+    if (response.data) {
+      console.log(response.data);
+      return response.data.result;
     } else {
       return "Lo siento, intenta más tarde";
     }
   } catch (error) {
-    console.error("Error de red:", error);
+    if (error.response) {
+      console.error("API Error:", error.response);
+      return thunkAPI.rejectWithValue(error.response);
+    } else if (error.request) {
+      console.error("Network Error:", error.request);
+      return thunkAPI.rejectWithValue("Network error. Please try again.");
+    } else {
+      console.error("Error Message:", error.message);
+      return thunkAPI.rejectWithValue("An error occurred. Please try again later.");
+    }
   }
 });
+
+export const clearResponse = createAsyncThunk(
+  'chat/clear-response', async(thunkAPI)=>{
+    return
+  }
+)

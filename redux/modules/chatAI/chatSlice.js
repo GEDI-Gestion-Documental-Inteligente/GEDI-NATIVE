@@ -11,18 +11,22 @@ const chatSlice = createSlice({
   name: "chat",
   initialState: {
     requestUser: [],
-    responseAi: [],
+    responseAi: "",
     loading: "idle",
     ticket: "",
   },
-  reducers: {},
+  reducers: {
+    clearResponseAi: state => {
+      state.responseAi = '';
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(sendMessage.pending, (state) => {
       state.loading = "pending";
     });
     builder.addCase(sendMessage.fulfilled, (state, action) => {
       state.loading = "success";
-      state.responseAi.push(action.payload);
+      state.responseAi = action.payload;
     });
     builder.addCase(sendMessage.rejected, (state) => {
       state.loading = "reject";
