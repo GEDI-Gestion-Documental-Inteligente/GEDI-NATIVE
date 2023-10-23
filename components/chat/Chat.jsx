@@ -1,13 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { View, Platform, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { View, Platform, StyleSheet, Button } from "react-native";
 import { Bubble, GiftedChat } from "react-native-gifted-chat";
 import { useDispatch, useSelector } from "react-redux";
 import { sendMessage } from "../../redux/modules/chatAI/chatThunks";
+import AttendanceChat from "./TableCharts";
+import { useEffect } from "react";
+import { ClipButton, SendButton } from "./ButtonsChat";
+import BubbleChat  from "./BubbleChat";
 
 export const Chat = () => {
   const [messages, setMessages] = useState([]);
   const ticket = useSelector((state) => state.auth.ticket);
   const responseAI = useSelector((state) => state.chat.responseAi);
+  const [isTyping, setIsTyping] = useState(false);
   const dispatch = useDispatch();
 
   const initialMessages = [
@@ -57,37 +62,108 @@ export const Chat = () => {
     }
   }, [responseAI]);
 
+  const handleCharts = () => {
+    // Generar el gráfico
+    const objJson = {
+      alumnos: [
+        {
+          nombre: "Juan Pérez",
+          asistencias: 90,
+        },
+        {
+          nombre: "María García",
+          asistencias: 85,
+        },
+        {
+          nombre: "Pedro Rodríguez",
+          asistencias: 80,
+        },
+        {
+          nombre: "Ana López",
+          asistencias: 75,
+        },
+        {
+          nombre: "Luis Sánchez",
+          asistencias: 70,
+        },
+      ],
+    };
+
+    const barData = objJson.alumnos.map((alumno) => {
+      return {
+        value: alumno.asistencias,
+        label: alumno.nombre,
+      };
+    });
+
+    // Añadir el gráfico al chat
+    setMessages([
+      ...messages,
+      {
+        _id: Math.random(),
+        data: barData,
+        type: "BarChart",
+      },
+    ]);
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <GiftedChat
+      allowCharts={true}
         placeholder="Escribe un mensaje..."
         messages={messages}
-        onSend={onSendButtonPress}
+        renderBubble={BubbleChat}
         user={{
           _id: 1,
         }}
         inverted={false}
-        renderAvatar={null} // Para mantener los iconos, no modifiques la propiedad renderAvatar
-        renderMessage={(props) => {
-          const { currentMessage } = props;
-
+        onInputTextChanged={(text) => {
+          setIsTyping(text.length > 0);
+        }}
+        renderSend={(props) => {
+          {
+            if (isTyping) {
+              return (
+                <View style={styles.actionContainer}>
+                  <SendButton
+                    onPress={() => onSendButtonPress([{ text: props.text }])}
+                  />
+                </View>
+              );
+            }
+          }
+        }}
+        renderActions={(props) => {
           return (
-            <Bubble
-              {...props}
-              wrapperStyle={{
-                left: {
-                  backgroundColor: currentMessage.user._id === 1 ? "#03484c" : "#BCC4BC",
-                  margin: 10
-                },
-                right: {
-                  backgroundColor: currentMessage.user._id === 1 ? "#03484c" : "#BCC4BC",
-                  margin:10
-                },
-              }}
-            />
+            <View style={styles.actionContainer}>
+              <ClipButton onPress={handleCharts} />
+            </View>
           );
         }}
+        renderAvatar={null}
+        renderMessage={(props) => {
+          const { currentMessage } = props;
+      
+          if (currentMessage.data) {
+            return <AttendanceChat data={currentMessage.data} />;
+          } else {
+            return <BubbleChat {...props} />;
+          }
+        }}
+        
       />
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  actionContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    backgroundColor: "white",
+  },
+});

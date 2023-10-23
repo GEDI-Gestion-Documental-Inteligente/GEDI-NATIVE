@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   TabChat: {
     display: "flex",
     alignItems: "center",
-    height: "15%",
+    height: "10%",
     backgroundColor: "#4D6F5F",
     justifyContent: "center",
     flexDirection: "row",
