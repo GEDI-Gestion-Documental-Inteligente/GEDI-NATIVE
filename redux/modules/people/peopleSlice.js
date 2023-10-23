@@ -1,12 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getMyActivities } from "./peopleThunks";
+import { createPeople, getMyActivities, getPeople, searchPeopleForTerm } from "./peopleThunks";
 
 const initialState = {
     activities: [],
     loading: 'idle',
+    people: [],
+    loadingPeople: 'idle',
+    searchPeople:[]
 }
 const peopleSlice = createSlice({
-    name: "peoples",
+    name: "people",
     initialState: initialState,
     reducers:{},
     extraReducers: (builder) =>{
@@ -19,6 +22,22 @@ const peopleSlice = createSlice({
         })
         builder.addCase(getMyActivities.rejected, (state)=>{
             state.loading = 'failed'
+        });
+        builder.addCase(getPeople.pending, (state) =>{
+            state.loadingPeople = 'pendind'
+        });
+        builder.addCase(getPeople.fulfilled, (state, action) =>{
+            state.loadingPeople = 'success';
+            state.people = action.payload
+        });
+        builder.addCase(getPeople.rejected, (state) =>{
+            state.loadingPeople = 'reject'
+        });
+        builder.addCase(searchPeopleForTerm.fulfilled, (state, action)=>{
+            state.searchPeople = action.payload
+        })
+        builder.addCase(createPeople.fulfilled, (state)=>{
+            state.loading = 'success'
         })
     }
 })

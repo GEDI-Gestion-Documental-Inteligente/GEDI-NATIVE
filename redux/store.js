@@ -10,7 +10,7 @@ const store = configureStore({
     auth: authReducer,
     sites : siteReducer,
     nodes: nodeReducer,
-    peoples : peopleReducer,
+    people : peopleReducer,
     chat: chatReducer
   },
 });
