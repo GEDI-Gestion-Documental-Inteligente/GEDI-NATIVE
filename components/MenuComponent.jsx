@@ -14,6 +14,9 @@ import { logoutAndClearTicket } from "../redux/modules/authLogin/authThunks";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FormAddSite from "./sites/FormAddSite";
 import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
+import { SimpleLineIcons } from "@expo/vector-icons";
 
 const DropdownMenu = () => {
   const ticket = useSelector((state) => state.auth.ticket);
@@ -70,7 +73,7 @@ const DropdownMenu = () => {
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.menuButton} onPress={toggleMenu}>
-          <Ionicons name="md-add" size={45} color="#03484c" />
+          <SimpleLineIcons name="options-vertical" size={30} color="#03484c" />
         </TouchableOpacity>
       </View>
 
@@ -102,15 +105,44 @@ const DropdownMenu = () => {
                   style={styles.iconButton}
                   onPress={() => navigate.navigate("Profile")}
                 >
-                  <Ionicons name="md-person" size={30} color="white" />
+                  <Ionicons name="md-person" size={25} color="white" />
                   <Text style={styles.text}>Perfil</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.iconButton}
+                  onPress={() => navigate.navigate("Profile")}
+                >
+                  <Ionicons name="notifications" size={25} color="white" />
+                  <Text style={styles.text}>Notificaciones</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                   style={styles.iconButton}
+                  onPress={() => navigate.navigate("Profile")}
+                >
+                  <MaterialIcons
+                    name="workspaces-filled"
+                    size={25}
+                    color="white"
+                  />
+                  <Text style={styles.text}>Gestionat sitios</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={styles.iconButton}
+                  onPress={() => navigate.navigate("People")}
+                >
+                  <FontAwesome5 name="users-cog" size={25} color="white" />
+
+                  <Text style={styles.text}>Gestionar usuarios</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.footerContainer}>
+                <TouchableOpacity
+                  style={styles.iconButton}
                   onPress={() => dispatch(logoutAndClearTicket({ ticket }))}
                 >
-                  <Ionicons name="md-exit" size={30} color="white" />
+                  <Ionicons name="md-exit" size={25} color="white" />
                   <Text style={styles.text}>Cerrar sesión</Text>
                 </TouchableOpacity>
               </View>
@@ -121,20 +153,20 @@ const DropdownMenu = () => {
 
       {/* MODAL DE ACCIONES DE LA SCREEN SITIOS  */}
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         visible={isMenuAccionVisible}
         onRequestClose={closeMenu}
       >
         <TouchableWithoutFeedback onPress={closeMenu}>
-          <View style={styles.modalOverlay}>
+          <View style={styles.modalOverlayAction}>
             <View style={styles.dropdownContentAction}>
               <TouchableOpacity
                 style={styles.iconButton}
                 onPress={() => setIsFormVisible(true)}
               >
-                <Ionicons name="md-add" size={55} color="black" />
-                <Text style={styles.text}>Crear sitio nuevo</Text>
+                <Ionicons name="md-add" size={40} color="#03484c" />
+                <Text style={styles.textAction}>Crear sitio nuevo</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -162,8 +194,14 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
+  modalOverlayAction: {
+    flex: 1,
+    justifyContent: "flex-end",
+  },
   bodyMenu: {
-    marginVertical: 40,
+    display: "flex",
+    height: "70%",
+    justifyContent: "center",
   },
   dropdownContent: {
     display: "flex",
@@ -173,16 +211,19 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     elevation: 1,
+    paddingBottom: 10,
     position: "absolute", // Asegura que la animación funcione correctamente
   },
   dropdownContentAction: {
     display: "flex",
-    backgroundColor: "#03484c",
-    width: "100%",
-    height: "auto",
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
+    backgroundColor: "white",
+    width: 200,
+    height: 100,
     elevation: 1,
+    top: 0,
+    right: 0,
+    margin: 35,
+    marginTop: 35,
     position: "absolute", // Asegura que la animación funcione correctamente
   },
   menuContainer: {
@@ -196,31 +237,48 @@ const styles = StyleSheet.create({
     alignContent: "center",
     flexDirection: "row",
     marginBottom: 10,
+    alignItems: 'center'
   },
   iconButton: {
     alignItems: "center",
     marginBottom: 20,
     flexDirection: "row",
     margin: 15,
+    paddingVertical: 10,
   },
   text: {
     marginLeft: 10,
     color: "white",
+    fontWeight: "normal",
+    fontSize: 15,
+  },
+  textAction: {
+    color: "black",
+    fontWeight: "normal",
+    fontSize: 15,
   },
   containerHeader: {
     width: "auto",
     height: 120,
-    borderBottomColor: "white",
+    borderBottomColor: "#50514f",
     borderBottomWidth: 1,
     flexDirection: "row",
     padding: 10,
-    alignItems: "center"
+    alignItems: "center",
   },
   titleHeader: {
     color: "white",
     fontWeight: "bold",
     marginHorizontal: 10,
-    fontSize: 25
+    fontSize: 25,
+  },
+  footerContainer: {
+    width: "auto",
+    borderTopColor: "#50514f",
+    borderTopWidth: 1,
+    flexDirection: "row",
+    padding: 10,
+    bottom: 0,
   },
 });
 
