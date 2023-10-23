@@ -1,5 +1,5 @@
 import React from "react";
-import { View, FlatList } from "react-native";
+import { View, FlatList, StyleSheet } from "react-native";
 import { PeopleItem } from "./PeopleItem";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -26,8 +26,11 @@ export const PeopleList = () => {
 
   return (
     <View>
-      <PeopleSearch/>
-      <PeopleMenuButton/>
+      <View style={styles.containerHeader}>
+        <PeopleSearch />
+        <PeopleMenuButton />
+      </View>
+
       {data.length > 0 && (
         <FlatList
           data={searchResult && searchResult.length ? searchResult : data}
@@ -38,3 +41,12 @@ export const PeopleList = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  containerHeader:{
+    display: "flex",
+    flexDirection: "row",
+    backgroundColor: "white",
+    alignItems: 'center'
+  }
+})

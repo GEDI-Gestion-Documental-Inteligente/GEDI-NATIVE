@@ -47,7 +47,8 @@ export const PeopleSearch = ()=>{
         display: "flex",
         padding: 5,
         backgroundColor: 'white',
-        padding: 10
+        padding: 10,
+        width: '90%'
       },
       inputContainer: {
         flexDirection: "row",

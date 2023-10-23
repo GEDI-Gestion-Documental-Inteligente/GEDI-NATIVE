@@ -55,34 +55,10 @@ export const PeopleMenuButton = () => {
 };
 
 const styles = StyleSheet.create({
-  menuButton: {
-    borderRadius: 5,
-    padding: 10,
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignContent: "center",
-  },
   modalOverlay: {
     flex: 1,
     justifyContent: "flex-end",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  bodyMenu: {
-    display: "flex",
-    height: "70%",
-    justifyContent: "center",
-  },
-  dropdownContent: {
-    display: "flex",
-    backgroundColor: "#03484c",
-    width: "80%",
-    height: "100%",
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-    elevation: 1,
-    paddingBottom: 10,
-    position: "absolute", // Asegura que la animación funcione correctamente
   },
   dropdownContentAction: {
     display: "flex",
@@ -93,18 +69,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 10,
     elevation: 1,
     position: "absolute", // Asegura que la animación funcione correctamente
-  },
-  menuContainer: {
-    display: "flex",
-    height: "5vh",
-    justifyContent: "center",
-  },
-  containerButtons: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignContent: "center",
-    flexDirection: "row",
-    marginBottom: 10,
   },
   iconButton: {
     alignItems: "center",
@@ -118,28 +82,5 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "normal",
     fontSize: 15,
-  },
-  containerHeader: {
-    width: "auto",
-    height: 120,
-    borderBottomColor: "#50514f",
-    borderBottomWidth: 1,
-    flexDirection: "row",
-    padding: 10,
-    alignItems: "center",
-  },
-  titleHeader: {
-    color: "white",
-    fontWeight: "bold",
-    marginHorizontal: 10,
-    fontSize: 25,
-  },
-  footerContainer: {
-    width: "auto",
-    borderTopColor: "#50514f",
-    borderTopWidth: 1,
-    flexDirection: "row",
-    padding: 10,
-    bottom: 0,
   },
 });
