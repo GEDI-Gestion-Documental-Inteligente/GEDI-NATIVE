@@ -20,6 +20,7 @@ export const getMyActivities = createAsyncThunk(
       );
 
       const activities = response.data.peopleActivities.list.entries;
+      console.log(activities[0].entry.activitySummary)
       return activities.slice(1, 20);
     } catch (error) {
       console.log(error);
@@ -41,7 +42,7 @@ export const getPeople = createAsyncThunk(
 
     try {
       const response = await axios.get(
-        `${url_base}/people/allPeople`,
+        `${url_base}/people/all-people`,
         myheaders
       );
 
