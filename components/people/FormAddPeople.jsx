@@ -1,11 +1,14 @@
 import React, { useState } from "react";
-import { View, TextInput, StyleSheet, Text, Pressable } from "react-native";
+import { View, TextInput, StyleSheet, Text, Pressable, TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { addPerson, createPeople } from "../../redux/modules/people/peopleThunks"; // Importa tu thunk de Redux
+import { AntDesign } from '@expo/vector-icons'; 
+import {
+  createPeople,
+} from "../../redux/modules/people/peopleThunks"; // Importa tu thunk de Redux
 
 export const FormAddPeople = ({ onSubmit }) => {
   const dispatch = useDispatch();
-  const ticket = useSelector((state) => state.auth.ticket)
+  const ticket = useSelector((state) => state.auth.ticket);
   const [data, setData] = useState({
     firstName: "",
     lastName: "",
@@ -19,7 +22,7 @@ export const FormAddPeople = ({ onSubmit }) => {
     setData({ ...data, [field]: value });
   };
 
-  const handleSubmit = async() => {
+  const handleSubmit = async () => {
     // Validar el formulario antes de enviar los datos
     if (
       data.firstName !== "" &&
@@ -29,7 +32,7 @@ export const FormAddPeople = ({ onSubmit }) => {
       data.id !== "" &&
       data.password !== ""
     ) {
-      await dispatch(createPeople({ticket, data})); // Dispatch de la acción para agregar una persona
+      await dispatch(createPeople({ ticket, data })); // Dispatch de la acción para agregar una persona
       onSubmit(); // Llama a la función onSubmit para cerrar el formulario o hacer otras acciones necesarias
     } else {
       alert("Por favor, complete todos los campos.");
@@ -37,51 +40,59 @@ export const FormAddPeople = ({ onSubmit }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Crear una nueva persona</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Nombre"
-        onChangeText={(text) => handleInputChange("firstName", text)}
-        value={data.firstName}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Apellido"
-        onChangeText={(text) => handleInputChange("lastName", text)}
-        value={data.lastName}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Correo electrónico"
-        onChangeText={(text) => handleInputChange("email", text)}
-        value={data.email}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Cargo u ocupación"
-        onChangeText={(text) => handleInputChange("jobTitle", text)}
-        value={data.jobTitle}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="ID"
-        onChangeText={(text) => handleInputChange("id", text)}
-        value={data.id}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Contraseña"
-        onChangeText={(text) => handleInputChange("password", text)}
-        secureTextEntry
-        value={data.password}
-      />
-      <Pressable style={styles.button} onPress={handleSubmit}>
-        <Text style={styles.textButton}>Crear persona</Text>
-      </Pressable>
-      <Pressable style={styles.buttonCancel} onPress={onSubmit}>
-        <Text style={styles.textButton}>Cancelar</Text>
-      </Pressable>
+    <View style={styles.modalOverlay}>
+      <View style={styles.container}>
+        <TouchableOpacity
+          style={styles.iconButton}
+          onPress={onSubmit}
+        >
+          <AntDesign name="close" size={24} color="black" />
+        </TouchableOpacity>
+        <Text style={styles.title}>Crear una nueva persona</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Nombre"
+          onChangeText={(text) => handleInputChange("firstName", text)}
+          value={data.firstName}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Apellido"
+          onChangeText={(text) => handleInputChange("lastName", text)}
+          value={data.lastName}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Correo electrónico"
+          onChangeText={(text) => handleInputChange("email", text)}
+          value={data.email}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Cargo u ocupación"
+          onChangeText={(text) => handleInputChange("jobTitle", text)}
+          value={data.jobTitle}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="ID"
+          onChangeText={(text) => handleInputChange("id", text)}
+          value={data.id}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Contraseña"
+          onChangeText={(text) => handleInputChange("password", text)}
+          secureTextEntry
+          value={data.password}
+        />
+        <Pressable style={styles.button} onPress={handleSubmit}>
+          <Text style={styles.textButton}>Crear persona</Text>
+        </Pressable>
+        <Pressable style={styles.buttonCancel} onPress={onSubmit}>
+          <Text style={styles.textButton}>Cancelar</Text>
+        </Pressable>
+      </View>
     </View>
   );
 };
@@ -90,12 +101,13 @@ const styles = StyleSheet.create({
   container: {
     padding: 30,
     backgroundColor: "#E6E7E6",
-    flex: 1,
-    display: "flex",
-    justifyContent: "center",
+    borderRadius: 15,
+    width: "90%",
+
   },
   input: {
     height: 40,
+    width: "auto",
     borderBottomColor: "#03484c",
     borderRadius: 10,
     marginVertical: 10,
@@ -107,7 +119,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     textAlign: "center",
     color: "#03484c",
-    marginBottom: 40,
+    marginBottom: 20,
   },
   button: {
     backgroundColor: "#03484c",
@@ -127,6 +139,16 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     marginBottom: 5,
   },
+  modalOverlay: {
+    flex: 1,
+    display: "flex",
+    justifyContent: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
+    alignItems: "center",
+  },
+  iconButton:{
+    position: "absolute",
+    right: 0,
+    margin: 10
+  }
 });
-
-

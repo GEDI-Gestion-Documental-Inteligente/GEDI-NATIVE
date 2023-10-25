@@ -1,18 +1,19 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { SimpleLineIcons } from "@expo/vector-icons";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { PeopleMenuActions } from "./PeopleMenuActions";
+
 
 export const PeopleItem = ({ people }) => {
   return (
     <View style={styles.container}>
       <View>
-        <Text style={styles.name}>{people.entry.firstName} {people.entry.lastName}</Text>
+        <Text style={styles.name}>
+          {people.entry.firstName} {people.entry.lastName}
+        </Text>
         <Text style={styles.description}>{people.entry.id}</Text>
         <Text style={styles.description}>{people.entry.jobTitle}</Text>
       </View>
-      <View style={styles.containerOptions}>
-        <SimpleLineIcons name="options-vertical" size={25} color="#03484c" />
-      </View>
+      <PeopleMenuActions user={people}/>
     </View>
   );
 };
@@ -26,7 +27,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: 'center'
+    alignItems: "center",
   },
   name: {
     fontSize: 18,

@@ -20,7 +20,7 @@ export const getMyActivities = createAsyncThunk(
       );
 
       const activities = response.data.peopleActivities.list.entries;
-      console.log(activities[0].entry.activitySummary)
+      console.log(activities[0].entry.activitySummary);
       return activities.slice(1, 20);
     } catch (error) {
       console.log(error);
@@ -96,6 +96,34 @@ export const searchPeopleForTerm = createAsyncThunk(
       );
 
       const searchResult = response.data.resultQuery.list.entries;
+      return searchResult;
+    } catch (error) {
+      console.error("Error fetching people", error);
+      return null;
+    }
+  }
+);
+
+export const changeStatusPeople = createAsyncThunk(
+  "people/change-status",
+  async ({ userId, value, ticket }) => {
+    const myheaders = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: ticket,
+      },
+    };
+
+    try {
+      const response = await axios.put(
+        `${url_base}/people/manage-status/${userId}`,
+        myheaders,
+        {
+          enabled: value,
+        }
+      );
+
+      const changedPeople = response.data
       return searchResult;
     } catch (error) {
       console.error("Error fetching people", error);

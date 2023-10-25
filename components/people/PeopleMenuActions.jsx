@@ -8,11 +8,12 @@ import {
   View,
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { FormAddPeople } from "./FormAddPeople";
 import { useState } from "react";
+import { SimpleLineIcons } from "@expo/vector-icons";
+import { FormStatus } from "./FormStatus";
+import { FontAwesome5 } from '@expo/vector-icons';
 
-export const PeopleMenuButton = () => {
-  const [isMenuVisible, setIsMenuVisible] = useState(false);
+export const PeopleMenuActions = ({ user }) => {
   const [isMenuAccionVisible, setIsMenuAccionVisible] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [slideAnim] = useState(new Animated.Value(-50));
@@ -31,7 +32,9 @@ export const PeopleMenuButton = () => {
   return (
     <View>
       <TouchableOpacity onPress={toggleMenu}>
-        <Ionicons name="md-add" size={45} color="#03484c" />
+        <View style={styles.containerOptions}>
+          <SimpleLineIcons name="options-vertical" size={25} color="#03484c" />
+        </View>
       </TouchableOpacity>
 
       <Modal
@@ -47,8 +50,15 @@ export const PeopleMenuButton = () => {
                 style={styles.iconButton}
                 onPress={() => setIsFormVisible(true)}
               >
-                <Ionicons name="md-add" size={40} color="black" />
-                <Text style={styles.text}>Crear usuario</Text>
+                <FontAwesome5 name="user-cog" size={25} color="black" />
+                <Text style={styles.text}>Deshabilitar usuario</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.iconButton}
+                onPress={() => setIsFormVisible(true)}
+              >
+               <FontAwesome5 name="user-edit" size={25} color="black" />
+                <Text style={styles.text}>Editar usuario</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -56,8 +66,12 @@ export const PeopleMenuButton = () => {
       </Modal>
 
       <Modal transparent={true} visible={isFormVisible} animationType="slide">
-        <FormAddPeople onSubmit={handleSubmit} />
+        <FormStatus user={user} onSubmit={handleSubmit} />
       </Modal>
+
+      {/* <Modal transparent={true} visible={isFormVisible} animationType="slide">
+        <FormStatus user={user} onSubmit={handleSubmit} />
+      </Modal> */}
     </View>
   );
 };
@@ -70,8 +84,8 @@ const styles = StyleSheet.create({
   dropdownContentAction: {
     display: "flex",
     backgroundColor: "white",
-    width: 200,
-    height: 100,
+    width: 'auto',
+    height: 'auto',
     elevation: 1,
     top: 0,
     right: 0,
@@ -79,15 +93,14 @@ const styles = StyleSheet.create({
     marginTop: 35,
     position: "absolute",
     borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 10
+    borderColor: "#ccc",
+    borderRadius: 10,
+    justifyContent: "center",
   },
   iconButton: {
     alignItems: "center",
-    marginBottom: 20,
     flexDirection: "row",
-    margin: 15,
-    paddingVertical: 10,
+    padding: 15
   },
   text: {
     marginLeft: 10,
