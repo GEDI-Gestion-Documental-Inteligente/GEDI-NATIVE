@@ -27,6 +27,7 @@ export const NodeChildScreen = ({ route }) => {
   const dispatch = useDispatch();
   const nodesChildren = useSelector((state) => state.nodes.nodes);
   const resultSearch = useSelector((state) => state.nodes.searchNodes);
+  const [nodeHistory, setNodeHistory] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,6 +40,7 @@ export const NodeChildScreen = ({ route }) => {
           await dispatch(getNodes({ id: idContainer.payload, ticket }));
         } else {
           await dispatch(getNodes({ id, ticket }));
+          console.log(id);
         }
       } catch (error) {
         // Maneja errores si es necesario
@@ -47,37 +49,7 @@ export const NodeChildScreen = ({ route }) => {
     };
 
     fetchData(); // Llama a la función asincrónica
-  }, []);
-
-  // const createNode = async () => {
-  //   const myheaders = {
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: "Basic " + ticket,
-  //     },
-  //   };
-  //   const body = {
-  //     name: nodeName,
-  //     nodeType: selectedNodeType,
-  //   };
-
-  //   try {
-  //     const response = await axios.post(
-  //       `http://${IPV4_ADDRESS}:8080/alfresco/api/-default-/public/alfresco/versions/1/nodes/${id}/children`,
-  //       body,
-  //       myheaders
-  //     );
-  //     if (response.status === 201) {
-  //       // Node created successfully, update the list of child nodes
-  //       fetchData();
-  //       setModalVisible(false);
-  //     } else {
-  //       console.error("Error creating node");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error creating node:", error);
-  //   }
-  // };
+  }, [id, ticket]);
 
   const handleNodePress = (node) => {
     if (node.entry.nodeType === "cm:content") {
@@ -88,10 +60,30 @@ export const NodeChildScreen = ({ route }) => {
 
       console.log("Se ha seleccionado un archivo:", node.entry.name);
     } else if (node.entry.nodeType === "cm:folder") {
-      navigation.navigate("Nodes", {
+      // Navegación hacia la misma pantalla con una nueva carpeta
+      navigation.push("Nodes", {
         ticket,
         id: node.entry.id,
       });
+      setNodeHistory([...nodeHistory, node]);
+    }
+  };
+  const handleGoBack = () => {
+    // Obtiene el último nodo visitado desde el historial
+    const lastVisitedNode = nodeHistory.pop();
+
+    if (lastVisitedNode) {
+      // Navega al último nodo visitado
+      navigation.navigate("Nodes", {
+        ticket,
+        id: lastVisitedNode.entry.id,
+      });
+
+      // Actualiza el historial de nodos visitados
+      setNodeHistory([...nodeHistory]);
+    } else {
+      // Si no hay nodos en el historial, simplemente navega hacia atrás
+      navigation.goBack();
     }
   };
 
@@ -141,6 +133,7 @@ export const NodeChildScreen = ({ route }) => {
           <Button title="Cancelar" onPress={() => setModalVisible(false)} />
         </View>
       </Modal>
+      {/* <Button title="Atrás" onPress={handleGoBack} /> */}
     </View>
   );
 };

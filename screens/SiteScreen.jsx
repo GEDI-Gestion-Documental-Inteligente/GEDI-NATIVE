@@ -20,6 +20,11 @@ export const SiteScreen = () => {
   const renderItem = ({ item }) => (
     <SiteItem
       siteData={item}
+      longPress={{
+        id: item.entry.site.guid,
+        siteName: item.entry.site.id,
+      }}
+      
       onPress={() => {
         navigation.navigate("Nodes", {
           id: item.entry.site.guid,
@@ -54,13 +59,11 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "auto",
     height: "100%",
-    backgroundColor: "#E6E7E6"
-
+    backgroundColor: "#E6E7E6",
   },
-  cardContainer:{
+  cardContainer: {
     flex: 1,
     alignItems: "center",
     height: "100vh",
-
-  }
-})
+  },
+});

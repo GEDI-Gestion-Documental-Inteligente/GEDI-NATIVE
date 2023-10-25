@@ -1,6 +1,6 @@
-import React from 'react';
-import { Text, View, Pressable, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import React, { useState } from "react";
+import { Text, View, Pressable, StyleSheet } from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
 
 const SiteItem = ({ siteData, onPress }) => {
   return (
@@ -9,7 +9,9 @@ const SiteItem = ({ siteData, onPress }) => {
 
         <View style={styles.infoContainer}>
           <Text style={styles.name}>{siteData.entry.site.title}</Text>
-          <Text style={styles.description}>{siteData.entry.site.description}</Text>
+          <Text style={styles.description}>
+            {siteData.entry.site.description}
+          </Text>
         </View>
       </Pressable>
     </View>
@@ -18,8 +20,8 @@ const SiteItem = ({ siteData, onPress }) => {
 
 const styles = StyleSheet.create({
   card: {
-    flexDirection: 'column',
-    backgroundColor: 'white',
+    flexDirection: "column",
+    backgroundColor: "white",
     borderRadius: 8,
     padding: 10,
     marginBottom: 10,
@@ -27,20 +29,19 @@ const styles = StyleSheet.create({
     width: 150,
     margin: 10,
     height: 150,
-
   },
- 
+
   infoContainer: {
-    position: "absolute"
+    position: "absolute",
   },
   name: {
     fontSize: 18,
-    fontWeight: 'bold',
-    color: "#03484c"
+    fontWeight: "bold",
+    color: "#03484c",
   },
   description: {
-    color: '#03484c',
-    fontSize: 12
+    color: "#03484c",
+    fontSize: 12,
   },
 });
 
