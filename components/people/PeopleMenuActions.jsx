@@ -7,27 +7,32 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import { useState } from "react";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { FormStatus } from "./FormStatus";
 import { FontAwesome5 } from '@expo/vector-icons';
+import { FormEditPeople } from "./FormEditPeople";
 
 export const PeopleMenuActions = ({ user }) => {
-  const [isMenuAccionVisible, setIsMenuAccionVisible] = useState(false);
-  const [isFormVisible, setIsFormVisible] = useState(false);
-  const [slideAnim] = useState(new Animated.Value(-50));
+  const [isMenuVisible, setisMenuVisible] = useState(false);
+  const [isFormStatusVisible, setIsFormStatusVisible] = useState(false);
+  const [isFormEditVisible, setIsFormEditVisible] = useState(false);
   const toggleMenu = () => {
-    setIsMenuAccionVisible(!isMenuAccionVisible);
+    setisMenuVisible(!isMenuVisible);
   };
 
   const closeMenu = () => {
-    setIsMenuAccionVisible(false);
+    setisMenuVisible(false);
   };
 
   const handleSubmit = () => {
-    setIsMenuAccionVisible(false);
-    setIsFormVisible(false);
+    setisMenuVisible(false);
+    setIsFormStatusVisible(false);
+  };
+
+  const handleSubmit2 = () => {
+    setisMenuVisible(false);
+    setIsFormEditVisible(false);
   };
   return (
     <View>
@@ -40,7 +45,7 @@ export const PeopleMenuActions = ({ user }) => {
       <Modal
         animationType="none"
         transparent={true}
-        visible={isMenuAccionVisible}
+        visible={isMenuVisible}
         onRequestClose={closeMenu}
       >
         <TouchableWithoutFeedback onPress={closeMenu}>
@@ -48,14 +53,14 @@ export const PeopleMenuActions = ({ user }) => {
             <View style={styles.dropdownContentAction}>
               <TouchableOpacity
                 style={styles.iconButton}
-                onPress={() => setIsFormVisible(true)}
+                onPress={() => setIsFormStatusVisible(true)}
               >
                 <FontAwesome5 name="user-cog" size={25} color="black" />
                 <Text style={styles.text}>Deshabilitar usuario</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.iconButton}
-                onPress={() => setIsFormVisible(true)}
+                onPress={() => setIsFormEditVisible(true)}
               >
                <FontAwesome5 name="user-edit" size={25} color="black" />
                 <Text style={styles.text}>Editar usuario</Text>
@@ -65,13 +70,13 @@ export const PeopleMenuActions = ({ user }) => {
         </TouchableWithoutFeedback>
       </Modal>
 
-      <Modal transparent={true} visible={isFormVisible} animationType="slide">
+      <Modal transparent={true} visible={isFormStatusVisible} animationType="slide">
         <FormStatus user={user} onSubmit={handleSubmit} />
       </Modal>
 
-      {/* <Modal transparent={true} visible={isFormVisible} animationType="slide">
-        <FormStatus user={user} onSubmit={handleSubmit} />
-      </Modal> */}
+      <Modal transparent={true} visible={isFormEditVisible} animationType="slide">
+        <FormEditPeople user={user} onSubmit={handleSubmit2} />
+      </Modal>
     </View>
   );
 };

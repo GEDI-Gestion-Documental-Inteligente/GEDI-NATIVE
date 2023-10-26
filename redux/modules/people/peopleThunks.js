@@ -75,7 +75,7 @@ export const createPeople = createAsyncThunk(
       const peopleCreated = response.data.newPerson;
       return peopleCreated;
     } catch (error) {
-      console.error("Error fetching people", error);
+      console.error("Error al crear una persona", error);
       return null;
     }
   }
@@ -98,7 +98,35 @@ export const searchPeopleForTerm = createAsyncThunk(
       const searchResult = response.data.resultQuery.list.entries;
       return searchResult;
     } catch (error) {
-      console.error("Error fetching people", error);
+      console.error("Error al buscar una persona", error);
+      return null;
+    }
+  }
+);
+
+export const editInformationPeople = createAsyncThunk(
+  "people/edit-information",
+  async ({ ticket, data, userId }) => {
+    const myheaders = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: ticket,
+      },
+    };
+
+    try {
+      const response = await axios.put(
+        `${url_base}/people/update/${userId}`,
+
+        data,
+        myheaders
+      );
+
+      const changedInformationPeople = response.data;
+      console.log(changedInformationPeople);
+      return changedInformationPeople;
+    } catch (error) {
+      console.error("Error al actualizar la información de la persona", error);
       return null;
     }
   }
@@ -117,16 +145,18 @@ export const changeStatusPeople = createAsyncThunk(
     try {
       const response = await axios.put(
         `${url_base}/people/manage-status/${userId}`,
-        myheaders,
+
         {
           enabled: value,
-        }
+        },
+        myheaders
       );
 
-      const changedPeople = response.data
-      return searchResult;
+      const changedPeople = response.data;
+      console.log(changedPeople);
+      return changedPeople;
     } catch (error) {
-      console.error("Error fetching people", error);
+      console.error("Error al cambiar el estado de la persona", error);
       return null;
     }
   }
