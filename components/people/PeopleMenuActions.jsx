@@ -7,28 +7,42 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import { useState } from "react";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { FormStatus } from "./FormStatus";
-import { FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome5 } from "@expo/vector-icons";
+import { FormEditPeople } from "./FormEditPeople";
+import { PeopleCard } from "./PeopleCard";
 
 export const PeopleMenuActions = ({ user }) => {
-  const [isMenuAccionVisible, setIsMenuAccionVisible] = useState(false);
-  const [isFormVisible, setIsFormVisible] = useState(false);
-  const [slideAnim] = useState(new Animated.Value(-50));
+  const [isMenuVisible, setisMenuVisible] = useState(false);
+  const [isFormStatusVisible, setIsFormStatusVisible] = useState(false);
+  const [isFormEditVisible, setIsFormEditVisible] = useState(false);
+  const [isDetailsVisible, setDetailsVisible] = useState(false);
+
   const toggleMenu = () => {
-    setIsMenuAccionVisible(!isMenuAccionVisible);
+    setisMenuVisible(!isMenuVisible);
   };
 
   const closeMenu = () => {
-    setIsMenuAccionVisible(false);
+    setisMenuVisible(false);
   };
 
   const handleSubmit = () => {
-    setIsMenuAccionVisible(false);
-    setIsFormVisible(false);
+    setisMenuVisible(false);
+    setIsFormStatusVisible(false);
   };
+
+  const handleSubmit2 = () => {
+    setisMenuVisible(false);
+    setIsFormEditVisible(false);
+  };
+
+  const handleSubmit3 = () => {
+    setisMenuVisible(false);
+    setDetailsVisible(false);
+  };
+
   return (
     <View>
       <TouchableOpacity onPress={toggleMenu}>
@@ -38,9 +52,9 @@ export const PeopleMenuActions = ({ user }) => {
       </TouchableOpacity>
 
       <Modal
-        animationType="none"
+        animationType="slide"
         transparent={true}
-        visible={isMenuAccionVisible}
+        visible={isMenuVisible}
         onRequestClose={closeMenu}
       >
         <TouchableWithoutFeedback onPress={closeMenu}>
@@ -48,30 +62,60 @@ export const PeopleMenuActions = ({ user }) => {
             <View style={styles.dropdownContentAction}>
               <TouchableOpacity
                 style={styles.iconButton}
-                onPress={() => setIsFormVisible(true)}
+                onPress={() => setIsFormEditVisible(true)}
               >
-                <FontAwesome5 name="user-cog" size={25} color="black" />
-                <Text style={styles.text}>Deshabilitar usuario</Text>
+                <FontAwesome5 name="user-edit" size={20} color="black" />
+                <Text style={styles.text}>Editar usuario</Text>
               </TouchableOpacity>
+
               <TouchableOpacity
                 style={styles.iconButton}
-                onPress={() => setIsFormVisible(true)}
+                onPress={() => setIsFormStatusVisible(true)}
               >
-               <FontAwesome5 name="user-edit" size={25} color="black" />
-                <Text style={styles.text}>Editar usuario</Text>
+                <FontAwesome5 name="user-cog" size={20} color="black" />
+                <Text style={styles.text}>Deshabilitar usuario</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.iconButton}
+                onPress={() => {
+                  setDetailsVisible(true);
+                }}
+              >
+                <FontAwesome5 name="info-circle" size={20} color="black" />
+                <Text style={styles.text}>Ver detalles</Text>
               </TouchableOpacity>
             </View>
           </View>
         </TouchableWithoutFeedback>
       </Modal>
 
-      <Modal transparent={true} visible={isFormVisible} animationType="slide">
+      <Modal
+        transparent={true}
+        visible={isFormStatusVisible}
+        animationType="slide"
+        onRequestClose={closeMenu}
+      >
         <FormStatus user={user} onSubmit={handleSubmit} />
       </Modal>
 
-      {/* <Modal transparent={true} visible={isFormVisible} animationType="slide">
-        <FormStatus user={user} onSubmit={handleSubmit} />
-      </Modal> */}
+      <Modal
+        transparent={true}
+        visible={isFormEditVisible}
+        animationType="slide"
+        onRequestClose={closeMenu}
+      >
+        <FormEditPeople user={user} onSubmit={handleSubmit2} />
+      </Modal>
+
+      <Modal
+        transparent={true}
+        visible={isDetailsVisible}
+        animationType="slide"
+        onRequestClose={closeMenu}
+      >
+        <PeopleCard user={user} onSubmit={handleSubmit3} />
+      </Modal>
     </View>
   );
 };
@@ -79,33 +123,31 @@ export const PeopleMenuActions = ({ user }) => {
 const styles = StyleSheet.create({
   modalOverlay: {
     flex: 1,
-    justifyContent: "flex-end",
+    alignItems: "flex-end",
+    backgroundColor: "rgba(0, 0, 0, 0.1)",
   },
   dropdownContentAction: {
-    display: "flex",
     backgroundColor: "white",
-    width: 'auto',
-    height: 'auto',
+    width: "100%",
+    height: "auto",
     elevation: 1,
-    top: 0,
-    right: 0,
-    margin: 25,
-    marginTop: 35,
+    bottom: 0,
     position: "absolute",
     borderWidth: 1,
     borderColor: "#ccc",
-    borderRadius: 10,
+    display: "flex",
+    flexDirection: "row",
     justifyContent: "center",
   },
   iconButton: {
     alignItems: "center",
-    flexDirection: "row",
-    padding: 15
+    flexDirection: "column",
+    padding: 15,
   },
   text: {
     marginLeft: 10,
     color: "black",
     fontWeight: "normal",
-    fontSize: 15,
+    fontSize: 10,
   },
 });

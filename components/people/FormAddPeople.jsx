@@ -3,7 +3,7 @@ import { View, TextInput, StyleSheet, Text, Pressable, TouchableOpacity } from "
 import { useDispatch, useSelector } from "react-redux";
 import { AntDesign } from '@expo/vector-icons'; 
 import {
-  createPeople,
+  createPeople, getPeople,
 } from "../../redux/modules/people/peopleThunks"; // Importa tu thunk de Redux
 
 export const FormAddPeople = ({ onSubmit }) => {
@@ -34,6 +34,7 @@ export const FormAddPeople = ({ onSubmit }) => {
     ) {
       await dispatch(createPeople({ ticket, data })); // Dispatch de la acción para agregar una persona
       onSubmit(); // Llama a la función onSubmit para cerrar el formulario o hacer otras acciones necesarias
+      await dispatch(getPeople({ticket}))
     } else {
       alert("Por favor, complete todos los campos.");
     }

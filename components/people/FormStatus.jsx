@@ -8,22 +8,29 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  changeStatusPeople,
+  getPeople,
+} from "../../redux/modules/people/peopleThunks";
 
 export const FormStatus = ({ user, onSubmit }) => {
-    const dispatch = useDispatch()
-  const [siteData, setSiteData] = useState({
+  const dispatch = useDispatch();
+  const ticket = useSelector((state) => state.auth.ticket);
+  const [status, setStatus] = useState({
     enabled: user.enabled,
   });
 
-  const handleInputChange = (field, value) => {
-    setSiteData({ ...siteData, [field]: value });
+  const handleInputChange = (value) => {
+    setStatus({ enabled: value });
   };
 
   const handleSubmit = async () => {
-    
+    await dispatch(
+      changeStatusPeople({ userId: user.id, value: status.enabled, ticket })
+    );
+    await dispatch(getPeople({ ticket }));
   };
-
   return (
     <View style={styles.modalOverlay}>
       <View style={styles.container}>
@@ -31,11 +38,11 @@ export const FormStatus = ({ user, onSubmit }) => {
           <AntDesign name="close" size={24} color="black" />
         </TouchableOpacity>
         <Text style={styles.title}>Deshabilitar o habilitar un usuario</Text>
-        
+
         <Picker
-          selectedValue={user.enabled}
+          selectedValue={status.enabled}
           style={styles.picker}
-          onValueChange={(itemValue) => handleInputChange("enabled", itemValue)}
+          onValueChange={(itemValue) => handleInputChange(itemValue)}
         >
           <Picker.Item label="Habilitar" value={true} />
           <Picker.Item label="Deshabilitar" value={false} />

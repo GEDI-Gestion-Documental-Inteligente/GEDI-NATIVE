@@ -4,6 +4,13 @@ import { PeopleMenuActions } from "./PeopleMenuActions";
 
 
 export const PeopleItem = ({ people }) => {
+  let state = null;
+
+  if(people.entry.enabled){
+     state = 'Activo'
+  }else{
+     state = 'Inactivo'
+  }
   return (
     <View style={styles.container}>
       <View>
@@ -11,9 +18,9 @@ export const PeopleItem = ({ people }) => {
           {people.entry.firstName} {people.entry.lastName}
         </Text>
         <Text style={styles.description}>{people.entry.id}</Text>
-        <Text style={styles.description}>{people.entry.jobTitle}</Text>
+        <Text style={styles.description}>Estado: {state} </Text>
       </View>
-      <PeopleMenuActions user={people}/>
+      <PeopleMenuActions user={people.entry}/>
     </View>
   );
 };
