@@ -3,10 +3,10 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { ActivitiesScreen } from "../screens/ActivitiesScreen";
 import { Entypo } from "@expo/vector-icons";
 import { ChatScreen } from "../screens/ChatAlfredo";
-import { StackNodes } from "./StackNodes";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { StackNavigator } from "./StackNavigator";
 
 const Tab = createBottomTabNavigator();
 
@@ -22,7 +22,7 @@ const TabNavigator = () => {
           ),
           headerShown: false,
         }}
-        component={StackNodes}
+        component={StackNavigator}
       />
 
       <Tab.Screen

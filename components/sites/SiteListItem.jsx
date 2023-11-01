@@ -1,10 +1,18 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 export const SiteListItem = ({ site }) => {
+  const navigation = useNavigation();
+
   const siteData = site.entry.site ? site.entry.site : site.entry;
+
   return (
-    <TouchableOpacity>
+    <TouchableOpacity
+      onPress={() => {
+        navigation.navigate("InformationSite",  {siteData} );
+      }}
+    >
       <View style={styles.container}>
         <View>
           <Text style={styles.name}>{siteData.title}</Text>

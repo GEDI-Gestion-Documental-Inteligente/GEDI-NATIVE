@@ -5,10 +5,11 @@ import { NodeChildScreen } from "../screens/NodeChildScreen";
 import { NodeContent } from "../components/nodes/NodeContent";
 import { PeopleScreen } from "../screens/PeopleScreen";
 import { SitesListScreen } from "../screens/SitesListScreen";
+import { InformationSite } from "../screens/InformationSite";
 
 const Stack = createNativeStackNavigator();
 
-export const StackNodes = () => {
+export const StackNavigator = () => {
   return (
     <Stack.Navigator initialRouteName="Sites">
       <Stack.Screen
@@ -30,6 +31,12 @@ export const StackNodes = () => {
       <Stack.Screen
         name="SitesList"
         component={SitesListScreen}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="InformationSite"
+        component={InformationSite}
         options={{ headerShown: false }}
       />
 
