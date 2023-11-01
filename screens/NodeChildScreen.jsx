@@ -20,14 +20,10 @@ import { MenuActions } from "../components/nodes/MenuActions";
 export const NodeChildScreen = ({ route }) => {
   const { id, siteName } = route.params;
   const ticket = useSelector((state) => state.auth.ticket);
-  const [isModalVisible, setModalVisible] = useState(false);
-  const [nodeName, setNodeName] = useState("");
-  const [selectedNodeType, setSelectedNodeType] = useState("cm:content");
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const nodesChildren = useSelector((state) => state.nodes.nodes);
   const resultSearch = useSelector((state) => state.nodes.searchNodes);
-  const [nodeHistory, setNodeHistory] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -65,32 +61,13 @@ export const NodeChildScreen = ({ route }) => {
         ticket,
         id: node.entry.id,
       });
-      setNodeHistory([...nodeHistory, node]);
-    }
-  };
-  const handleGoBack = () => {
-    // Obtiene el último nodo visitado desde el historial
-    const lastVisitedNode = nodeHistory.pop();
-
-    if (lastVisitedNode) {
-      // Navega al último nodo visitado
-      navigation.navigate("Nodes", {
-        ticket,
-        id: lastVisitedNode.entry.id,
-      });
-
-      // Actualiza el historial de nodos visitados
-      setNodeHistory([...nodeHistory]);
-    } else {
-      // Si no hay nodos en el historial, simplemente navega hacia atrás
-      navigation.goBack();
     }
   };
 
   return (
     <View style={styles.container}>
       <View>
-        <MenuActions />
+        <MenuActions children={id}/>
       </View>
 
       {nodesChildren.length || (resultSearch && resultSearch.length) ? (
@@ -113,27 +90,7 @@ export const NodeChildScreen = ({ route }) => {
         <Text>No hay carpetas hijas o nodos hijos.</Text>
       )}
 
-      <Modal visible={isModalVisible} animationType="slide">
-        <View>
-          <Text>Crear Nuevo Nodo</Text>
-          <TextInput
-            placeholder="Nombre del nodo"
-            value={nodeName}
-            onChangeText={(text) => setNodeName(text)}
-          />
-          <Picker
-            selectedValue={selectedNodeType}
-            onValueChange={(itemValue) => setSelectedNodeType(itemValue)}
-          >
-            <Picker.Item label="Archivo" value="cm:content" />
-            <Picker.Item label="Carpeta" value="cm:folder" />
-            {/* Add more types as needed */}
-          </Picker>
-          {/* <Button title="Crear" onPress={createNode} /> */}
-          <Button title="Cancelar" onPress={() => setModalVisible(false)} />
-        </View>
-      </Modal>
-      {/* <Button title="Atrás" onPress={handleGoBack} /> */}
+      
     </View>
   );
 };

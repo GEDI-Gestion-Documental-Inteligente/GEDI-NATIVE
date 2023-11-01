@@ -27,6 +27,26 @@ export const getNodes = createAsyncThunk(
   }
 );
 
+export const createFolder = createAsyncThunk(
+  "nodes/createFolder",
+  async({ id, ticket, nodeData }) => {
+    const myheaders = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: ticket,
+      }
+    }
+
+    try {
+      const response = await axios.post(`${url_base}/nodes/${id}/create-folder`, nodeData, myheaders)
+      return response.data.alfrescoNodes.entry
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
+)
+
 export const fetchContentNode = createAsyncThunk(
   "nodes/getContentNode",
   async ({ id, ticket }) => {

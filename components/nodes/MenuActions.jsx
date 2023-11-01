@@ -1,4 +1,3 @@
-import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import {
   View,
@@ -8,17 +7,15 @@ import {
   TouchableWithoutFeedback,
   StyleSheet,
 } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import { logoutAndClearTicket } from "../../redux/modules/authLogin/authThunks";
 import { AntDesign } from "@expo/vector-icons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { SearchNodes } from "./SearchNodes";
+import { FormAddNode } from "./FormAddNode";
 
-export const MenuActions = () => {
-  const ticket = useSelector((state) => state.auth.ticket);
-  const navigate = useNavigation();
-  const dispatch = useDispatch();
+export const MenuActions = ({ children }) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
+
 
   const toggleDropdown = () => {
     setIsMenuVisible(!isMenuVisible);
@@ -28,13 +25,14 @@ export const MenuActions = () => {
     setIsMenuVisible(false);
   };
 
+  const handleClose = () => {
+    setModalVisible(false)
+  }
+
   return (
     <View style={styles.menuContainer}>
       <View style={styles.containerTab}>
-
         <SearchNodes />
-
-
         <View style={styles.menuButton}>
           <TouchableOpacity style={styles.menuItem} onPress={toggleDropdown}>
             <AntDesign name="addfolder" size={40} color="#03484c" />
@@ -56,22 +54,18 @@ export const MenuActions = () => {
             <View style={styles.dropdownContent}>
               <TouchableOpacity
                 style={styles.iconButton}
-                onPress={() => navigate.navigate("newFolder")}
+                onPress={() => setModalVisible(true)}
               >
                 <Ionicons name="md-folder-open" size={40} color="#03484c" />
                 <Text>Nueva carpeta</Text>
               </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.iconButton}
-                onPress={() => navigate.navigate("newContent")}
-              >
-                <Ionicons name="md-cloud-upload" size={40} color="#03484c" />
-                <Text>Subir archivo</Text>
-              </TouchableOpacity>
             </View>
           </View>
         </TouchableWithoutFeedback>
+      </Modal>
+
+      <Modal visible={isModalVisible} animationType="slide" transparent={true}>
+        <FormAddNode handleClose={handleClose} children={children} closeDropdown={closeDropdown}/>
       </Modal>
     </View>
   );

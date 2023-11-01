@@ -27,7 +27,7 @@ export const SiteScreen = () => {
       
       onPress={() => {
         navigation.navigate("Nodes", {
-          id: item.entry.site.guid,
+          id: null,
           siteName: item.entry.site.id,
         });
       }}
