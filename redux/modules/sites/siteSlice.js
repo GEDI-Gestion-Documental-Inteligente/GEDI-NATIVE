@@ -3,6 +3,7 @@ import {
   createSite,
   getContainerDocumentLibrary,
   getMySites,
+  searchSiteFormTerm,
 } from "./SitesThunks";
 
 const siteSlice = createSlice({
@@ -11,8 +12,13 @@ const siteSlice = createSlice({
     sites: [],
     loading: "idle",
     containerDL: "",
+    resultSearch: []
   },
-  reducers: {},
+  reducers: {
+    clearSearch: state => {
+      state.resultSearch = [];
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getMySites.pending, (state) => {
       state.loading = "pending";
@@ -34,7 +40,14 @@ const siteSlice = createSlice({
     builder.addCase(createSite.fulfilled, (state, action) => {
       state.loading = "success";
     });
+    builder.addCase(searchSiteFormTerm.fulfilled, (state, action)=>{
+      state.resultSearch = action.payload
+    });
+    builder.addCase(searchSiteFormTerm.rejected, (state)=>{
+      state.resultSearch = []
+    })
   },
 });
 
 export default siteSlice.reducer;
+export const { clearSearch } = siteSlice.actions;

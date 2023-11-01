@@ -12,11 +12,9 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { logoutAndClearTicket } from "../redux/modules/authLogin/authThunks";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import FormAddSite from "./sites/FormAddSite";
 import { FontAwesome } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
-import { SimpleLineIcons } from "@expo/vector-icons";
 
 const DropdownMenu = () => {
   const ticket = useSelector((state) => state.auth.ticket);
@@ -24,8 +22,6 @@ const DropdownMenu = () => {
   const navigate = useNavigation();
   const dispatch = useDispatch();
   const [isMenuVisible, setIsMenuVisible] = useState(false);
-  const [isMenuAccionVisible, setIsMenuAccionVisible] = useState(false);
-  const [isFormVisible, setIsFormVisible] = useState(false);
   const [slideAnim] = useState(new Animated.Value(-50));
 
   useEffect(() => {
@@ -52,28 +48,11 @@ const DropdownMenu = () => {
     setIsMenuVisible(false);
   };
 
-  const toggleMenu = () => {
-    setIsMenuAccionVisible(!isMenuAccionVisible);
-  };
-
-  const closeMenu = () => {
-    setIsMenuAccionVisible(false);
-  };
-
-  const handleSubmit = (siteData) => {
-    setIsMenuAccionVisible(false);
-    setIsFormVisible(false);
-  };
-
   return (
     <View style={styles.menuContainer}>
       <View style={styles.containerButtons}>
         <TouchableOpacity style={styles.menuButton} onPress={toggleDropdown}>
           <Ionicons name="md-menu" size={45} color="#03484c" />
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.menuButton} onPress={toggleMenu}>
-          <SimpleLineIcons name="options-vertical" size={30} color="#03484c" />
         </TouchableOpacity>
       </View>
 
@@ -118,14 +97,14 @@ const DropdownMenu = () => {
 
                 <TouchableOpacity
                   style={styles.iconButton}
-                  onPress={() => navigate.navigate("Profile")}
+                  onPress={() => navigate.navigate("SitesList")}
                 >
                   <MaterialIcons
                     name="workspaces-filled"
                     size={25}
                     color="white"
                   />
-                  <Text style={styles.text}>Gestionat sitios</Text>
+                  <Text style={styles.text}>Gestionar sitios</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -149,32 +128,6 @@ const DropdownMenu = () => {
             </Animated.View>
           </View>
         </TouchableWithoutFeedback>
-      </Modal>
-
-      {/* MODAL DE ACCIONES DE LA SCREEN SITIOS  */}
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={isMenuAccionVisible}
-        onRequestClose={closeMenu}
-      >
-        <TouchableWithoutFeedback onPress={closeMenu}>
-          <View style={styles.modalOverlayAction}>
-            <View style={styles.dropdownContentAction}>
-              <TouchableOpacity
-                style={styles.iconButton}
-                onPress={() => setIsFormVisible(true)}
-              >
-                <Ionicons name="md-add" size={40} color="#03484c" />
-                <Text style={styles.textAction}>Crear sitio nuevo</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </TouchableWithoutFeedback>
-      </Modal>
-
-      <Modal visible={isFormVisible} animationType="slide">
-        <FormAddSite onSubmit={handleSubmit} />
       </Modal>
     </View>
   );

@@ -4,6 +4,7 @@ import { SiteScreen } from "../screens/SiteScreen";
 import { NodeChildScreen } from "../screens/NodeChildScreen";
 import { NodeContent } from "../components/nodes/NodeContent";
 import { PeopleScreen } from "../screens/PeopleScreen";
+import { SitesListScreen } from "../screens/SitesListScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,12 @@ export const StackNodes = () => {
       <Stack.Screen
         name="People"
         component={PeopleScreen}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="SitesList"
+        component={SitesListScreen}
         options={{ headerShown: false }}
       />
 

@@ -1,31 +1,33 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { Children } from "react";
 
-export const getMySites = createAsyncThunk("sites/getMySites", async () => {
-  try {
-    const ticket = await AsyncStorage.getItem("ticket"); // Obtener el ticket desde AsyncStorage
-    if (!ticket) {
-      throw new Error("Ticket no encontrado"); // Manejar caso donde no haya ticket
+const url_base = process.env.EXPO_PUBLIC_API_URL;
+export const getMySites = createAsyncThunk(
+  "sites/getMySites",
+  async ({ ticket }) => {
+    try {
+      if (!ticket) {
+        throw new Error("Ticket no encontrado");
+      }
+      const url_base = process.env.EXPO_PUBLIC_API_URL;
+      const myheaders = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: ticket,
+        },
+      };
+
+      const response = await axios.get(`${url_base}/sites/my-sites`, myheaders);
+      const listSites = response.data.mysites.list.entries;
+      return listSites;
+    } catch (error) {
+      console.log(error.response);
+      throw error;
     }
-    const url_base = process.env.EXPO_PUBLIC_API_URL;
-    const myheaders = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: ticket,
-      },
-    };
-
-    const response = await axios.get(`${url_base}/sites/my-sites`, myheaders);
-    const listSites = response.data.mysites.list.entries;
-    return listSites;
-  } catch (error) {
-    console.log(error.response);
-    throw error;
   }
-});
+);
 
 export const getContainerDocumentLibrary = createAsyncThunk(
   "sites/getDocumentLibrary",
@@ -35,7 +37,7 @@ export const getContainerDocumentLibrary = createAsyncThunk(
       if (!ticket) {
         throw new Error("Ticket no encontrado"); // Manejar caso donde no haya ticket
       }
-      const url_base = process.env.EXPO_PUBLIC_API_URL;
+
       const myheaders = {
         method: "GET",
         headers: {
@@ -62,33 +64,54 @@ export const getContainerDocumentLibrary = createAsyncThunk(
   }
 );
 
-export const createSite = createAsyncThunk(
-  "sites/createSite",
-  async ( data ) => {
-    try {
-      console.log('data', data)
-      const ticket = await AsyncStorage.getItem("ticket"); // Obtener el ticket desde AsyncStorage
-      if (!ticket) {
-        throw new Error("Ticket no encontrado"); // Manejar caso donde no haya ticket
-      }
-      const url_base = process.env.EXPO_PUBLIC_API_URL;
-      const myheaders = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: ticket,
-        },
-      };
+export const createSite = createAsyncThunk("sites/createSite", async (data) => {
+  try {
+    console.log("data", data);
+    const ticket = await AsyncStorage.getItem("ticket"); // Obtener el ticket desde AsyncStorage
+    if (!ticket) {
+      throw new Error("Ticket no encontrado"); // Manejar caso donde no haya ticket
+    }
+    const url_base = process.env.EXPO_PUBLIC_API_URL;
+    const myheaders = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: ticket,
+      },
+    };
 
-      const response = await axios.post(
-        `${url_base}/sites/create`,
-        data,
-        myheaders
+    const response = await axios.post(
+      `${url_base}/sites/create`,
+      data,
+      myheaders
+    );
+
+    console.log(response.data);
+  } catch (error) {
+    console.log(error.response);
+    throw error;
+  }
+});
+
+export const searchSiteFormTerm = createAsyncThunk(
+  "sites/search-sites",
+  async ({ ticket, term }) => {
+    try {
+      const response = await axios.get(
+        `${url_base}/queries/searchSites?term=${term}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: ticket,
+          },
+        }
       );
 
-      console.log(response.data);
+      const searchResult = response.data.resultQuery.list.entries;
+      console.log("res: ", searchResult);
+      return searchResult;
     } catch (error) {
-      console.log(error.response);
-      throw error;
+      console.error("Error al buscar un sitio", error);
+      return null;
     }
   }
 );
