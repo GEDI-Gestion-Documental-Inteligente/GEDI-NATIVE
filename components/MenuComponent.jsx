@@ -82,14 +82,14 @@ const DropdownMenu = () => {
               <View style={styles.bodyMenu}>
                 <TouchableOpacity
                   style={styles.iconButton}
-                  onPress={() => navigate.navigate("Profile")}
+                  onPress={() => {}}
                 >
                   <Ionicons name="md-person" size={25} color="white" />
                   <Text style={styles.text}>Perfil</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.iconButton}
-                  onPress={() => navigate.navigate("Profile")}
+                  onPress={() => {}}
                 >
                   <Ionicons name="notifications" size={25} color="white" />
                   <Text style={styles.text}>Notificaciones</Text>
