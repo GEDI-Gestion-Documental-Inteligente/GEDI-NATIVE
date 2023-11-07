@@ -2,25 +2,25 @@ import { Pressable, StyleSheet } from "react-native";
 import { View } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { Text } from "react-native";
+import { SiteActivitiesList } from "../components/sites/SiteActivitiesList";
+import { SiteMembersList } from "../components/sites/SiteMembersList";
 
 export const InformationSite = ({ route }) => {
   const { siteData } = route.params;
-  console.log(siteData);
   return (
     <View style={styles.container}>
       <View style={styles.containerSiteTab}>
-        <AntDesign name="setting" size={30} color="black" />
-        <AntDesign name="adduser" size={30} color="black" />
-
-        <Pressable style={styles.buttonMember}>
-          <Text style={styles.textButton}>Miembros del sitio</Text>
-        </Pressable>
+        <AntDesign name="setting" size={30} color="#03484c" />
+        <AntDesign name="adduser" size={30} color="#03484c"/>
       </View>
       <View style={styles.bodySiteInformation}>
         <Text style={styles.titleSite}>{siteData.title}</Text>
         <Text style={styles.subtitleSite}>{siteData.description}</Text>
         <Text style={styles.subtitleSite}>{siteData.visibility}</Text>
       </View>
+
+      <SiteActivitiesList siteData={siteData} />
+      <SiteMembersList siteData={siteData} />
     </View>
   );
 };
@@ -29,11 +29,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
+    padding: 15,
   },
   containerSiteTab: {
     display: "flex",
     flexDirection: "row-reverse",
-    padding: 10,
   },
   buttonMember: {
     paddingVertical: 8,
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   },
   textButton: {
     fontSize: 15,
-    color:'white'
+    color: "white",
   },
   bodySiteInformation: {
     flex: 1,
@@ -51,13 +51,17 @@ const styles = StyleSheet.create({
   titleSite: {
     fontSize: 25,
     fontWeight: "normal",
-    paddingHorizontal: 10,
-    color: '#03484c'
+    color: "#03484c",
   },
   subtitleSite: {
     fontSize: 15,
     fontWeight: "normal",
-    paddingHorizontal: 10,
-    color: "#273746",
+    color: "#888888",
+  },
+  emptyText: {
+    fontSize: 16,
+    color: "#888888",
+    alignSelf: "center",
+    marginTop: 20,
   },
 });

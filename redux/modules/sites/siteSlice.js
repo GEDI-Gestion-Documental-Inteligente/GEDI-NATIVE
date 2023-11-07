@@ -3,6 +3,8 @@ import {
   createSite,
   getContainerDocumentLibrary,
   getMySites,
+  getSiteActivities,
+  getSiteMembers,
   searchSiteFormTerm,
 } from "./SitesThunks";
 
@@ -12,7 +14,9 @@ const siteSlice = createSlice({
     sites: [],
     loading: "idle",
     containerDL: "",
-    resultSearch: []
+    resultSearch: [],
+    siteActivities: [],
+    siteMembers:[]
   },
   reducers: {
     clearSearch: state => {
@@ -45,6 +49,12 @@ const siteSlice = createSlice({
     });
     builder.addCase(searchSiteFormTerm.rejected, (state)=>{
       state.resultSearch = []
+    });
+    builder.addCase(getSiteActivities.fulfilled, (state, action) => {
+      state.siteActivities = action.payload
+    })
+    builder.addCase(getSiteMembers.fulfilled, (state, action) =>{
+      state.siteMembers = action.payload
     })
   },
 });

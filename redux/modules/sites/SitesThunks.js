@@ -115,3 +115,52 @@ export const searchSiteFormTerm = createAsyncThunk(
     }
   }
 );
+export const getSiteActivities = createAsyncThunk(
+  "people/get-site-activities",
+  async ({ ticket, idSite }) => {
+    const myheaders = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: ticket,
+      },
+    };
+
+    try {
+      const response = await axios.get(
+        `${url_base}/people//activities-site/${idSite}`,
+        myheaders
+      );
+
+      const siteActivities = response.data.siteActivities.list.entries;
+      return siteActivities;
+    } catch (error) {
+      console.error("Error al recuperar las actividades", error);
+      return null;
+    }
+  }
+);
+
+export const getSiteMembers = createAsyncThunk(
+  "sites/get-site-members",
+  async ({ ticket, idSite }) => {
+    const myheaders = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: ticket,
+      },
+    };
+
+    try {
+      const response = await axios.get(
+        `${url_base}/sites/all-members/${idSite}`,
+        myheaders
+      );
+
+      const siteMembers = response.data.alfrescoSiteMembers.list.entries;
+      return siteMembers;
+    } catch (error) {
+      console.error("Error al recuperar los miembros del sitio", error);
+      return null;
+    }
+  }
+);
