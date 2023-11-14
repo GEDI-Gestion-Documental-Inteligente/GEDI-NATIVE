@@ -26,7 +26,7 @@ export const SiteActivitiesList = ({ siteData }) => {
           data={siteActivities}
           ListHeaderComponent={
             <View style={styles.header}>
-              <Text style={styles.headerTitle}>Miembros del sitio</Text>
+              <Text style={styles.headerTitle}>Tus ultimas actividades</Text>
             </View>
           }
           renderItem={(item) => <SiteActivityItem site={item} />}

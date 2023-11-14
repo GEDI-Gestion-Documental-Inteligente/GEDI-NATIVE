@@ -6,8 +6,13 @@ import { StyleSheet } from "react-native";
 import { SiteMemberItem } from "./SiteMemberItem";
 import { Pressable } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import { useContext } from "react";
+import siteContext from "../../context/sites/siteContext";
 
-export const SiteMembersList = ({ siteData }) => {
+export const SiteMembersList = () => {
+  const { siteData } = useContext(siteContext);
+  const navigation = useNavigation();
   const dispatch = useDispatch();
   const ticket = useSelector((state) => state.auth.ticket);
   const siteMembers = useSelector((state) => state.sites.siteMembers);
@@ -15,7 +20,7 @@ export const SiteMembersList = ({ siteData }) => {
   useEffect(() => {
     if (siteData.id) {
       const getMembers = async () => {
-        await dispatch(getSiteMembers({ ticket, idSite: siteData.id }));
+        await dispatch(getSiteMembers({ ticket, siteId: siteData.id }));
       };
       getMembers();
     }
@@ -33,12 +38,12 @@ export const SiteMembersList = ({ siteData }) => {
               </View>
 
               <View style={styles.headerTab}>
-                <Pressable style={styles.button}>
-                  <Text style={styles.textTab}>Añadir miembro</Text>
-                  <AntDesign name="adduser" size={20} color="#03484c" />
-                </Pressable>
-
-                <Pressable style={styles.button}>
+                <Pressable
+                  style={styles.button}
+                  onPress={() => {
+                    navigation.navigate("ManageSiteMembers", { siteData });
+                  }}
+                >
                   <Text style={styles.textTab}>Ver más</Text>
                 </Pressable>
               </View>

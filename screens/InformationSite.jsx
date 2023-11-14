@@ -4,24 +4,27 @@ import { AntDesign } from "@expo/vector-icons";
 import { Text } from "react-native";
 import { SiteActivitiesList } from "../components/sites/SiteActivitiesList";
 import { SiteMembersList } from "../components/sites/SiteMembersList";
-
+import siteContext from "../context/sites/siteContext";
 export const InformationSite = ({ route }) => {
   const { siteData } = route.params;
-  return (
-    <View style={styles.container}>
-      <View style={styles.containerSiteTab}>
-        <AntDesign name="setting" size={30} color="#03484c" />
-        <AntDesign name="adduser" size={30} color="#03484c"/>
-      </View>
-      <View style={styles.bodySiteInformation}>
-        <Text style={styles.titleSite}>{siteData.title}</Text>
-        <Text style={styles.subtitleSite}>{siteData.description}</Text>
-        <Text style={styles.subtitleSite}>{siteData.visibility}</Text>
-      </View>
 
-      <SiteActivitiesList siteData={siteData} />
-      <SiteMembersList siteData={siteData} />
-    </View>
+  return (
+    <siteContext.Provider value={{siteData}}>
+      <View style={styles.container}>
+        <View style={styles.containerSiteTab}>
+          <AntDesign name="setting" size={30} color="#03484c" />
+          <AntDesign name="adduser" size={30} color="#03484c" />
+        </View>
+        <View style={styles.bodySiteInformation}>
+          <Text style={styles.titleSite}>{siteData.title}</Text>
+          <Text style={styles.subtitleSite}>{siteData.description}</Text>
+          <Text style={styles.subtitleSite}>{siteData.visibility}</Text>
+        </View>
+
+        <SiteActivitiesList siteData={siteData} />
+        <SiteMembersList siteData={siteData} />
+      </View>
+    </siteContext.Provider>
   );
 };
 

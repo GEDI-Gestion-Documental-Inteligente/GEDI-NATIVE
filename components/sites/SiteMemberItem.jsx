@@ -2,7 +2,6 @@ import { StyleSheet, Text, View } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
 export const SiteMemberItem = ({ member }) => {
-  console.log(member);
   return (
     <View style={styles.item}>
       <View  style={styles.icon}>

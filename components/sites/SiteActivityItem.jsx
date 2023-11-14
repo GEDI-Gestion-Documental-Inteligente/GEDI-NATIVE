@@ -3,7 +3,6 @@ import { StyleSheet, Text, View } from "react-native";
 
 export const SiteActivityItem = ( {site} ) => {
   const { item } = site
-  console.log(item)
   return (
     <View style={styles.activityContainer}>
       <Text style={styles.activityType}>
