@@ -47,6 +47,26 @@ export const createFolder = createAsyncThunk(
   }
 )
 
+export const uploadContent = createAsyncThunk(
+  "nodes/uploadContent",
+  async({ id, ticket, formData}) => {
+    const myheaders = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: ticket,
+      }
+    }
+
+    try {
+      const response = await axios.post(`${url_base}/nodes/${id}/upload-content`, formData, myheaders)
+      return response.data.alfrescoContent.entry
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
+)
+
 export const fetchContentNode = createAsyncThunk(
   "nodes/getContentNode",
   async ({ id, ticket }) => {
