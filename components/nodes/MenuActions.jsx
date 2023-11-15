@@ -11,13 +11,15 @@ import { AntDesign } from "@expo/vector-icons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { SearchNodes } from "./SearchNodes";
 import { FormAddNode } from "./FormAddNode";
+import { FormUploadContent } from "./FormUploadContent";
 
 export const MenuActions = ({ children }) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
+  const [isUploadModalVisible, setUploadModalVisible] = useState(false);
 
 
-  const toggleDropdown = () => {
+  const toggleMenu = () => {
     setIsMenuVisible(!isMenuVisible);
   };
 
@@ -34,11 +36,8 @@ export const MenuActions = ({ children }) => {
       <View style={styles.containerTab}>
         <SearchNodes />
         <View style={styles.menuButton}>
-          <TouchableOpacity style={styles.menuItem} onPress={toggleDropdown}>
-            <AntDesign name="addfolder" size={40} color="#03484c" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.menuItem}>
-            <AntDesign name="upload" size={40} color="#03484c" />
+          <TouchableOpacity onPress={toggleMenu}>
+            <Ionicons name="md-add" size={45} color="#03484c" />
           </TouchableOpacity>
         </View>
       </View>
@@ -59,13 +58,23 @@ export const MenuActions = ({ children }) => {
                 <Ionicons name="md-folder-open" size={40} color="#03484c" />
                 <Text>Nueva carpeta</Text>
               </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.iconButton}
+                onPress={() => setModalVisible(true)}
+              >
+                <Ionicons name="cloud-upload" size={40} color="#03484c" />
+                <Text>Subir Archivo</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </TouchableWithoutFeedback>
       </Modal>
 
       <Modal visible={isModalVisible} animationType="slide" transparent={true}>
-        <FormAddNode handleClose={handleClose} children={children} closeDropdown={closeDropdown}/>
+        <FormAddNode handleClose={handleClose} children={children} closeDropdown={closeDropdown} />
+      </Modal>
+      <Modal visible={isModalVisible} animationType="slide" transparent={true}>
+        <FormUploadContent handleClose={handleClose} children={children} closeDropdown={closeDropdown} />
       </Modal>
     </View>
   );
@@ -118,7 +127,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     height: 60,
-    alignItems:"center",
+    alignItems: "center",
     padding: 5
   },
 });
