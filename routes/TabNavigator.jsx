@@ -41,7 +41,7 @@ const TabNavigator = () => {
         component={ActivitiesScreen}
       />
 
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Tareas"
         options={{
           tabBarLabel: "Tareas",
@@ -51,7 +51,7 @@ const TabNavigator = () => {
           headerShown: false,
         }}
         component={ChatScreen}
-      />
+      /> */}
 
       <Tab.Screen
         name="Chat"
@@ -60,6 +60,7 @@ const TabNavigator = () => {
             <Ionicons name="md-chatbubble" size={30} color="#03484c" />
           ),
           headerShown: false,
+          
         }}
         component={ChatScreen}
       />

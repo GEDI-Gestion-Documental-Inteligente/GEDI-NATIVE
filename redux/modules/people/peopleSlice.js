@@ -6,7 +6,7 @@ const initialState = {
     loading: 'idle',
     people: [],
     loadingPeople: 'idle',
-    searchPeople:[]
+    searchPeople:[],
 }
 const peopleSlice = createSlice({
     name: "people",
