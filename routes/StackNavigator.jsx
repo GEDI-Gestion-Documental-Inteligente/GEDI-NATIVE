@@ -4,10 +4,13 @@ import { SiteScreen } from "../screens/SiteScreen";
 import { NodeChildScreen } from "../screens/NodeChildScreen";
 import { NodeContent } from "../components/nodes/NodeContent";
 import { PeopleScreen } from "../screens/PeopleScreen";
-
+import { SitesListScreen } from "../screens/SitesListScreen";
+import { InformationSite } from "../screens/InformationSite";
+import { ManageSiteMembers } from "../components/sites/ManageSiteMembers";
+import { SiteMembersScreen } from "../screens/SiteMembersScreen";
 const Stack = createNativeStackNavigator();
 
-export const StackNodes = () => {
+export const StackNavigator = () => {
   return (
     <Stack.Navigator initialRouteName="Sites">
       <Stack.Screen
@@ -23,6 +26,25 @@ export const StackNodes = () => {
       <Stack.Screen
         name="People"
         component={PeopleScreen}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="SitesList"
+        component={SitesListScreen}
+        options={{ headerShown: false }}
+      />
+
+
+      <Stack.Screen
+        name="InformationSite"
+        component={InformationSite}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="ManageSiteMembers"
+        component={SiteMembersScreen}
         options={{ headerShown: false }}
       />
 

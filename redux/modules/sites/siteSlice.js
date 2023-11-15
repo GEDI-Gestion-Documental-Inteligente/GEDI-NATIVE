@@ -3,6 +3,9 @@ import {
   createSite,
   getContainerDocumentLibrary,
   getMySites,
+  getSiteActivities,
+  getSiteMembers,
+  searchSiteFormTerm,
 } from "./SitesThunks";
 
 const siteSlice = createSlice({
@@ -11,8 +14,15 @@ const siteSlice = createSlice({
     sites: [],
     loading: "idle",
     containerDL: "",
+    resultSearch: [],
+    siteActivities: [],
+    siteMembers:[]
   },
-  reducers: {},
+  reducers: {
+    clearSearch: state => {
+      state.resultSearch = [];
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getMySites.pending, (state) => {
       state.loading = "pending";
@@ -34,7 +44,20 @@ const siteSlice = createSlice({
     builder.addCase(createSite.fulfilled, (state, action) => {
       state.loading = "success";
     });
+    builder.addCase(searchSiteFormTerm.fulfilled, (state, action)=>{
+      state.resultSearch = action.payload
+    });
+    builder.addCase(searchSiteFormTerm.rejected, (state)=>{
+      state.resultSearch = []
+    });
+    builder.addCase(getSiteActivities.fulfilled, (state, action) => {
+      state.siteActivities = action.payload
+    })
+    builder.addCase(getSiteMembers.fulfilled, (state, action) =>{
+      state.siteMembers = action.payload
+    })
   },
 });
 
 export default siteSlice.reducer;
+export const { clearSearch } = siteSlice.actions;

@@ -14,7 +14,7 @@ export const SiteScreen = () => {
   const sites = useSelector((state) => state.sites.sites);
 
   useEffect(() => {
-    dispatch(getMySites());
+    dispatch(getMySites({ticket}));
   }, []);
 
   const renderItem = ({ item }) => (
