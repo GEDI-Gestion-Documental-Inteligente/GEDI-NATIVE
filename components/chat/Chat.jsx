@@ -37,17 +37,7 @@ export const Chat = () => {
     setShowModal(!showModal);
   };
 
-  const handleUploadFile = () => {
-    // Implement file upload functionality here
-    console.log("Uploading file...");
-    setShowModal(false);
-  };
 
-  const handleRecordAudio = () => {
-    // Implement audio recording functionality here
-    console.log("Recording audio...");
-    setShowModal(false);
-  };
 
   return (
     <View style={{ flex: 1 }}>
@@ -97,15 +87,15 @@ export const Chat = () => {
         <TouchableWithoutFeedback onPress={handleToggleModal}>
           <View style={styles.modalOverlay}>
             <View style={styles.modalContent}>
-              <Pressable onPress={handleUploadFile} style={styles.modalOption}>
+              <Pressable style={styles.modalOption}>
                 <AntDesign name="paperclip" size={24} color="black" />
               </Pressable>
 
-              <Pressable onPress={handleRecordAudio} style={styles.modalOption}>
+              <Pressable style={styles.modalOption}>
                 <FontAwesome5 name="file-import" size={24} color="black" />
               </Pressable>
 
-              <Pressable onPress={handleUploadFile} style={styles.modalOption}>
+              <Pressable style={styles.modalOption}>
                 <AntDesign name="barchart" size={24} color="black" />
               </Pressable>
             </View>
