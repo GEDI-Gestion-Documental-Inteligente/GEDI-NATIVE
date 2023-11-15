@@ -8,6 +8,7 @@ import { SitesListScreen } from "../screens/SitesListScreen";
 import { InformationSite } from "../screens/InformationSite";
 import { ManageSiteMembers } from "../components/sites/ManageSiteMembers";
 import { SiteMembersScreen } from "../screens/SiteMembersScreen";
+import { Profile } from "../screens/Profile";
 const Stack = createNativeStackNavigator();
 
 export const StackNavigator = () => {
@@ -35,7 +36,6 @@ export const StackNavigator = () => {
         options={{ headerShown: false }}
       />
 
-
       <Stack.Screen
         name="InformationSite"
         component={InformationSite}
@@ -48,6 +48,19 @@ export const StackNavigator = () => {
         options={{ headerShown: false }}
       />
 
+      <Stack.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          title: "Perfil",
+          headerStyle: {
+            backgroundColor: "#03484c",
+          },
+          headerTitleStyle:{
+            color: 'white'
+          },
+        }}
+      />
       <Stack.Screen name="NodeContent" component={NodeContent} />
     </Stack.Navigator>
   );

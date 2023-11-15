@@ -56,6 +56,33 @@ export const getPeople = createAsyncThunk(
   }
 );
 
+export const getOnePerson = createAsyncThunk(
+  "people/get-one-person",
+  async ({ ticket, idPerson }) => {
+    const myheaders = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: ticket,
+      },
+    };
+
+    try {
+      const response = await axios.get(
+        `${url_base}/people/one-person/${idPerson}`,
+        myheaders
+      );
+
+      const person = response.data.person.entry;
+
+      return person;
+    } catch (error) {
+      console.log(error);
+      throw Error;
+    }
+  }
+);
+
 export const createPeople = createAsyncThunk(
   "people/create",
   async ({ ticket, data }) => {
