@@ -1,169 +1,161 @@
 import React, { useState } from "react";
-import { View, Platform, StyleSheet, Button } from "react-native";
-import { Bubble, GiftedChat } from "react-native-gifted-chat";
+import {
+  View,
+  FlatList,
+  TextInput,
+  Modal,
+  Pressable,
+  Text,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { sendMessage } from "../../redux/modules/chatAI/chatThunks";
-import AttendanceChat from "./TableCharts";
+import MessageBubble from "./MessageBubble";
+import { StyleSheet } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { addMessageUser } from "../../redux/modules/chatAI/chatSlice";
 import { useEffect } from "react";
-import { ClipButton, SendButton } from "./ButtonsChat";
-import BubbleChat  from "./BubbleChat";
+import { AntDesign } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 export const Chat = () => {
-  const [messages, setMessages] = useState([]);
-  const ticket = useSelector((state) => state.auth.ticket);
-  const responseAI = useSelector((state) => state.chat.responseAi);
-  const [isTyping, setIsTyping] = useState(false);
   const dispatch = useDispatch();
+  const ticket = useSelector((state) => state.auth.ticket);
+  const messages = useSelector((state) => state.chat.messages);
+  const loading = useSelector((state) => state.chat.loading);
 
-  const initialMessages = [
-    {
-      _id: 0,
-      text: "¡Hola! ¿En qué puedo ayudarte?",
-      createdAt: new Date(),
-      user: {
-        _id: 2,
-        name: "Asistente",
-      },
-    },
-  ];
+  const [newMessage, setNewMessage] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
-  useEffect(() => {
-    setMessages(initialMessages); // Agregar mensajes iniciales al estado de mensajes
-  }, []); // Este efecto solo se ejecutará una vez, después del primer renderizado
-
-  const onSendButtonPress = async (newMessages = []) => {
-    const userMessage = {
-      _id: Math.random(),
-      text: newMessages[0].text,
-      createdAt: new Date(),
-      user: {
-        _id: 1,
-        name: "Usuario",
-      },
-    };
-    setMessages((prevMessages) => [...prevMessages, userMessage]);
-
-    // Enviar el mensaje del usuario al asistente
-    await dispatch(sendMessage({ ticket, text: newMessages[0].text }));
+  const handleSendMessage = () => {
+    if (newMessage) {
+      dispatch(addMessageUser({ text: newMessage, sender: "user" }));
+      setNewMessage("");
+    }
   };
 
-  useEffect(() => {
-    if (responseAI) {
-      const assistantMessage = {
-        _id: Math.random(),
-        text: responseAI,
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: "Asistente",
-        },
-      };
-      setMessages((prevMessages) => [...prevMessages, assistantMessage]);
-    }
-  }, [responseAI]);
+  const handleToggleModal = () => {
+    setShowModal(!showModal);
+  };
 
-  const handleCharts = () => {
-    // Generar el gráfico
-    const objJson = {
-      alumnos: [
-        {
-          nombre: "Juan Pérez",
-          asistencias: 90,
-        },
-        {
-          nombre: "María García",
-          asistencias: 85,
-        },
-        {
-          nombre: "Pedro Rodríguez",
-          asistencias: 80,
-        },
-        {
-          nombre: "Ana López",
-          asistencias: 75,
-        },
-        {
-          nombre: "Luis Sánchez",
-          asistencias: 70,
-        },
-      ],
-    };
+  const handleUploadFile = () => {
+    // Implement file upload functionality here
+    console.log("Uploading file...");
+    setShowModal(false);
+  };
 
-    const barData = objJson.alumnos.map((alumno) => {
-      return {
-        value: alumno.asistencias,
-        label: alumno.nombre,
-      };
-    });
-
-    // Añadir el gráfico al chat
-    setMessages([
-      ...messages,
-      {
-        _id: Math.random(),
-        data: barData,
-        type: "BarChart",
-      },
-    ]);
+  const handleRecordAudio = () => {
+    // Implement audio recording functionality here
+    console.log("Recording audio...");
+    setShowModal(false);
   };
 
   return (
     <View style={{ flex: 1 }}>
-      <GiftedChat
-      allowCharts={true}
-        placeholder="Escribe un mensaje..."
-        messages={messages}
-        renderBubble={BubbleChat}
-        user={{
-          _id: 1,
-        }}
-        inverted={false}
-        onInputTextChanged={(text) => {
-          setIsTyping(text.length > 0);
-        }}
-        renderSend={(props) => {
-          {
-            if (isTyping) {
-              return (
-                <View style={styles.actionContainer}>
-                  <SendButton
-                    onPress={() => onSendButtonPress([{ text: props.text }])}
-                  />
-                </View>
-              );
-            }
-          }
-        }}
-        renderActions={(props) => {
-          return (
-            <View style={styles.actionContainer}>
-              <ClipButton onPress={handleCharts} />
-            </View>
-          );
-        }}
-        renderAvatar={null}
-        renderMessage={(props) => {
-          const { currentMessage } = props;
-      
-          if (currentMessage.data) {
-            return <AttendanceChat data={currentMessage.data} />;
-          } else {
-            return <BubbleChat {...props} />;
-          }
-        }}
-        
+      <FlatList
+        data={messages}
+        keyExtractor={(item, index) => Math.random().toString()}
+        renderItem={({ item }) => <MessageBubble message={item} />}
       />
+
+      <View style={styles.inputContainer}>
+        <Pressable onPress={handleToggleModal}>
+          <Ionicons
+            name={"ios-add-sharp"}
+            style={{ left: -3 }}
+            size={35}
+            color={"black"}
+          />
+        </Pressable>
+
+        <TextInput
+          style={styles.bubble}
+          value={newMessage}
+          onChangeText={setNewMessage}
+          disabled={loading === "pending"}
+        />
+
+        <Pressable
+          onPress={handleSendMessage}
+          disabled={loading === "pending"}
+          style={styles.sendButton}
+        >
+          <Ionicons
+            name={"ios-send-sharp"}
+            style={{ right: -3 }}
+            size={24}
+            color={"black"}
+          />
+        </Pressable>
+      </View>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={showModal}
+        onRequestClose={handleToggleModal}
+      >
+        <TouchableWithoutFeedback onPress={handleToggleModal}>
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContent}>
+              <Pressable onPress={handleUploadFile} style={styles.modalOption}>
+                <AntDesign name="paperclip" size={24} color="black" />
+              </Pressable>
+
+              <Pressable onPress={handleRecordAudio} style={styles.modalOption}>
+                <FontAwesome5 name="file-import" size={24} color="black" />
+              </Pressable>
+
+              <Pressable onPress={handleUploadFile} style={styles.modalOption}>
+                <AntDesign name="barchart" size={24} color="black" />
+              </Pressable>
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  actionContainer: {
+  inputContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+    margin: 5,
+  },
+  bubble: {
+    flex: 1,
+    borderWidth: 1,
+    padding: 10,
+    borderColor: "#ccc",
     backgroundColor: "white",
+    borderRadius: 20,
+    marginEnd: 5,
+  },
+  sendButton: {
+    position: "absolute",
+    end: 5,
+    backgroundColor: "#cccc",
+    borderRadius: 25,
+    padding: 10,
+    margin: 5,
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "flex-end",
+    marginBottom: 100,
+    backgroundColor: "rgba(0, 0, 0, 0.1)",
+  },
+  modalContent: {
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    width: 150,
+    margin: 10,
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  modalOption: {
+    padding: 10,
   },
 });
+
+export default Chat;

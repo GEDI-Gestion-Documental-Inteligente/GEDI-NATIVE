@@ -1,37 +1,35 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { sendMessage } from "./chatThunks";
 
-const initialState = {
-  requestUser: [],
-  responseAi: [],
-  loading: "idle",
-  ticket: "",
-};
 const chatSlice = createSlice({
   name: "chat",
   initialState: {
-    requestUser: [],
-    responseAi: "",
+    messages: [{ text: "hola", sender: "user" }],
     loading: "idle",
-    ticket: "",
+    response: null,
   },
   reducers: {
-    clearResponseAi: state => {
-      state.responseAi = '';
+    clearResponse: (state) => {
+      state.response = null;
+    },
+    addMessageUser: (state, action) => {
+      state.messages.push(action.payload)
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(sendMessage.pending, (state) => {
-      state.loading = "pending";
-    });
-    builder.addCase(sendMessage.fulfilled, (state, action) => {
-      state.loading = "success";
-      state.responseAi = action.payload;
-    });
-    builder.addCase(sendMessage.rejected, (state) => {
-      state.loading = "reject";
-    });
+    builder
+      .addCase(sendMessage.pending, (state) => {
+        state.loading = "pending";
+      })
+      .addCase(sendMessage.fulfilled, (state, action) => {
+        state.loading = "succeeded";
+        state.messages.push({ text: action.payload, sender: "bot" });
+      })
+      .addCase(sendMessage.rejected, (state) => {
+        state.loading = "failed";
+      });
   },
 });
 
+export const { clearResponse, addMessageUser } = chatSlice.actions;
 export default chatSlice.reducer;
