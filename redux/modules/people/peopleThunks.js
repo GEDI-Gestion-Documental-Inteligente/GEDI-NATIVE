@@ -15,7 +15,7 @@ export const getMyActivities = createAsyncThunk(
 
     try {
       const response = await axios.get(
-        `${url_base}/people/allActivities`,
+        `${url_base}/people/all-activities`,
         myheaders
       );
 
