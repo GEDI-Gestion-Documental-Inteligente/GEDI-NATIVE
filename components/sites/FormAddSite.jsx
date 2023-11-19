@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Picker } from "@react-native-picker/picker";
 import { View, TextInput, StyleSheet, Text, Pressable } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createSite, getMySites } from "../../redux/modules/sites/SitesThunks";
 
 const FormAddSite = ({ onSubmit }) => {
   const dispatch = useDispatch()
+  const ticket = useSelector(state => state.auth.ticket)
   const [siteData, setSiteData] = useState({
     id: "",
     title: "",
@@ -21,7 +22,7 @@ const FormAddSite = ({ onSubmit }) => {
     // Validar el formulario antes de enviar los datos
     console.log('form', siteData)
     if (siteData.id != "" && siteData.title != "" && siteData.description != "") {
-      await dispatch(createSite(siteData))
+      await dispatch(createSite({ticket ,siteData}))
       await dispatch(getMySites())
     } else {
       alert("Por favor, complete todos los campos.");
