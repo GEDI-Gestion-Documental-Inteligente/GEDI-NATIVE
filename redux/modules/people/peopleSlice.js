@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createPeople, getMyActivities, getPeople, searchPeopleForTerm } from "./peopleThunks";
+import { createPeople, getMyActivities, getOnePerson, getPeople, searchPeopleForTerm } from "./peopleThunks";
 
 const initialState = {
     activities: [],
@@ -7,6 +7,7 @@ const initialState = {
     people: [],
     loadingPeople: 'idle',
     searchPeople:[],
+    person:{}
 }
 const peopleSlice = createSlice({
     name: "people",
@@ -38,6 +39,9 @@ const peopleSlice = createSlice({
         })
         builder.addCase(createPeople.fulfilled, (state)=>{
             state.loading = 'success'
+        });
+        builder.addCase(getOnePerson.fulfilled, (state, action)=>{
+            state.person = action.payload
         })
     }
 })

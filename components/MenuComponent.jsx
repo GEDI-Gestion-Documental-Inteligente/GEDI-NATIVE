@@ -82,15 +82,14 @@ const DropdownMenu = () => {
               <View style={styles.bodyMenu}>
                 <TouchableOpacity
                   style={styles.iconButton}
-                  onPress={() => {}}
+                  onPress={() => {
+                    navigate.navigate("Profile");
+                  }}
                 >
                   <Ionicons name="md-person" size={25} color="white" />
                   <Text style={styles.text}>Perfil</Text>
                 </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.iconButton}
-                  onPress={() => {}}
-                >
+                <TouchableOpacity style={styles.iconButton} onPress={() => {}}>
                   <Ionicons name="notifications" size={25} color="white" />
                   <Text style={styles.text}>Notificaciones</Text>
                 </TouchableOpacity>
@@ -190,7 +189,7 @@ const styles = StyleSheet.create({
     alignContent: "center",
     flexDirection: "row",
     marginBottom: 10,
-    alignItems: 'center'
+    alignItems: "center",
   },
   iconButton: {
     alignItems: "center",
