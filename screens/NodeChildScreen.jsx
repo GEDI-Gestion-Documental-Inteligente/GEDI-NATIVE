@@ -30,7 +30,7 @@ export const NodeChildScreen = ({ route }) => {
       let idContainer = "";
       try {
         if (siteName) {
-          idContainer = await dispatch(getContainerDocumentLibrary(siteName));
+          idContainer = await dispatch(getContainerDocumentLibrary({ticket, siteName}));
         }
         if (idContainer.payload != null) {
           await dispatch(getNodes({ id: idContainer.payload, ticket }));

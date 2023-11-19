@@ -34,11 +34,11 @@ export const getMySites = createAsyncThunk(
 // funcion para obtener el contenedor de los nodos de un sitio
 export const getContainerDocumentLibrary = createAsyncThunk(
   "sites/getDocumentLibrary",
-  async (siteName) => {
+  async ({ticket, siteName}) => {
     try {
-      const ticket = await AsyncStorage.getItem("ticket"); // Obtener el ticket desde AsyncStorage
+
       if (!ticket) {
-        throw new Error("Ticket no encontrado"); // Manejar caso donde no haya ticket
+        throw new Error("Ticket no encontrado");
       }
 
       const myheaders = {
@@ -68,9 +68,8 @@ export const getContainerDocumentLibrary = createAsyncThunk(
 );
 
 // funcion para crear un nuevo sitio
-export const createSite = createAsyncThunk("sites/createSite", async (data) => {
+export const createSite = createAsyncThunk("sites/createSite", async ({ticket, data}) => {
   try {
-    const ticket = await AsyncStorage.getItem("ticket"); // Obtener el ticket desde AsyncStorage
     if (!ticket) {
       throw new Error("Ticket no encontrado"); // Manejar caso donde no haya ticket
     }
