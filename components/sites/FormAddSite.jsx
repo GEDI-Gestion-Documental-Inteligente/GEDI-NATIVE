@@ -23,7 +23,7 @@ const FormAddSite = ({ onSubmit }) => {
     console.log('form', siteData)
     if (siteData.id != "" && siteData.title != "" && siteData.description != "") {
       await dispatch(createSite({ticket ,siteData}))
-      await dispatch(getMySites())
+      await dispatch(getMySites({ticket}))
     } else {
       alert("Por favor, complete todos los campos.");
     }

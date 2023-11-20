@@ -68,7 +68,8 @@ export const getContainerDocumentLibrary = createAsyncThunk(
 );
 
 // funcion para crear un nuevo sitio
-export const createSite = createAsyncThunk("sites/createSite", async ({ticket, data}) => {
+export const createSite = createAsyncThunk("sites/createSite", async ({ticket, siteData}) => {
+  console.log(siteData)
   try {
     if (!ticket) {
       throw new Error("Ticket no encontrado"); // Manejar caso donde no haya ticket
@@ -83,7 +84,7 @@ export const createSite = createAsyncThunk("sites/createSite", async ({ticket, d
 
     const response = await axios.post(
       `${url_base}/sites/create`,
-      data,
+      siteData,
       myheaders
     );
 
