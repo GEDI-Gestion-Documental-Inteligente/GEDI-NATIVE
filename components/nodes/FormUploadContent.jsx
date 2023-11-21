@@ -113,9 +113,6 @@ export const FormUploadContent = ({ handleClose, children, closeDropdown }) => {
                 <Pressable style={styles.button} onPress={pickDocument}>
                     <Text style={styles.textButton}>Seleccionar archivo</Text>
                 </Pressable>
-                <Pressable style={styles.button} onPress={handleSubmit}>
-                    <Text style={styles.textButton}>Crear carpeta</Text>
-                </Pressable>
                 
                 <Pressable style={styles.buttonCancel} onPress={() => {
                     handleClose()
@@ -132,7 +129,6 @@ const styles = StyleSheet.create({
     container: {
         padding: 30,
         backgroundColor: "#E6E7E6",
-        borderRadius: 15,
         width: "90%",
 
     },

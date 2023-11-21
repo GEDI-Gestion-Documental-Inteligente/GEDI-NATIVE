@@ -15,9 +15,7 @@ import { FormUploadContent } from "./FormUploadContent";
 
 export const MenuActions = ({ children }) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
-  const [isModalVisible, setModalVisible] = useState(false);
-  const [isUploadModalVisible, setUploadModalVisible] = useState(false);
-
+  const [selectedModal, setSelectedModal] = useState(null);
 
   const toggleMenu = () => {
     setIsMenuVisible(!isMenuVisible);
@@ -27,10 +25,14 @@ export const MenuActions = ({ children }) => {
     setIsMenuVisible(false);
   };
 
-  const handleClose = () => {
-    setModalVisible(false)
-  }
+  const handleModalOpen = (modalType) => {
+    setSelectedModal(modalType);
+    setIsMenuVisible(false); // Cierra el menú después de seleccionar una opción
+  };
 
+  const handleClose = () => {
+    setSelectedModal(null); // Limpia el tipo de modal seleccionado para cerrarlo
+  };
   return (
     <View style={styles.menuContainer}>
       <View style={styles.containerTab}>
@@ -43,9 +45,9 @@ export const MenuActions = ({ children }) => {
       </View>
 
       <Modal
+        visible={isMenuVisible}
         animationType="slide"
         transparent={true}
-        visible={isMenuVisible}
         onRequestClose={closeDropdown}
       >
         <TouchableWithoutFeedback onPress={closeDropdown}>
@@ -53,14 +55,14 @@ export const MenuActions = ({ children }) => {
             <View style={styles.dropdownContent}>
               <TouchableOpacity
                 style={styles.iconButton}
-                onPress={() => setModalVisible(true)}
+                onPress={() => handleModalOpen("folder")}
               >
                 <Ionicons name="md-folder-open" size={40} color="#03484c" />
                 <Text>Nueva carpeta</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.iconButton}
-                onPress={() => setModalVisible(true)}
+                onPress={() => handleModalOpen("upload")}
               >
                 <Ionicons name="cloud-upload" size={40} color="#03484c" />
                 <Text>Subir Archivo</Text>
@@ -70,12 +72,34 @@ export const MenuActions = ({ children }) => {
         </TouchableWithoutFeedback>
       </Modal>
 
-      <Modal visible={isModalVisible} animationType="slide" transparent={true}>
-        <FormAddNode handleClose={handleClose} children={children} closeDropdown={closeDropdown} />
-      </Modal>
-      <Modal visible={isModalVisible} animationType="slide" transparent={true}>
-        <FormUploadContent handleClose={handleClose} children={children} closeDropdown={closeDropdown} />
-      </Modal>
+      {/* Renderizado condicional del modal */}
+      {selectedModal === "folder" && (
+        <Modal
+          visible={selectedModal === "folder"}
+          animationType="slide"
+          transparent={true}
+        >
+          <FormAddNode
+            handleClose={handleClose}
+            children={children}
+            closeDropdown={closeDropdown}
+          />
+        </Modal>
+      )}
+
+      {selectedModal === "upload" && (
+        <Modal
+          visible={selectedModal === "upload"}
+          animationType="slide"
+          transparent={true}
+        >
+          <FormUploadContent
+            handleClose={handleClose}
+            children={children}
+            closeDropdown={closeDropdown}
+          />
+        </Modal>
+      )}
     </View>
   );
 };
@@ -128,6 +152,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     height: 60,
     alignItems: "center",
-    padding: 5
+    padding: 5,
   },
 });
