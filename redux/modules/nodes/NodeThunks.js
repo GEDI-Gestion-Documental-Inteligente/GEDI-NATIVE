@@ -107,7 +107,7 @@ export const getNodeInfo = createAsyncThunk(
   "nodes/get-node-info",
   async (id, { getState }) => {
     try {
-      const ticket = getState().auth.ticket; // Obtener el ticket del estado de autenticación
+      const ticket = getState().auth.ticket; 
       const response = await axios.get(`${url_base}/one-node/${id}`, {
         headers: {
           "Content-Type": "application/json",
@@ -126,7 +126,7 @@ export const updateNode = createAsyncThunk(
   "nodes/update-node",
   async ({ id, nodeData }, { getState }) => {
     try {
-      const ticket = getState().auth.ticket; // Obtener el ticket del estado de autenticación
+      const ticket = getState().auth.ticket; 
       const response = await axios.put(`${url_base}/update/${id}`, nodeData, {
         headers: {
           "Content-Type": "application/json",
@@ -145,7 +145,7 @@ export const deleteNode = createAsyncThunk(
   "nodes/delete-node",
   async (id, { getState }) => {
     try {
-      const ticket = getState().auth.ticket; // Obtener el ticket del estado de autenticación
+      const ticket = getState().auth.ticket; 
       const response = await axios.delete(`${url_base}/delete/${id}`, {
         headers: {
           "Content-Type": "application/json",
@@ -164,7 +164,7 @@ export const getNodeParents = createAsyncThunk(
   "nodes/get-node-parents",
   async (id, { getState }) => {
     try {
-      const ticket = getState().auth.ticket; // Obtener el ticket del estado de autenticación
+      const ticket = getState().auth.ticket; 
       const response = await axios.get(`${url_base}/${id}/parents`, {
         headers: {
           "Content-Type": "application/json",
@@ -183,7 +183,7 @@ export const updatePermissionsNode = createAsyncThunk(
   "nodes/update-permissions-node",
   async ({ id, nodeData }, { getState }) => {
     try {
-      const ticket = getState().auth.ticket; // Obtener el ticket del estado de autenticación
+      const ticket = getState().auth.ticket; 
       const response = await axios.put(
         `${url_base}/update-permissions/${id}`,
         nodeData,
@@ -206,7 +206,7 @@ export const updateTypeNode = createAsyncThunk(
   "nodes/update-type-node",
   async ({ id, nodeData }, { getState }) => {
     try {
-      const ticket = getState().auth.ticket; // Obtener el ticket del estado de autenticación
+      const ticket = getState().auth.ticket; 
       const response = await axios.put(
         `${url_base}/update-type/${id}`,
         nodeData,
@@ -229,7 +229,7 @@ export const moveNode = createAsyncThunk(
   "nodes/move-node",
   async ({ id, targetId }, { getState }) => {
     try {
-      const ticket = getState().auth.ticket; // Obtener el ticket del estado de autenticación
+      const ticket = getState().auth.ticket; 
       const response = await axios.post(
         `${url_base}/move-node/${id}`,
         { targetId },
@@ -252,7 +252,7 @@ export const getNodeTypes = createAsyncThunk(
   "nodes/get-node-types",
   async (_, { getState }) => {
     try {
-      const ticket = getState().auth.ticket; // Obtener el ticket del estado de autenticación
+      const ticket = getState().auth.ticket; 
       const response = await axios.get(`${url_base}/types`, {
         headers: {
           "Content-Type": "application/json",

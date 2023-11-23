@@ -1,16 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
-  Pressable,
-  Modal,
-  Button,
-  TextInput,
   FlatList,
   StyleSheet,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Picker } from "@react-native-picker/picker";
 import FolderItem from "../components/nodes/FolderItem";
 import { useDispatch, useSelector } from "react-redux";
 import { getNodes } from "../redux/modules/nodes/NodeThunks";
@@ -39,12 +34,11 @@ export const NodeChildScreen = ({ route }) => {
           console.log(id);
         }
       } catch (error) {
-        // Maneja errores si es necesario
         console.error("Error al obtener datos:", error);
       }
     };
 
-    fetchData(); // Llama a la función asincrónica
+    fetchData(); 
   }, [id, ticket]);
 
   const handleNodePress = (node) => {
