@@ -3,9 +3,9 @@ import { SearchNodesForTerm, fetchContentNode, getNodes } from "./NodeThunks";
 
 const initialState = {
   nodes: [],
+  nodesMongo:[],
   rootId:'',
   loading: "idle",
-  buffer: [],
   searchNodes: []
 };
 
@@ -19,7 +19,8 @@ const nodeSlice = createSlice({
     });
     builder.addCase(getNodes.fulfilled, (state, action) => {
       state.pending = "success";
-      state.nodes = action.payload;
+      state.nodes = action.payload.nodes.list.entries;
+      state.nodesMongo= action.payload.nodesMongo
     });
     builder.addCase(getNodes.rejected, (state) => {
       state.loading = "failed";

@@ -19,7 +19,7 @@ export const getNodes = createAsyncThunk(
         `${url_base}/nodes/${id}/childrens`,
         myheaders
       );
-      return response.data.nodes.list.entries;
+      return response.data
     } catch (error) {
       console.log(error);
       throw error;
