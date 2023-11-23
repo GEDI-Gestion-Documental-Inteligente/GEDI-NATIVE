@@ -24,13 +24,20 @@ export const NodeChildScreen = ({ route }) => {
   const dispatch = useDispatch();
   const nodesChildren = useSelector((state) => state.nodes.nodes);
   const resultSearch = useSelector((state) => state.nodes.searchNodes);
+  const nodesChildrenMongo = useSelector((state) => state.nodes.nodesMongo);
+  console.log(nodesChildrenMongo);
 
+  const carpetas = nodesChildrenMongo.filter(obj => obj.nodeType === "cm:folder")
+  const contents = nodesChildrenMongo.filter(obj => obj.nodeType !== "cm:folder")
+  const nodesChildrenMongoSorted = carpetas.concat(contents);
   useEffect(() => {
     const fetchData = async () => {
       let idContainer = "";
       try {
         if (siteName) {
-          idContainer = await dispatch(getContainerDocumentLibrary({ticket, siteName}));
+          idContainer = await dispatch(
+            getContainerDocumentLibrary({ ticket, siteName })
+          );
         }
         if (idContainer.payload != null) {
           await dispatch(getNodes({ id: idContainer.payload, ticket }));
@@ -48,18 +55,18 @@ export const NodeChildScreen = ({ route }) => {
   }, [id, ticket]);
 
   const handleNodePress = (node) => {
-    if (node.entry.nodeType === "cm:content") {
+    if (node.nodeType !== "cm:folder") {
       navigation.navigate("NodeContent", {
         ticket,
-        id: node.entry.id,
+        id: node.id,
       });
 
-      console.log("Se ha seleccionado un archivo:", node.entry.name);
-    } else if (node.entry.nodeType === "cm:folder") {
+      console.log("Se ha seleccionado un archivo:", node.name);
+    } else if (node.nodeType === "cm:folder") {
       // Navegación hacia la misma pantalla con una nueva carpeta
       navigation.push("Nodes", {
         ticket,
-        id: node.entry.id,
+        id: node.id,
       });
     }
   };
@@ -67,30 +74,28 @@ export const NodeChildScreen = ({ route }) => {
   return (
     <View style={styles.container}>
       <View>
-        <MenuActions children={id}/>
+        <MenuActions children={id} />
       </View>
 
-      {nodesChildren.length || (resultSearch && resultSearch.length) ? (
+      {nodesChildrenMongoSorted.length || (resultSearch && resultSearch.length) ? (
         <FlatList
           style={styles.list}
           data={
-            resultSearch && resultSearch.length ? resultSearch : nodesChildren
+            resultSearch && resultSearch.length ? resultSearch : nodesChildrenMongoSorted
           }
           renderItem={({ item }) => (
             <FolderItem
-              name={item.entry.name}
-              type={item.entry.nodeType}
-              description={item.entry.id}
+              name={item.name}
+              type={item.nodeType}
+              description={item.id}
               onPress={() => handleNodePress(item)}
             />
           )}
-          keyExtractor={(item) => item.entry.id}
+          keyExtractor={(item) => item.id}
         />
       ) : (
         <Text>No hay carpetas hijas o nodos hijos.</Text>
       )}
-
-      
     </View>
   );
 };
