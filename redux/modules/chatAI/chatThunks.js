@@ -30,8 +30,3 @@ export const sendMessage = createAsyncThunk("chat/sendMessage", async ({ticket, 
   }
 });
 
-export const clearResponse = createAsyncThunk(
-  'chat/clear-response', async(thunkAPI)=>{
-    return
-  }
-)

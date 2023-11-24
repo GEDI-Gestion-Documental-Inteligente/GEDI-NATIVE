@@ -79,9 +79,7 @@ export const NodeChildScreen = ({ route }) => {
           }
           renderItem={({ item }) => (
             <FolderItem
-              name={item.name}
-              type={item.nodeType}
-              description={item.id}
+              node={item}
               onPress={() => handleNodePress(item)}
             />
           )}

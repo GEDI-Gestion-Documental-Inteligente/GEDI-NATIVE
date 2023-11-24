@@ -6,7 +6,6 @@ const chatSlice = createSlice({
   initialState: {
     messages: [{ text: "hola", sender: "user" }],
     loading: "idle",
-    response: null,
   },
   reducers: {
     clearResponse: (state) => {

@@ -113,6 +113,10 @@ export const FormUploadContent = ({ handleClose, children, closeDropdown }) => {
                 <Pressable style={styles.button} onPress={pickDocument}>
                     <Text style={styles.textButton}>Seleccionar archivo</Text>
                 </Pressable>
+
+                <Pressable style={styles.button} onPress={handleSubmit}>
+                    <Text style={styles.textButton}>Guardar</Text>
+                </Pressable>
                 
                 <Pressable style={styles.buttonCancel} onPress={() => {
                     handleClose()
