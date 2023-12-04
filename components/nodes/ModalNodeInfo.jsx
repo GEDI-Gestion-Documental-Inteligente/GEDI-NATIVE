@@ -6,16 +6,17 @@ import { View } from "react-native";
 import nodeContext from "../../context/nodes/nodeContext";
 
 export const ModalNodeInfo = ({ handleModal }) => {
-  const { item } = useContext(nodeContext);
+  const { node } = useContext(nodeContext);
+  console.log(node)
   return (
     <View style={styles.modalOverlay}>
       <View style={styles.container}>
         <TouchableOpacity
           style={styles.iconButton}
           onPress={handleModal}
-        ></TouchableOpacity>
+        ><Text>cerrar</Text></TouchableOpacity>
         <Text style={styles.title}>Acerca de: </Text>
-        <View>{item.title}</View>
+        <View><Text>{node.name}</Text></View>
       </View>
     </View>
   );

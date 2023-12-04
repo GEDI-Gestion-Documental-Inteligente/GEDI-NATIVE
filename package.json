@@ -20,6 +20,7 @@
     "axios": "^1.4.0",
     "base-64": "^1.0.0",
     "expo": "~49.0.5",
+    "expo-document-picker": "~11.5.4",
     "expo-file-system": "^15.4.3",
     "expo-linking": "~5.0.2",
     "expo-status-bar": "~1.6.0",
@@ -27,13 +28,13 @@
     "react-dom": "18.2.0",
     "react-native": "0.72.6",
     "react-native-config": "^1.5.1",
+    "react-native-fs": "^2.20.0",
     "react-native-gifted-charts": "^1.3.11",
     "react-native-gifted-chat": "^2.4.0",
     "react-native-reanimated": "~3.3.0",
     "react-native-shadow": "^1.2.2",
     "react-native-vector-icons": "^10.0.0",
-    "react-redux": "^8.1.2",
-    "expo-document-picker": "~11.5.4"
+    "react-redux": "^8.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

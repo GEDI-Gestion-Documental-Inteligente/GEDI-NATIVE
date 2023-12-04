@@ -9,14 +9,19 @@ import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import nodeContext from "../../context/nodes/nodeContext";
+import { ModalNodeInfo } from "./ModalNodeInfo";
+import { SearchMoveNode } from "./SearchMoveNode";
 
 const FolderItem = ({ node, onPress }) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
-  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [isDetailsVisible, setisDetailsVisible] = useState(false)
+  const [isModalMoveVisible, setisModalMoveVisible] = useState(false)
   const [selectedModal, setSelectedModal] = useState(null);
 
   const toggleMenu = () => {
     setIsMenuVisible(!isMenuVisible);
+    setisDetailsVisible(false)
+    setisModalMoveVisible(false)
   };
 
   const closeDropdown = () => {
@@ -57,7 +62,7 @@ const FolderItem = ({ node, onPress }) => {
           <TouchableWithoutFeedback onPress={closeDropdown}>
             <View style={styles.modalOverlay}>
               <View style={styles.dropdownContent}>
-                <TouchableOpacity style={styles.iconButton}>
+                <TouchableOpacity style={styles.iconButton} onPress={()=> {setisDetailsVisible(true)}}>
                   <Ionicons
                     name="information-circle-outline"
                     size={24}
@@ -66,7 +71,7 @@ const FolderItem = ({ node, onPress }) => {
                   <Text>Detalles</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.iconButton}>
+                <TouchableOpacity style={styles.iconButton} onPress={()=> {setisModalMoveVisible(true)}}>
                   {node.nodeType === "cm:content" ? (
                     <MaterialCommunityIcons
                       name="file-move-outline"
@@ -95,6 +100,22 @@ const FolderItem = ({ node, onPress }) => {
               </View>
             </View>
           </TouchableWithoutFeedback>
+        </Modal>
+
+        <Modal
+          visible={isDetailsVisible}
+          animationType="slide"
+          transparent={true}
+        >
+         <ModalNodeInfo handleModal={toggleMenu}/>
+        </Modal>
+
+        <Modal
+          visible={isModalMoveVisible}
+          animationType="slide"
+          transparent={true}
+        >
+         <SearchMoveNode handleModal={toggleMenu}/>
         </Modal>
       </View>
     </nodeContext.Provider>

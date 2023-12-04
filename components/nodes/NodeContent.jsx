@@ -3,18 +3,33 @@ import { View, Text, SafeAreaView, StyleSheet } from "react-native";
 import * as Linking from "expo-linking";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchContentNode } from "../../redux/modules/nodes/NodeThunks";
+import RNFS from 'react-native-fs';
 
 export const NodeContent = ({ route }) => {
-  const { id } = route.params;
+  const { id, path } = route.params;
+  const pwd = __dirname
+  const pathUrl = `${PWD}/GEDI-BACK/uploads/path`
+  console.log(path)
   const [pdfUrl, setPdfUrl] = useState("");
   const dispatch = useDispatch()
   const ticket = useSelector((state) => state.auth.ticket);
 
 
-  const fetchData = async () => {
-    const pdfUrl = await dispatch(fetchContentNode({id, ticket}))
-    console.log(pdfUrl)
-  };
+  async function obtenerDirectorioActual() {
+    try {
+      const directorioActual = await RNFS.CWD();
+      console.log('Directorio actual:', directorioActual);
+    } catch (error) {
+      console.error('Error al obtener el directorio actual:', error);
+    }
+  }
+
+  // Llama a la función para obtener el directorio actual
+  obtenerDirectorioActual();
+  // const fetchData = async () => {
+  //   const pdfUrl = await dispatch(fetchContentNode({ id, ticket }))
+  //   console.log(pdfUrl)
+  // };
 
   // const openPdfWithLinking = async () => {
   //   if (pdfUrl) {
@@ -27,11 +42,13 @@ export const NodeContent = ({ route }) => {
   //   }
   // };
 
-  useEffect(() => {
-    fetchData();
-  }, [id, ticket]);
+  // useEffect(() => {
+  //   fetchData();
+  // }, [id, ticket]);
 
-  return <SafeAreaView style={styles.container}></SafeAreaView>;
+  return <View style={styles.container}>
+
+  </View>;
 };
 
 const styles = StyleSheet.create({

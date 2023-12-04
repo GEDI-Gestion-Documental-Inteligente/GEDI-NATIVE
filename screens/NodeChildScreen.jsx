@@ -13,7 +13,7 @@ import { getContainerDocumentLibrary } from "../redux/modules/sites/SitesThunks"
 import { MenuActions } from "../components/nodes/MenuActions";
 
 export const NodeChildScreen = ({ route }) => {
-  const { id, siteName } = route.params;
+  const { id, siteName, path } = route.params;
   const ticket = useSelector((state) => state.auth.ticket);
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -49,10 +49,12 @@ export const NodeChildScreen = ({ route }) => {
   }, [id, ticket]);
 
   const handleNodePress = (node) => {
+
     if (node.nodeType !== "cm:folder") {
       navigation.navigate("NodeContent", {
         ticket,
         id: node.id,
+        path: node.path
       });
 
       console.log("Se ha seleccionado un archivo:", node.name);
