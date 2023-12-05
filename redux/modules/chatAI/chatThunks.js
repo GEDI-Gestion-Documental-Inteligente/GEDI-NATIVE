@@ -5,14 +5,19 @@ export const sendMessage = createAsyncThunk("chat/sendMessage", async ({ticket, 
   console.log("chat thunk:", text)
   try {
     const url_base = process.env.EXPO_PUBLIC_API_AI;
+    const headers = {
+      headers:{
+        "Content-Type": "application/json",
+      }
+    }
 
     const response = await axios.post(url_base, {
-      'prompt': `${text}`,
-    });
+      'query': `${text}`,
+    }, headers);
 
     if (response.data) {
       console.log(response.data);
-      return response.data.output;
+      return response.data.result;
     } else {
       return "Lo siento, intenta más tarde";
     }

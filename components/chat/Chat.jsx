@@ -16,6 +16,7 @@ import { addMessageUser } from "../../redux/modules/chatAI/chatSlice";
 import { useEffect } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { sendMessage } from "../../redux/modules/chatAI/chatThunks";
 
 export const Chat = () => {
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ export const Chat = () => {
   const handleSendMessage = () => {
     if (newMessage) {
       dispatch(addMessageUser({ text: newMessage, sender: "user" }));
+      dispatch(sendMessage({ticket, text: newMessage}))
       setNewMessage("");
     }
   };

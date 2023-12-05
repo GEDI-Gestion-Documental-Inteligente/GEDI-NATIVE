@@ -1,58 +1,63 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { View, Text, SafeAreaView, StyleSheet } from "react-native";
-import * as Linking from "expo-linking";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchContentNode } from "../../redux/modules/nodes/NodeThunks";
-import RNFS from 'react-native-fs';
+import { View, Text } from "react-native";
+import Pdf from "react-native-pdf";
+import { useSelector } from "react-redux";
 
-export const NodeContent = ({ route }) => {
-  const { id, path } = route.params;
-  const pwd = __dirname
-  const pathUrl = `${PWD}/GEDI-BACK/uploads/path`
-  console.log(path)
-  const [pdfUrl, setPdfUrl] = useState("");
-  const dispatch = useDispatch()
-  const ticket = useSelector((state) => state.auth.ticket);
+const fetchContentNode = async ({ id, path }) => {
+  try {
+    const ticket = useSelector(state => state.auth.ticket);
+    const url_base = process.env.EXPO_PUBLIC_API_URL;
+    const response = await axios.get(`${url_base}/uploads/${path}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: ticket,
+      },
+    });
 
-
-  async function obtenerDirectorioActual() {
-    try {
-      const directorioActual = await RNFS.CWD();
-      console.log('Directorio actual:', directorioActual);
-    } catch (error) {
-      console.error('Error al obtener el directorio actual:', error);
-    }
+    const pdf = response.data
+    console.log(pdf)
+    return pdf;
+  } catch (error) {
+    console.error('Failed to fetch PDF content:', error);
+    return null; // Return null if PDF data is not available
   }
+};
 
-  // Llama a la función para obtener el directorio actual
-  obtenerDirectorioActual();
-  // const fetchData = async () => {
-  //   const pdfUrl = await dispatch(fetchContentNode({ id, ticket }))
-  //   console.log(pdfUrl)
-  // };
+export const NodeContent = ({ id, path }) => {
+  const [pdf, setPdf] = useState(null);
 
-  // const openPdfWithLinking = async () => {
-  //   if (pdfUrl) {
-  //     const supported = await Linking.canOpenURL(pdfUrl);
-  //     if (supported) {
-  //       await Linking.openURL(pdfUrl);
-  //     } else {
-  //       console.error("Cannot open PDF URL:", pdfUrl);
-  //     }
-  //   }
-  // };
+  useEffect(() => {
+    const getPdf = async () => {
+      const pdfData = await fetchContentNode({ id, path });
+      setPdf(pdfData);
+    };
+    getPdf();
+  }, [id, path]);
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, [id, ticket]);
+  useEffect(() => {
+    console.log(pdf);
+  }, [pdf]);
 
-  return <View style={styles.container}>
-
-  </View>;
+  return (
+    <View style={styles.container}>
+ 
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  pdf: {
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
+  },
+  errorText: {
+    color: "red",
+    textAlign: "center",
   },
 });

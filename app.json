@@ -2,9 +2,16 @@
   "expo": {
     "name": "alfrescotest",
     "slug": "alfrescotest",
-    "extra":{
-      "URL_BASE": "http://192.168.217.54:4000/api"
+    "extra": {
+      "URL_BASE": "http://192.168.217.54:4000/api",
+      "eas": {
+        "projectId": "f1c9af8a-85a0-4cb5-bfa6-f69ed5213752"
+      }
     },
+    "plugins":[
+      "@config-plugins/react-native-blob-util",
+      "@config-plugins/react-native-pdf"
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,13 +25,15 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.florcitacita.alfrescotest"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.florcitacita.alfrescotest"
     },
     "web": {
       "favicon": "./assets/favicon.png"

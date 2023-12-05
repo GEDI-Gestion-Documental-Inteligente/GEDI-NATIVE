@@ -19,7 +19,7 @@ export const getNodes = createAsyncThunk(
         `${url_base}/nodes/${id}/childrens`,
         myheaders
       );
-      return response.data
+      return response.data;
     } catch (error) {
       console.log(error);
       throw error;
@@ -77,37 +77,35 @@ export const uploadContent = createAsyncThunk(
 
 export const fetchContentNode = createAsyncThunk(
   "nodes/get-content-node",
-  async ({ id, ticket }) => {
+  async ({ id, path }, {getState}) => {
     try {
-      const response = await axios.get(`${url_base}/nodes/${id}/content`, {
+      const ticket = getState().auth.ticket;
+      const response = await axios.get(`${url_base}/uploads/${path}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: ticket,
         },
       });
-      const buffer = await response.data.content;
-      const blobb = new Blob(buffer);
 
-      // const blob = new Blob([bufferArr]);
+      if (response.status !== 200) {
+        throw new Error(`Error fetching PDF content: ${response.statusText}`);
+      }
 
-      // // Crea una URL local para el Blob
-      // const blobUrl = URL.createObjectURL(blob);
-
-      // // Establece la URL del Blob como fuente de la imagen
-      // console.log(blobUrl)
-
-      console.log(blobb);
+      const file = response.data;
+      console.log(file);
+      return file;
     } catch (error) {
       console.error("Error fetching PDF content:", error);
       return null;
     }
   }
 );
+
 export const getNodeInfo = createAsyncThunk(
   "nodes/get-node-info",
   async (id, { getState }) => {
     try {
-      const ticket = getState().auth.ticket; 
+      const ticket = getState().auth.ticket;
       const response = await axios.get(`${url_base}/one-node/${id}`, {
         headers: {
           "Content-Type": "application/json",
@@ -126,7 +124,7 @@ export const updateNode = createAsyncThunk(
   "nodes/update-node",
   async ({ id, nodeData }, { getState }) => {
     try {
-      const ticket = getState().auth.ticket; 
+      const ticket = getState().auth.ticket;
       const response = await axios.put(`${url_base}/update/${id}`, nodeData, {
         headers: {
           "Content-Type": "application/json",
@@ -145,7 +143,7 @@ export const deleteNode = createAsyncThunk(
   "nodes/delete-node",
   async (id, { getState }) => {
     try {
-      const ticket = getState().auth.ticket; 
+      const ticket = getState().auth.ticket;
       const response = await axios.delete(`${url_base}/delete/${id}`, {
         headers: {
           "Content-Type": "application/json",
@@ -164,7 +162,7 @@ export const getNodeParents = createAsyncThunk(
   "nodes/get-node-parents",
   async (id, { getState }) => {
     try {
-      const ticket = getState().auth.ticket; 
+      const ticket = getState().auth.ticket;
       const response = await axios.get(`${url_base}/${id}/parents`, {
         headers: {
           "Content-Type": "application/json",
@@ -183,7 +181,7 @@ export const updatePermissionsNode = createAsyncThunk(
   "nodes/update-permissions-node",
   async ({ id, nodeData }, { getState }) => {
     try {
-      const ticket = getState().auth.ticket; 
+      const ticket = getState().auth.ticket;
       const response = await axios.put(
         `${url_base}/update-permissions/${id}`,
         nodeData,
@@ -206,7 +204,7 @@ export const updateTypeNode = createAsyncThunk(
   "nodes/update-type-node",
   async ({ id, nodeData }, { getState }) => {
     try {
-      const ticket = getState().auth.ticket; 
+      const ticket = getState().auth.ticket;
       const response = await axios.put(
         `${url_base}/update-type/${id}`,
         nodeData,
@@ -229,7 +227,7 @@ export const moveNode = createAsyncThunk(
   "nodes/move-node",
   async ({ id, targetId }, { getState }) => {
     try {
-      const ticket = getState().auth.ticket; 
+      const ticket = getState().auth.ticket;
       const response = await axios.post(
         `${url_base}/move-node/${id}`,
         { targetId },
@@ -252,7 +250,7 @@ export const getNodeTypes = createAsyncThunk(
   "nodes/get-node-types",
   async (_, { getState }) => {
     try {
-      const ticket = getState().auth.ticket; 
+      const ticket = getState().auth.ticket;
       const response = await axios.get(`${url_base}/types`, {
         headers: {
           "Content-Type": "application/json",
