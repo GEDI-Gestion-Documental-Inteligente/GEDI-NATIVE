@@ -1,12 +1,10 @@
-import { NavigationContainer } from "@react-navigation/native";
+
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { SiteScreen } from "../screens/SiteScreen";
 import { NodeChildScreen } from "../screens/NodeChildScreen";
-import { NodeContent } from "../components/nodes/NodeContent";
 import { PeopleScreen } from "../screens/PeopleScreen";
 import { SitesListScreen } from "../screens/SitesListScreen";
 import { InformationSite } from "../screens/InformationSite";
-import { ManageSiteMembers } from "../components/sites/ManageSiteMembers";
 import { SiteMembersScreen } from "../screens/SiteMembersScreen";
 import { Profile } from "../screens/Profile";
 const Stack = createNativeStackNavigator();
@@ -61,7 +59,6 @@ export const StackNavigator = () => {
           },
         }}
       />
-      <Stack.Screen name="NodeContent" component={NodeContent} />
     </Stack.Navigator>
   );
 };

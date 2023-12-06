@@ -1,4 +1,4 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -267,9 +267,9 @@ export const getNodeTypes = createAsyncThunk(
 
 export const SearchNodesForTerm = createAsyncThunk(
   "nodes/search-form-term",
-  async ({ term, root }) => {
+  async ({ term, root }, {getState}) => {
     try {
-      const ticket = await AsyncStorage.getItem("ticket");
+      const ticket = getState().auth.ticket;
       const response = await axios.get(
         `${url_base}/queries/searchNodes?term=${term}&root=${root}`,
         {

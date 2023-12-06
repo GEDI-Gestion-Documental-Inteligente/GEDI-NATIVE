@@ -38,7 +38,7 @@ export const Login = () => {
           value={userId}
           onChangeText={setUserId}
           style={styles.formInput}
-          placeholder="Ingrese su usuario"
+          placeholder="Ingrese su usuarioo"
           placeholderTextColor="#000000"
         />
         <TextInput

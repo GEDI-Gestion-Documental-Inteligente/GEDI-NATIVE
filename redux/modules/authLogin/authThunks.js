@@ -1,5 +1,4 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import AsyncStorage from "@react-native-async-storage/async-storage"; // Importa AsyncStorage
 import axios from "axios";
 
 export const loginAndFetchTicket = createAsyncThunk(
@@ -41,7 +40,6 @@ export const logoutAndClearTicket = createAsyncThunk(
       }
 
       // Limpiar el ticket en AsyncStorage
-      await AsyncStorage.removeItem("ticket");
 
       thunkAPI.dispatch(authSlice.actions.clearTicket());
     } catch (error) {

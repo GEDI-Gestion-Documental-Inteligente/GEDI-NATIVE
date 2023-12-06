@@ -1,16 +1,13 @@
 import React, { useEffect } from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  StyleSheet,
-} from "react-native";
+import { View, Text, FlatList, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import FolderItem from "../components/nodes/FolderItem";
 import { useDispatch, useSelector } from "react-redux";
 import { getNodes } from "../redux/modules/nodes/NodeThunks";
 import { getContainerDocumentLibrary } from "../redux/modules/sites/SitesThunks";
 import { MenuActions } from "../components/nodes/MenuActions";
+import * as WebBrowser from "expo-web-browser";
+import * as Linking from 'expo-linking';
 
 export const NodeChildScreen = ({ route }) => {
   const { id, siteName, path } = route.params;
@@ -22,9 +19,20 @@ export const NodeChildScreen = ({ route }) => {
   const nodesChildrenMongo = useSelector((state) => state.nodes.nodesMongo);
   console.log(nodesChildrenMongo);
 
-  const carpetas = nodesChildrenMongo.filter(obj => obj.nodeType === "cm:folder")
-  const contents = nodesChildrenMongo.filter(obj => obj.nodeType !== "cm:folder")
+  const carpetas = nodesChildrenMongo.filter(
+    (obj) => obj.nodeType === "cm:folder"
+  );
+  const contents = nodesChildrenMongo.filter(
+    (obj) => obj.nodeType !== "cm:folder"
+  );
   const nodesChildrenMongoSorted = carpetas.concat(contents);
+
+  const openPDF = path => {
+    WebBrowser.openBrowserAsync(
+      `https://h8j0kgj7-4000.brs.devtunnels.ms/${path}`
+    );
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       let idContainer = "";
@@ -45,19 +53,14 @@ export const NodeChildScreen = ({ route }) => {
       }
     };
 
-    fetchData(); 
+    fetchData();
   }, [id, ticket]);
 
   const handleNodePress = (node) => {
-
     if (node.nodeType !== "cm:folder") {
-      navigation.navigate("NodeContent", {
-        ticket,
-        id: node.id,
-        path: node.path
-      });
-
+      openPDF(node.path);
       console.log("Se ha seleccionado un archivo:", node.name);
+
     } else if (node.nodeType === "cm:folder") {
       // Navegación hacia la misma pantalla con una nueva carpeta
       navigation.push("Nodes", {
@@ -73,17 +76,17 @@ export const NodeChildScreen = ({ route }) => {
         <MenuActions children={id} />
       </View>
 
-      {nodesChildrenMongoSorted.length || (resultSearch && resultSearch.length) ? (
+      {nodesChildrenMongoSorted.length ||
+      (resultSearch && resultSearch.length) ? (
         <FlatList
           style={styles.list}
           data={
-            resultSearch && resultSearch.length ? resultSearch : nodesChildrenMongoSorted
+            resultSearch && resultSearch.length
+              ? resultSearch
+              : nodesChildrenMongoSorted
           }
           renderItem={({ item }) => (
-            <FolderItem
-              node={item}
-              onPress={() => handleNodePress(item)}
-            />
+            <FolderItem node={item} onPress={() => handleNodePress(item)} />
           )}
           keyExtractor={(item) => item.id}
         />
