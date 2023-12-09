@@ -4,32 +4,40 @@ import { StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { View } from "react-native";
 import nodeContext from "../../context/nodes/nodeContext";
+import { Pressable } from "react-native";
+import { useDispatch } from "react-redux";
+import { deleteNode } from "../../redux/modules/nodes/NodeThunks";
 
-export const ModalNodeInfo = ({ handleModal }) => {
+export const ModalDeleteNode = ({ handleModal }) => {
   const { node } = useContext(nodeContext);
+  const dispatch = useDispatch();
   console.log(node);
+
+  const confirmDeleteNode = async () => {
+    await dispatch(deleteNode({ id: node.id }));
+    handleModal()
+  };
   return (
     <View style={styles.modalOverlay}>
       <View style={styles.container}>
         <TouchableOpacity style={styles.iconButton} onPress={handleModal}>
           <Text>cerrar</Text>
         </TouchableOpacity>
-        <Text style={styles.title}>Acerca de: </Text>
+        <Text style={styles.title}>
+          {node.nodeType === "cm:content"
+            ? "Eliminar archivo"
+            : "Eliminar Carpeta"}
+        </Text>
         <View style={styles.info}>
-          <View>
-            <Text>Nombre: </Text>
-            <Text>Descripción: </Text>
-            <Text>Tipo de archivo: </Text>
-            <Text>Nombre de tipo: </Text>
-            <Text>Ultima modificación: </Text>
-          </View>
-          <View>
-            <Text>{node.name}</Text>
-            <Text>{node.properties["cm:description"]}</Text>
-            <Text>{node.properties["cm:type"]}</Text>
-            <Text>{node.properties["mimeTypeName"]}</Text>
-            <Text>{node.updatedAt}</Text>
-          </View>
+          <Text>¿Está seguro que desea eliminarlo?</Text>
+        </View>
+        <View style={styles.footerButtons}>
+          <Pressable style={styles.button}>
+            <Text>Cancelar</Text>
+          </Pressable>
+          <Pressable style={styles.button} onPress={confirmDeleteNode}>
+            <Text>Confirmar</Text>
+          </Pressable>
         </View>
       </View>
     </View>
@@ -71,18 +79,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "black",
   },
-  button: {
-    backgroundColor: "#03484c",
-    borderRadius: 5,
-    paddingVertical: 10,
-    marginBottom: 5,
-  },
-  textButton: {
-    textAlign: "center",
-    color: "white",
-    fontSize: 15,
-    fontWeight: "bold",
-  },
+
   buttonCancel: {
     backgroundColor: "#C7CBC7",
     borderRadius: 5,
@@ -101,11 +98,21 @@ const styles = StyleSheet.create({
     right: 0,
     margin: 10,
   },
-  info:{
-    flexDirection: 'row',
+  info: {
+    flexDirection: "row",
     borderTopWidth: 1,
-    borderTopColor: '#03484c',
-    top: 10,
-    paddingVertical: 10
-  }
+    borderTopColor: "#03484c",
+    top: 20,
+    paddingVertical: 10,
+    marginBottom: 30,
+  },
+  footerButtons: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    borderTopWidth: 1,
+    borderTopColor: "#ccc",
+  },
+  button: {
+    borderRadius: 5,
+  },
 });

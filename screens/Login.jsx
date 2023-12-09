@@ -15,7 +15,7 @@ export const Login = () => {
   const [backgroundImage, setBackgroundImage] = useState("");
 
   useEffect(() => {
-    setBackgroundImage(require("../assets/fondo.jpg"));
+    setBackgroundImage(require("C:/Users/florv/OneDrive/Escritorio/GEDI-NATIVE/assets/fondo.jpg"));
   }, []);
 
   const [userId, setUserId] = useState("");

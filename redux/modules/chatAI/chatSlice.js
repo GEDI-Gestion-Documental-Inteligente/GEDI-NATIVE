@@ -4,7 +4,7 @@ import { sendMessage } from "./chatThunks";
 const chatSlice = createSlice({
   name: "chat",
   initialState: {
-    messages: [{ text: "hola", sender: "user" }],
+    messages: [{ text: "hola", sender: "user" }, { text: "hola", sender: "bot" }],
     loading: "idle",
   },
   reducers: {

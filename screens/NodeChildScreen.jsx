@@ -35,7 +35,8 @@ export const NodeChildScreen = ({ route }) => {
   const nodesChildrenMongoSorted = carpetas.concat(contents);
 
   const openPDF = (path) => {
-    const url = `http://192.168.0.15:4000${path}`;
+    const urlApi = process.env.EXPO_PUBLIC_API_UPLOADS
+    const url = urlApi + path
     const viewPDF = `https://drive.google.com/viewerng/viewer?embedded=true&url=${url}`;
 
     Linking.openURL(viewPDF);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   View,
   FlatList,
@@ -23,15 +23,23 @@ export const Chat = () => {
   const ticket = useSelector((state) => state.auth.ticket);
   const messages = useSelector((state) => state.chat.messages);
   const loading = useSelector((state) => state.chat.loading);
+  const [isTyping, setIsTyping] = useState(false);
+  const flatListRef = useRef(null);
 
   const [newMessage, setNewMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (newMessage) {
-      dispatch(addMessageUser({ text: newMessage, sender: "user" }));
-      dispatch(sendMessage({ticket, text: newMessage}))
+      await dispatch(addMessageUser({ text: newMessage, sender: "user" }));
+      setIsTyping(true);
+      // const res = await dispatch(sendMessage({ticket, text: newMessage}))
+      // if(res.payload){
+      //   isTyping(false)
+      // }
+
       setNewMessage("");
+      flatListRef.current.scrollToEnd({ animated: true });
     }
   };
 
@@ -39,14 +47,15 @@ export const Chat = () => {
     setShowModal(!showModal);
   };
 
-
-
   return (
     <View style={{ flex: 1 }}>
       <FlatList
+        ref={flatListRef}
         data={messages}
         keyExtractor={(item, index) => Math.random().toString()}
-        renderItem={({ item }) => <MessageBubble message={item} />}
+        renderItem={({ item }) => (
+          <MessageBubble message={item} isTyping={isTyping} />
+        )}
       />
 
       <View style={styles.inputContainer}>
@@ -81,7 +90,7 @@ export const Chat = () => {
       </View>
 
       <Modal
-        animationType="slide"
+        animationType="none"
         transparent={true}
         visible={showModal}
         onRequestClose={handleToggleModal}
@@ -135,7 +144,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-end",
     marginBottom: 100,
-    backgroundColor: "rgba(0, 0, 0, 0.1)",
+    backgroundColor: "rgba(0, 0, 0, 0)",
   },
   modalContent: {
     backgroundColor: "#fff",

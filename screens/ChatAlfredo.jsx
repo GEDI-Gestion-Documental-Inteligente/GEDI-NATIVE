@@ -7,7 +7,7 @@ export const ChatScreen = () => {
   return (
     <View style={styles.container}>
       <TabChat />
-      <SliderButton/>
+      {/* <SliderButton/> */}
       <Chat />
     </View>
   );

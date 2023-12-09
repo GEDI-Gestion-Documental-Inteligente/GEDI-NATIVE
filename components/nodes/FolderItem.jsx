@@ -11,17 +11,20 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import nodeContext from "../../context/nodes/nodeContext";
 import { ModalNodeInfo } from "./ModalNodeInfo";
 import { SearchMoveNode } from "./SearchMoveNode";
+import { ModalDeleteNode } from "./ModalDeleteNode";
 
 const FolderItem = ({ node, onPress }) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isDetailsVisible, setisDetailsVisible] = useState(false)
   const [isModalMoveVisible, setisModalMoveVisible] = useState(false)
+  const [IsModalDeleteVisible, setIsModalDeleteVisible] = useState(false)
   const [selectedModal, setSelectedModal] = useState(null);
 
   const toggleMenu = () => {
     setIsMenuVisible(!isMenuVisible);
     setisDetailsVisible(false)
     setisModalMoveVisible(false)
+    setIsModalDeleteVisible(false)
   };
 
   const closeDropdown = () => {
@@ -89,7 +92,7 @@ const FolderItem = ({ node, onPress }) => {
                   <Text>Mover</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.iconButton}>
+                <TouchableOpacity style={styles.iconButton} onPress={()=> {setIsModalDeleteVisible(true)}}>
                   <MaterialIcons
                     name="delete-outline"
                     size={24}
@@ -116,6 +119,14 @@ const FolderItem = ({ node, onPress }) => {
           transparent={true}
         >
          <SearchMoveNode handleModal={toggleMenu}/>
+        </Modal>
+
+        <Modal
+          visible={IsModalDeleteVisible}
+          animationType="slide"
+          transparent={true}
+        >
+         <ModalDeleteNode handleModal={toggleMenu}/>
         </Modal>
       </View>
     </nodeContext.Provider>
@@ -167,10 +178,10 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     flexDirection: "row",
-    backgroundColor: "rgba(0, 0, 0, 0)",
+    backgroundColor: "rgba(255, 255, 255, 1)",
     width: "100%",
     height: "auto", // Altura del menú desplegable
-    bottom: 50,
+    bottom: 0,
     borderTopWidth: 1,
     borderTopColor: "#cccc",
   },
