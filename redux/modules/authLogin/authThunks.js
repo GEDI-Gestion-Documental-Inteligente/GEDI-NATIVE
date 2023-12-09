@@ -11,15 +11,15 @@ export const loginAndFetchTicket = createAsyncThunk(
         password,
       };
       const response = await axios.post(`${url_base}/auth`, data);
-
-      if (!response.data.ok) {
-        throw new Error("Error al iniciar sesión");
-      }
-
       const dataLoggued = response.data;
-      return dataLoggued;
+      if(dataLoggued.ok){
+        return dataLoggued;
+      }else{
+        return;
+      }
+      
     } catch (error) {
-      throw error;
+      return;
     }
   }
 );
@@ -28,18 +28,11 @@ export const logoutAndClearTicket = createAsyncThunk(
   "auth/logoutAndClearTicket",
   async (ticket, thunkAPI) => {
     try {
-      const response = await fetch(
-        `http://${IPV4_ADDRESS}:8080/alfresco/api/-default-/public/authentication/versions/1/tickets/${ticket}`,
-        {
-          method: "DELETE",
-        }
-      );
-
+      const response = await axios.get()
       if (!response.ok) {
         throw new Error("Error al cerrar sesión");
       }
 
-      // Limpiar el ticket en AsyncStorage
 
       thunkAPI.dispatch(authSlice.actions.clearTicket());
     } catch (error) {

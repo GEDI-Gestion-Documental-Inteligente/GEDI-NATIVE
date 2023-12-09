@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   name: {
-    fontSize: 18,
+    fontSize: 13,
     fontWeight: "bold",
     color: "#03484c",
   },

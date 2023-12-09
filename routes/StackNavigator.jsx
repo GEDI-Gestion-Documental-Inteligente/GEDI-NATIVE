@@ -1,4 +1,3 @@
-
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { SiteScreen } from "../screens/SiteScreen";
 import { NodeChildScreen } from "../screens/NodeChildScreen";
@@ -54,8 +53,8 @@ export const StackNavigator = () => {
           headerStyle: {
             backgroundColor: "#03484c",
           },
-          headerTitleStyle:{
-            color: 'white'
+          headerTitleStyle: {
+            color: "white",
           },
         }}
       />

@@ -1,13 +1,20 @@
 import React, { useEffect } from "react";
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  ScrollView,
+  Image,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import FolderItem from "../components/nodes/FolderItem";
 import { useDispatch, useSelector } from "react-redux";
 import { getNodes } from "../redux/modules/nodes/NodeThunks";
 import { getContainerDocumentLibrary } from "../redux/modules/sites/SitesThunks";
 import { MenuActions } from "../components/nodes/MenuActions";
-import * as WebBrowser from "expo-web-browser";
-import * as Linking from 'expo-linking';
+import * as Linking from "expo-linking";
+
 
 export const NodeChildScreen = ({ route }) => {
   const { id, siteName, path } = route.params;
@@ -27,10 +34,11 @@ export const NodeChildScreen = ({ route }) => {
   );
   const nodesChildrenMongoSorted = carpetas.concat(contents);
 
-  const openPDF = path => {
-    WebBrowser.openBrowserAsync(
-      `https://h8j0kgj7-4000.brs.devtunnels.ms/${path}`
-    );
+  const openPDF = (path) => {
+    const url = `http://192.168.0.15:4000${path}`;
+    const viewPDF = `https://drive.google.com/viewerng/viewer?embedded=true&url=${url}`;
+
+    Linking.openURL(viewPDF);
   };
 
   useEffect(() => {
@@ -46,7 +54,6 @@ export const NodeChildScreen = ({ route }) => {
           await dispatch(getNodes({ id: idContainer.payload, ticket }));
         } else {
           await dispatch(getNodes({ id, ticket }));
-          console.log(id);
         }
       } catch (error) {
         console.error("Error al obtener datos:", error);
@@ -59,8 +66,6 @@ export const NodeChildScreen = ({ route }) => {
   const handleNodePress = (node) => {
     if (node.nodeType !== "cm:folder") {
       openPDF(node.path);
-      console.log("Se ha seleccionado un archivo:", node.name);
-
     } else if (node.nodeType === "cm:folder") {
       // Navegación hacia la misma pantalla con una nueva carpeta
       navigation.push("Nodes", {
