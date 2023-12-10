@@ -149,7 +149,8 @@ export const getSiteActivities = createAsyncThunk(
 // funcion para obtener los miembros de un sitio
 export const getSiteMembers = createAsyncThunk(
   "sites/get-site-members",
-  async ({ ticket, siteId }) => {
+  async ({ siteId }, {getState}) => {
+    const ticket = getState().auth.ticket;
     const myheaders = {
       headers: {
         "Content-Type": "application/json",
@@ -158,6 +159,7 @@ export const getSiteMembers = createAsyncThunk(
     };
 
     try {
+      
       const response = await axios.get(
         `${url_base}/sites/all-members/${siteId}`,
         myheaders

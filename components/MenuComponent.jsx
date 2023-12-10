@@ -14,7 +14,9 @@ import { logoutAndClearTicket } from "../redux/modules/authLogin/authThunks";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { FontAwesome } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
+
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const DropdownMenu = () => {
   const ticket = useSelector((state) => state.auth.ticket);
@@ -94,7 +96,7 @@ const DropdownMenu = () => {
                   <Text style={styles.text}>Notificaciones</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity
+                {/* <TouchableOpacity
                   style={styles.iconButton}
                   onPress={() => navigate.navigate("SitesList")}
                 >
@@ -104,15 +106,15 @@ const DropdownMenu = () => {
                     color="white"
                   />
                   <Text style={styles.text}>Gestionar sitios</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
                 <TouchableOpacity
                   style={styles.iconButton}
-                  onPress={() => navigate.navigate("People")}
+                  onPress={() => navigate.navigate("Activities")}
                 >
-                  <FontAwesome5 name="users-cog" size={25} color="white" />
+                  <Feather name="activity" size={25} color="white" />
 
-                  <Text style={styles.text}>Gestionar usuarios</Text>
+                  <Text style={styles.text}>Mis Actividades</Text>
                 </TouchableOpacity>
               </View>
               <View style={styles.footerContainer}>

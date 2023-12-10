@@ -1,6 +1,13 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { AntDesign } from "@expo/vector-icons";
 
 export const TabChat = () => {
   const navigation = useNavigation();
@@ -15,6 +22,9 @@ export const TabChat = () => {
         </Pressable>
 
         <Text style={styles.textTab}>Alfredo</Text>
+        <TouchableOpacity>
+          <AntDesign name="sound" size={24} color="#ccc" />
+        </TouchableOpacity>
       </View>
 
       <View>
@@ -29,11 +39,13 @@ const styles = StyleSheet.create({
     height: "10%",
     display: "flex",
     backgroundColor: "white",
-    alignItems: "center",  
+    alignItems: "center",
     justifyContent: "center",
   },
   TabChat: {
     flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
   textTab: {
     fontSize: 25,

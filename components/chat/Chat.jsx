@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   View,
   FlatList,
@@ -13,11 +13,14 @@ import MessageBubble from "./MessageBubble";
 import { StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { addMessageUser } from "../../redux/modules/chatAI/chatSlice";
-import { useEffect } from "react";
-import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { sendMessage } from "../../redux/modules/chatAI/chatThunks";
-
+import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { pickImage } from "../../utils/utils";
+import { Audio } from "expo-av";
+import * as FileSystem from "expo-file-system";
+import * as Permissions from "expo-permissions";
+import ModalsSuggestions from "./ModalsSuggestions";
 export const Chat = () => {
   const dispatch = useDispatch();
   const ticket = useSelector((state) => state.auth.ticket);
@@ -25,9 +28,80 @@ export const Chat = () => {
   const loading = useSelector((state) => state.chat.loading);
   const [isTyping, setIsTyping] = useState(false);
   const flatListRef = useRef(null);
+  const [recording, setRecording] = useState();
+  const [textSelected, setTextSelected]= useState('')
 
   const [newMessage, setNewMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
+
+  const startRecording = async () => {
+    try {
+      console.log("Requesting permissions..");
+      await Audio.requestPermissionsAsync();
+      await Audio.setAudioModeAsync({
+        allowsRecordingIOS: true,
+        playsInSilentModeIOS: true,
+      });
+
+      console.log("Starting recording..");
+      const { recording } = await Audio.Recording.createAsync(
+        Audio.RecordingOptionsPresets.HIGH_QUALITY
+      );
+      setRecording(recording);
+      console.log("Recording started");
+    } catch (err) {
+      console.error("Failed to start recording", err);
+    }
+  };
+
+  const requestStoragePermission = async () => {
+    const { status } = await Permissions.askAsync(
+      Permissions.READ_EXTERNAL_STORAGE,
+      Permissions.WRITE_EXTERNAL_STORAGE
+    );
+
+    if (status !== "granted") {
+      console.error("Permiso de escritura en almacenamiento externo denegado");
+      return false;
+    }
+
+    return true;
+  };
+
+  const stopRecording = async () => {
+    console.log("Stopping recording..");
+    setRecording(undefined);
+    await recording.stopAndUnloadAsync();
+    await Audio.setAudioModeAsync({
+      allowsRecordingIOS: false,
+    });
+    const uri = recording.getURI();
+    const filename = `${Date.now()}.m4a`;
+    const customPath =
+      FileSystem.documentDirectory + "ruta/personalizada/" + filename;
+
+    try {
+      const hasPermission = await requestStoragePermission();
+
+      if (hasPermission) {
+        await FileSystem.makeDirectoryAsync(
+          FileSystem.documentDirectory + "ruta/personalizada",
+          {
+            intermediates: true,
+          }
+        );
+        await FileSystem.moveAsync({
+          from: uri,
+          to: customPath,
+        });
+        console.log("Archivo de audio guardado en:", customPath);
+      }
+    } catch (error) {
+      console.error("Error al guardar el audio:", error);
+    }
+
+    console.log("Recording stopped and stored at", uri);
+  };
 
   const handleSendMessage = async () => {
     if (newMessage) {
@@ -47,28 +121,38 @@ export const Chat = () => {
     setShowModal(!showModal);
   };
 
+  useEffect(()=>{
+    if(newMessage == '' && textSelected !== ''){
+      console.log('a')
+      setNewMessage(textSelected)
+    }
+  },[textSelected, setTextSelected])
+
   return (
     <View style={{ flex: 1 }}>
-      <FlatList
-        ref={flatListRef}
-        data={messages}
-        keyExtractor={(item, index) => Math.random().toString()}
-        renderItem={({ item }) => (
-          <MessageBubble message={item} isTyping={isTyping} />
-        )}
-      />
+      {messages && messages.length > 0 ? (
+        <FlatList
+          ref={flatListRef}
+          data={messages}
+          keyExtractor={(item, index) => Math.random().toString()}
+          renderItem={({ item }) => (
+            <MessageBubble message={item} isTyping={isTyping} />
+          )}
+        />
+      ) : (
+        <ModalsSuggestions props={[textSelected, setTextSelected]} />
+      )}
 
       <View style={styles.inputContainer}>
         <Pressable onPress={handleToggleModal}>
-          <Ionicons
-            name={"ios-add-sharp"}
-            style={{ left: -3 }}
-            size={35}
-            color={"black"}
-          />
+          <MaterialCommunityIcons name="paperclip" size={30} color="#03484c" />
+        </Pressable>
+        <Pressable onPress={recording ? stopRecording : startRecording}>
+          <MaterialIcons name="keyboard-voice" size={30} color="#03484c" />
         </Pressable>
 
         <TextInput
+        
           style={styles.bubble}
           value={newMessage}
           onChangeText={setNewMessage}
@@ -84,7 +168,7 @@ export const Chat = () => {
             name={"ios-send-sharp"}
             style={{ right: -3 }}
             size={24}
-            color={"black"}
+            color={"#03484c"}
           />
         </Pressable>
       </View>
@@ -99,15 +183,11 @@ export const Chat = () => {
           <View style={styles.modalOverlay}>
             <View style={styles.modalContent}>
               <Pressable style={styles.modalOption}>
-                <AntDesign name="paperclip" size={24} color="black" />
+                <FontAwesome5 name="file-upload" size={35} color="#03484c" />
               </Pressable>
 
-              <Pressable style={styles.modalOption}>
-                <FontAwesome5 name="file-import" size={24} color="black" />
-              </Pressable>
-
-              <Pressable style={styles.modalOption}>
-                <AntDesign name="barchart" size={24} color="black" />
+              <Pressable style={styles.modalOption} onPress={pickImage}>
+                <FontAwesome5 name="file-image" size={35} color="#03484c" />
               </Pressable>
             </View>
           </View>
@@ -149,8 +229,10 @@ const styles = StyleSheet.create({
   modalContent: {
     backgroundColor: "#fff",
     borderRadius: 10,
-    width: 150,
+    borderBottomLeftRadius: 0,
+    width: 120,
     margin: 10,
+    left: 10,
     flexDirection: "row",
     justifyContent: "center",
   },

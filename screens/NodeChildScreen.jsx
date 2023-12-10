@@ -14,7 +14,7 @@ import { getNodes } from "../redux/modules/nodes/NodeThunks";
 import { getContainerDocumentLibrary } from "../redux/modules/sites/SitesThunks";
 import { MenuActions } from "../components/nodes/MenuActions";
 import * as Linking from "expo-linking";
-
+import siteContext from "../context/sites/siteContext";
 
 export const NodeChildScreen = ({ route }) => {
   const { id, siteName, path } = route.params;
@@ -35,8 +35,8 @@ export const NodeChildScreen = ({ route }) => {
   const nodesChildrenMongoSorted = carpetas.concat(contents);
 
   const openPDF = (path) => {
-    const urlApi = process.env.EXPO_PUBLIC_API_UPLOADS
-    const url = urlApi + path
+    const urlApi = process.env.EXPO_PUBLIC_API_UPLOADS;
+    const url = urlApi + path;
     const viewPDF = `https://drive.google.com/viewerng/viewer?embedded=true&url=${url}`;
 
     Linking.openURL(viewPDF);
@@ -77,29 +77,31 @@ export const NodeChildScreen = ({ route }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View>
-        <MenuActions children={id} />
-      </View>
+    <siteContext.Provider value={{ siteName }}>
+      <View style={styles.container}>
+        <View>
+          <MenuActions children={id} />
+        </View>
 
-      {nodesChildrenMongoSorted.length ||
-      (resultSearch && resultSearch.length) ? (
-        <FlatList
-          style={styles.list}
-          data={
-            resultSearch && resultSearch.length
-              ? resultSearch
-              : nodesChildrenMongoSorted
-          }
-          renderItem={({ item }) => (
-            <FolderItem node={item} onPress={() => handleNodePress(item)} />
-          )}
-          keyExtractor={(item) => item.id}
-        />
-      ) : (
-        <Text>No hay carpetas hijas o nodos hijos.</Text>
-      )}
-    </View>
+        {nodesChildrenMongoSorted.length ||
+        (resultSearch && resultSearch.length) ? (
+          <FlatList
+            style={styles.list}
+            data={
+              resultSearch && resultSearch.length
+                ? resultSearch
+                : nodesChildrenMongoSorted
+            }
+            renderItem={({ item }) => (
+              <FolderItem node={item} onPress={() => handleNodePress(item)} />
+            )}
+            keyExtractor={(item) => item.id}
+          />
+        ) : (
+          <Text>No hay carpetas hijas o nodos hijos.</Text>
+        )}
+      </View>
+    </siteContext.Provider>
   );
 };
 

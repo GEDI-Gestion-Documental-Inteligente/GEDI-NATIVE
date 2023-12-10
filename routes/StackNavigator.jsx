@@ -22,16 +22,16 @@ export const StackNavigator = () => {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="People"
+        name="Activities"
         component={PeopleScreen}
         options={{ headerShown: false }}
       />
 
-      <Stack.Screen
+      {/* <Stack.Screen
         name="SitesList"
         component={SitesListScreen}
         options={{ headerShown: false }}
-      />
+      /> */}
 
       <Stack.Screen
         name="InformationSite"

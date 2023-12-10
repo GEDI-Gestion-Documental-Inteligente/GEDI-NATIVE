@@ -183,7 +183,7 @@ export const updatePermissionsNode = createAsyncThunk(
     try {
       const ticket = getState().auth.ticket;
       const response = await axios.put(
-        `${url_base}/update-permissions/${id}`,
+        `${url_base}/nodes/update-permissions/${id}`,
         nodeData,
         {
           headers: {

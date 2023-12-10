@@ -6,18 +6,22 @@ import { Modal } from "react-native";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { Ionicons } from "@expo/vector-icons";
+import { Entypo } from '@expo/vector-icons';
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { SimpleLineIcons } from '@expo/vector-icons';
 import nodeContext from "../../context/nodes/nodeContext";
 import { ModalNodeInfo } from "./ModalNodeInfo";
 import { SearchMoveNode } from "./SearchMoveNode";
 import { ModalDeleteNode } from "./ModalDeleteNode";
+import { ModalMoreOptions } from "./ModalMoreOptions";
 
 const FolderItem = ({ node, onPress }) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isDetailsVisible, setisDetailsVisible] = useState(false)
   const [isModalMoveVisible, setisModalMoveVisible] = useState(false)
   const [IsModalDeleteVisible, setIsModalDeleteVisible] = useState(false)
+  const [isMoreOptionsVisible, setIsMoreOptionsVisible] = useState(false)
   const [selectedModal, setSelectedModal] = useState(null);
 
   const toggleMenu = () => {
@@ -25,6 +29,7 @@ const FolderItem = ({ node, onPress }) => {
     setisDetailsVisible(false)
     setisModalMoveVisible(false)
     setIsModalDeleteVisible(false)
+    setIsMoreOptionsVisible(false)
   };
 
   const closeDropdown = () => {
@@ -100,6 +105,11 @@ const FolderItem = ({ node, onPress }) => {
                   />
                   <Text>Eliminar</Text>
                 </TouchableOpacity>
+
+                <TouchableOpacity style={styles.iconButton} onPress={()=> {setIsMoreOptionsVisible(true)}}>
+                <SimpleLineIcons name="options-vertical" size={24} color="black"  style={{marginVertical:10 }}/>
+    
+                </TouchableOpacity>
               </View>
             </View>
           </TouchableWithoutFeedback>
@@ -127,6 +137,14 @@ const FolderItem = ({ node, onPress }) => {
           transparent={true}
         >
          <ModalDeleteNode handleModal={toggleMenu}/>
+        </Modal>
+
+        <Modal
+          visible={isMoreOptionsVisible}
+          animationType="none"
+          transparent={true}
+        >
+         <ModalMoreOptions handleModal={toggleMenu}/>
         </Modal>
       </View>
     </nodeContext.Provider>
