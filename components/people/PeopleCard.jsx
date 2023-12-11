@@ -16,17 +16,25 @@ export const PeopleCard = ({ user, onSubmit }) => {
         <TouchableOpacity style={styles.iconButton} onPress={onSubmit}>
           <AntDesign name="close" size={24} color="black" />
         </TouchableOpacity>
-        <Text style={styles.title}>Acerca de: </Text>
-        <View>
-          <View style={styles.containerProfile}>
-            <FontAwesome name="user" size={80} color="#03484c" />
-            <Text style={styles.text}>{user.firstName} {user.lastName}</Text>
-          </View>
 
-          <Text style={styles.subTitle}>Correo electrónico</Text>
-          <Text style={styles.text}>{user.email}</Text>
-          <Text style={styles.subTitle}>Trabajo</Text>
-          <Text style={styles.text}>{user.jobTitle}</Text>
+        <View style={styles.profileContainer}>
+          <FontAwesome name="user" size={80} color="#03484c" />
+
+          <View style={styles.profileInfo}>
+            <Text style={styles.title}>{user.firstName} {user.lastName}</Text>
+
+            <View style={styles.detailsContainer}>
+              <View style={styles.item}>
+                <Text style={styles.subTitle}>Email:</Text>
+                <Text style={styles.text}>{user.email}</Text>
+              </View>
+
+              <View  style={styles.item}>
+                <Text style={styles.subTitle}>Job:</Text>
+                <Text style={styles.text}>{user.jobTitle}</Text>
+              </View>
+            </View>
+          </View>
         </View>
       </View>
     </View>
@@ -34,58 +42,6 @@ export const PeopleCard = ({ user, onSubmit }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    backgroundColor: "white",
-    borderRadius: 15,
-    width: "90%",
-    paddingVertical: 30
-  },
-  input: {
-    height: 40,
-    width: "auto",
-    borderBottomColor: "#03484c",
-    borderRadius: 10,
-    marginVertical: 10,
-    paddingLeft: 10,
-    backgroundColor: "rgba(255, 255, 255, 0.5)",
-  },
-  title: {
-    fontWeight: "bold",
-    fontSize: 25,
-    textAlign: "center",
-    color: "#03484c",
-  },
-  subTitle: {
-    fontSize: 20,
-    color: "white",
-    fontWeight: 'normal',
-    backgroundColor: '#ccc',
-    width: 'auto',
-    borderRadius: 5, 
-  },
-  text: {
-    fontSize: 20,
-    color: "black",
-  },
-  button: {
-    backgroundColor: "#03484c",
-    borderRadius: 5,
-    paddingVertical: 10,
-    marginBottom: 5,
-  },
-  textButton: {
-    textAlign: "center",
-    color: "white",
-    fontSize: 15,
-    fontWeight: "bold",
-  },
-  buttonCancel: {
-    backgroundColor: "#C7CBC7",
-    borderRadius: 5,
-    paddingVertical: 10,
-    marginBottom: 5,
-  },
   modalOverlay: {
     flex: 1,
     display: "flex",
@@ -93,16 +49,46 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.5)",
     alignItems: "center",
   },
+  container: {
+    padding: 10,
+    backgroundColor: "white",
+    width: "90%",
+    borderRadius: 5,
+    paddingVertical: 30,
+  },
+  profileContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
   iconButton: {
     position: "absolute",
-    right: 0,
-    margin: 10,
+    right: 10,
+    top: 10,
   },
-  containerProfile: {
-    display: "flex",
-    flexDirection: "row-reverse",
-    justifyContent: "space-between",
-    alignItems: "center",
-    margin: 10
+  profileInfo: {
+    marginLeft: 20,
+    flex: 1,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#03484c",
+  },
+  detailsContainer: {
+    flexDirection: "row",
+    marginTop: 10,
+  },
+  item:{
+    marginHorizontal: 5
+  },
+  subTitle: {
+    fontSize: 14,
+    fontWeight: "500",
+    color: "#03484c",
+    marginBottom: 5,
+  },
+  text: {
+    fontSize: 14,
+    color: "black",
   },
 });

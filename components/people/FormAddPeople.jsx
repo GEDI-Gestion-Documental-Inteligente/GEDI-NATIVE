@@ -1,9 +1,17 @@
 import React, { useState } from "react";
-import { View, TextInput, StyleSheet, Text, Pressable, TouchableOpacity } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import { AntDesign } from '@expo/vector-icons'; 
 import {
-  createPeople, getPeople,
+  View,
+  TextInput,
+  StyleSheet,
+  Text,
+  Pressable,
+  TouchableOpacity,
+} from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { AntDesign } from "@expo/vector-icons";
+import {
+  createPeople,
+  getPeople,
 } from "../../redux/modules/people/peopleThunks"; // Importa tu thunk de Redux
 
 export const FormAddPeople = ({ onSubmit }) => {
@@ -34,7 +42,7 @@ export const FormAddPeople = ({ onSubmit }) => {
     ) {
       await dispatch(createPeople({ ticket, data })); // Dispatch de la acción para agregar una persona
       onSubmit(); // Llama a la función onSubmit para cerrar el formulario o hacer otras acciones necesarias
-      await dispatch(getPeople({ticket}))
+      await dispatch(getPeople({ ticket }));
     } else {
       alert("Por favor, complete todos los campos.");
     }
@@ -43,10 +51,7 @@ export const FormAddPeople = ({ onSubmit }) => {
   return (
     <View style={styles.modalOverlay}>
       <View style={styles.container}>
-        <TouchableOpacity
-          style={styles.iconButton}
-          onPress={onSubmit}
-        >
+        <TouchableOpacity style={styles.iconButton} onPress={onSubmit}>
           <AntDesign name="close" size={24} color="black" />
         </TouchableOpacity>
         <Text style={styles.title}>Crear una nueva persona</Text>
@@ -87,12 +92,14 @@ export const FormAddPeople = ({ onSubmit }) => {
           secureTextEntry
           value={data.password}
         />
-        <Pressable style={styles.button} onPress={handleSubmit}>
-          <Text style={styles.textButton}>Crear persona</Text>
-        </Pressable>
-        <Pressable style={styles.buttonCancel} onPress={onSubmit}>
-          <Text style={styles.textButton}>Cancelar</Text>
-        </Pressable>
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <Pressable style={styles.buttonCancel} onPress={onSubmit}>
+            <Text style={styles.textButton}>Cancelar</Text>
+          </Pressable>
+          <Pressable style={styles.button} onPress={handleSubmit}>
+            <Text style={styles.textButton}>Crear persona</Text>
+          </Pressable>
+        </View>
       </View>
     </View>
   );
@@ -102,9 +109,8 @@ const styles = StyleSheet.create({
   container: {
     padding: 30,
     backgroundColor: "#E6E7E6",
-    borderRadius: 15,
+    borderRadius: 5,
     width: "90%",
-
   },
   input: {
     height: 40,
@@ -113,7 +119,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginVertical: 10,
     paddingLeft: 10,
-    backgroundColor: "rgba(255, 255, 255, 0.5)",
+    borderBottomWidth: 1,
   },
   title: {
     fontWeight: "bold",
@@ -127,6 +133,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingVertical: 10,
     marginBottom: 5,
+    width: 150
   },
   textButton: {
     textAlign: "center",
@@ -139,6 +146,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingVertical: 10,
     marginBottom: 5,
+    width: 150
   },
   modalOverlay: {
     flex: 1,
@@ -147,9 +155,9 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.5)",
     alignItems: "center",
   },
-  iconButton:{
+  iconButton: {
     position: "absolute",
     right: 0,
-    margin: 10
-  }
+    margin: 10,
+  },
 });

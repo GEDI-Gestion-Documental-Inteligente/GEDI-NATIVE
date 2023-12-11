@@ -14,6 +14,7 @@ import { getNodes } from "../redux/modules/nodes/NodeThunks";
 import { getContainerDocumentLibrary } from "../redux/modules/sites/SitesThunks";
 import { MenuActions } from "../components/nodes/MenuActions";
 import * as Linking from "expo-linking";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import siteContext from "../context/sites/siteContext";
 
 export const NodeChildScreen = ({ route }) => {
@@ -98,7 +99,26 @@ export const NodeChildScreen = ({ route }) => {
             keyExtractor={(item) => item.id}
           />
         ) : (
-          <Text>No hay carpetas hijas o nodos hijos.</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              marginHorizontal: 15,
+              marginVertical: 20,
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}
+          >
+            <MaterialCommunityIcons
+              name="file-document-multiple-outline"
+              size={24}
+              color="#808080"
+            />
+            <Text
+              style={{ textAlign: "center", fontSize: 15, color: "#808080", marginHorizontal: 5 }}
+            >
+              No se han encontrado carpetas o documentos.
+            </Text>
+          </View>
         )}
       </View>
     </siteContext.Provider>

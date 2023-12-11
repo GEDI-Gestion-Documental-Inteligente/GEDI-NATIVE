@@ -57,14 +57,14 @@ export const MenuActions = ({ children }) => {
                 style={styles.iconButton}
                 onPress={() => handleModalOpen("folder")}
               >
-                <Ionicons name="md-folder-open" size={40} color="#03484c" />
+                <Ionicons name="md-folder-open" size={30} color="#03484c" />
                 <Text>Nueva carpeta</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.iconButton}
                 onPress={() => handleModalOpen("upload")}
               >
-                <Ionicons name="cloud-upload" size={40} color="#03484c" />
+                <Ionicons name="cloud-upload" size={30} color="#03484c" />
                 <Text>Subir Archivo</Text>
               </TouchableOpacity>
             </View>
@@ -128,8 +128,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     width: "100%",
     height: "auto", // Altura del menú desplegable
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
     elevation: 1,
   },
   textButton: {

@@ -70,15 +70,20 @@ export const FormAddNode = ({ handleClose, children, closeDropdown }) => {
                     onChangeText={(text) => handleInputChange("description", text)}
                     value={nodeData.description}
                 />
-                <Pressable style={styles.button} onPress={handleSubmit}>
-                    <Text style={styles.textButton}>Crear carpeta</Text>
-                </Pressable>
+
+                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                
                 <Pressable style={styles.buttonCancel} onPress={()=>{
                     handleClose()
                     closeDropdown()
                 }}>
                     <Text style={styles.textButton}>Cancelar</Text>
                 </Pressable>
+                <Pressable style={styles.button} onPress={handleSubmit}>
+                    <Text style={styles.textButton}>Crear carpeta</Text>
+                </Pressable>
+                </View>
+               
             </View>
         </View>
     );
@@ -98,7 +103,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginVertical: 10,
         paddingLeft: 10,
-        backgroundColor: "rgba(255, 255, 255, 0.5)",
+        borderBottomWidth: 1
     },
     title: {
         fontWeight: "bold",
@@ -112,6 +117,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         paddingVertical: 10,
         marginBottom: 5,
+        width: 150
     },
     textButton: {
         textAlign: "center",
@@ -124,6 +130,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         paddingVertical: 10,
         marginBottom: 5,
+        width: 150
     },
     modalOverlay: {
         flex: 1,

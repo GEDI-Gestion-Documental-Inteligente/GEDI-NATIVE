@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   activityList: {
-    height: 200,
+    height: 300,
     borderWidth: 1,
     borderRadius: 5,
     borderColor: "#ccc",

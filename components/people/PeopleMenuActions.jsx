@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
   modalOverlay: {
     flex: 1,
     alignItems: "flex-end",
-    backgroundColor: "rgba(0, 0, 0, 0.1)",
+    backgroundColor: "rgba(0, 0, 0, 0)",
   },
   dropdownContentAction: {
     backgroundColor: "white",

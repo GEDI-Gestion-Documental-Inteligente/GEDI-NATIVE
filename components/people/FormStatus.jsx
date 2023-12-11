@@ -30,6 +30,7 @@ export const FormStatus = ({ user, onSubmit }) => {
       changeStatusPeople({ userId: user.id, value: status.enabled, ticket })
     );
     await dispatch(getPeople({ ticket }));
+    onSubmit()
   };
   return (
     <View style={styles.modalOverlay}>
@@ -47,12 +48,14 @@ export const FormStatus = ({ user, onSubmit }) => {
           <Picker.Item label="Habilitar" value={true} />
           <Picker.Item label="Deshabilitar" value={false} />
         </Picker>
-        <Pressable style={styles.button} onPress={handleSubmit}>
-          <Text style={styles.textButton}>Cambiar</Text>
-        </Pressable>
-        <Pressable style={styles.buttonCancel} onPress={onSubmit}>
-          <Text style={styles.textButton}>Cancelar</Text>
-        </Pressable>
+        <View style={styles.buttonsContainer}>
+          <Pressable style={styles.buttonCancel} onPress={onSubmit}>
+            <Text style={styles.textButton}>Cancelar</Text>
+          </Pressable>
+          <Pressable style={styles.button} onPress={handleSubmit}>
+            <Text style={styles.textButton}>Actualizar</Text>
+          </Pressable>
+        </View>
       </View>
     </View>
   );
@@ -62,7 +65,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 30,
     backgroundColor: "#E6E7E6",
-    borderRadius: 15,
+    borderRadius: 5,
     width: "90%",
   },
   input: {
@@ -86,6 +89,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingVertical: 10,
     marginBottom: 5,
+    width: 150,
+    marginHorizontal: 5,
   },
   textButton: {
     textAlign: "center",
@@ -98,6 +103,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingVertical: 10,
     marginBottom: 5,
+    width: 150,
+    marginHorizontal: 5,
   },
   modalOverlay: {
     flex: 1,
@@ -110,5 +117,10 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 0,
     margin: 10,
+  },
+  buttonsContainer: {
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-between",
   },
 });
