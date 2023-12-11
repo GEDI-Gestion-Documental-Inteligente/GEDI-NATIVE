@@ -21,6 +21,7 @@ import { Audio } from "expo-av";
 import * as FileSystem from "expo-file-system";
 import * as Permissions from "expo-permissions";
 import ModalsSuggestions from "./ModalsSuggestions";
+import { sendMessage } from "../../redux/modules/chatAI/chatThunks";
 export const Chat = () => {
   const dispatch = useDispatch();
   const ticket = useSelector((state) => state.auth.ticket);
@@ -30,6 +31,7 @@ export const Chat = () => {
   const flatListRef = useRef(null);
   const [recording, setRecording] = useState();
   const [textSelected, setTextSelected]= useState('')
+  const [file, setFile] = useState(undefined)
 
   const [newMessage, setNewMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -107,7 +109,7 @@ export const Chat = () => {
     if (newMessage) {
       await dispatch(addMessageUser({ text: newMessage, sender: "user" }));
       setIsTyping(true);
-      // const res = await dispatch(sendMessage({ticket, text: newMessage}))
+      const res = await dispatch(sendMessage({ticket, text: newMessage}))
       // if(res.payload){
       //   isTyping(false)
       // }
@@ -127,7 +129,13 @@ export const Chat = () => {
       setNewMessage(textSelected)
     }
   },[textSelected, setTextSelected])
+  
 
+  const picker = async()=>{
+    const resImage = await pickImage()
+    setFile(resImage)
+    console.log(file)
+  }
   return (
     <View style={{ flex: 1 }}>
       {messages && messages.length > 0 ? (
@@ -152,7 +160,7 @@ export const Chat = () => {
         </Pressable>
 
         <TextInput
-        
+
           style={styles.bubble}
           value={newMessage}
           onChangeText={setNewMessage}
@@ -186,7 +194,7 @@ export const Chat = () => {
                 <FontAwesome5 name="file-upload" size={35} color="#03484c" />
               </Pressable>
 
-              <Pressable style={styles.modalOption} onPress={pickImage}>
+              <Pressable style={styles.modalOption} onPress={picker}>
                 <FontAwesome5 name="file-image" size={35} color="#03484c" />
               </Pressable>
             </View>

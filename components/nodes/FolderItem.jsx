@@ -6,37 +6,50 @@ import { Modal } from "react-native";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { Ionicons } from "@expo/vector-icons";
-import { Entypo } from '@expo/vector-icons';
+import { Entypo } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { SimpleLineIcons } from '@expo/vector-icons';
+import { SimpleLineIcons } from "@expo/vector-icons";
 import nodeContext from "../../context/nodes/nodeContext";
 import { ModalNodeInfo } from "./ModalNodeInfo";
 import { SearchMoveNode } from "./SearchMoveNode";
 import { ModalDeleteNode } from "./ModalDeleteNode";
 import { ModalMoreOptions } from "./ModalMoreOptions";
+import { Foundation } from "@expo/vector-icons";
 
 const FolderItem = ({ node, onPress }) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
-  const [isDetailsVisible, setisDetailsVisible] = useState(false)
-  const [isModalMoveVisible, setisModalMoveVisible] = useState(false)
-  const [IsModalDeleteVisible, setIsModalDeleteVisible] = useState(false)
-  const [isMoreOptionsVisible, setIsMoreOptionsVisible] = useState(false)
+  const [isDetailsVisible, setisDetailsVisible] = useState(false);
+  const [isModalMoveVisible, setisModalMoveVisible] = useState(false);
+  const [IsModalDeleteVisible, setIsModalDeleteVisible] = useState(false);
+  const [isMoreOptionsVisible, setIsMoreOptionsVisible] = useState(false);
   const [selectedModal, setSelectedModal] = useState(null);
 
   const toggleMenu = () => {
     setIsMenuVisible(!isMenuVisible);
-    setisDetailsVisible(false)
-    setisModalMoveVisible(false)
-    setIsModalDeleteVisible(false)
-    setIsMoreOptionsVisible(false)
+    setisDetailsVisible(false);
+    setisModalMoveVisible(false);
+    setIsModalDeleteVisible(false);
+    setIsMoreOptionsVisible(false);
   };
 
   const closeDropdown = () => {
     setIsMenuVisible(false);
   };
 
-  console.log("node", node.nodeType);
+  const getIcon = (nodeType) => {
+    switch (nodeType) {
+      case "pdf":
+        return <FontAwesome5 name="file-pdf" size={40} color="#03484c" />;
+      case "csv":
+        return <Foundation name="page-csv" size={50} color="#03484c" />;
+      case "img":
+        return <FontAwesome5 name="file-image" size={49} color="#03484c" />;
+      default:
+        return <Entypo name="text-document" size={40} color="#03484c" />;
+    }
+  };
 
   return (
     <nodeContext.Provider value={{ node }}>
@@ -44,19 +57,21 @@ const FolderItem = ({ node, onPress }) => {
         <Pressable onPress={onPress} onLongPress={toggleMenu}>
           <View style={styles.card}>
             <View style={styles.iconContainer}>
-              <Icon
-                name={
-                  node.nodeType == "cm:folder"
-                    ? "folder-outline"
-                    : "document-outline"
-                }
-                size={50}
-                color="#03484c"
-              />
+              {node.nodeType == "cm:folder" ? (
+                <Ionicons
+                  name="ios-folder-open-outline"
+                  size={40}
+                  color="#03484c"
+                />
+              ) : (
+                getIcon(node.properties["cm:type"])
+              )}
             </View>
             <View style={styles.infoContainer}>
               <Text style={styles.name}>{node.name}</Text>
-              <Text style={styles.description}>{node.properties['cm:description']}</Text>
+              <Text style={styles.description}>
+                {node.properties["cm:description"]}
+              </Text>
             </View>
           </View>
         </Pressable>
@@ -70,7 +85,12 @@ const FolderItem = ({ node, onPress }) => {
           <TouchableWithoutFeedback onPress={closeDropdown}>
             <View style={styles.modalOverlay}>
               <View style={styles.dropdownContent}>
-                <TouchableOpacity style={styles.iconButton} onPress={()=> {setisDetailsVisible(true)}}>
+                <TouchableOpacity
+                  style={styles.iconButton}
+                  onPress={() => {
+                    setisDetailsVisible(true);
+                  }}
+                >
                   <Ionicons
                     name="information-circle-outline"
                     size={24}
@@ -79,7 +99,12 @@ const FolderItem = ({ node, onPress }) => {
                   <Text>Detalles</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.iconButton} onPress={()=> {setisModalMoveVisible(true)}}>
+                <TouchableOpacity
+                  style={styles.iconButton}
+                  onPress={() => {
+                    setisModalMoveVisible(true);
+                  }}
+                >
                   {node.nodeType === "cm:content" ? (
                     <MaterialCommunityIcons
                       name="file-move-outline"
@@ -97,7 +122,12 @@ const FolderItem = ({ node, onPress }) => {
                   <Text>Mover</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.iconButton} onPress={()=> {setIsModalDeleteVisible(true)}}>
+                <TouchableOpacity
+                  style={styles.iconButton}
+                  onPress={() => {
+                    setIsModalDeleteVisible(true);
+                  }}
+                >
                   <MaterialIcons
                     name="delete-outline"
                     size={24}
@@ -106,9 +136,18 @@ const FolderItem = ({ node, onPress }) => {
                   <Text>Eliminar</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.iconButton} onPress={()=> {setIsMoreOptionsVisible(true)}}>
-                <SimpleLineIcons name="options-vertical" size={24} color="black"  style={{marginVertical:10 }}/>
-    
+                <TouchableOpacity
+                  style={styles.iconButton}
+                  onPress={() => {
+                    setIsMoreOptionsVisible(true);
+                  }}
+                >
+                  <SimpleLineIcons
+                    name="options-vertical"
+                    size={24}
+                    color="black"
+                    style={{ marginVertical: 10 }}
+                  />
                 </TouchableOpacity>
               </View>
             </View>
@@ -120,7 +159,7 @@ const FolderItem = ({ node, onPress }) => {
           animationType="slide"
           transparent={true}
         >
-         <ModalNodeInfo handleModal={toggleMenu}/>
+          <ModalNodeInfo handleModal={toggleMenu} />
         </Modal>
 
         <Modal
@@ -128,7 +167,7 @@ const FolderItem = ({ node, onPress }) => {
           animationType="slide"
           transparent={true}
         >
-         <SearchMoveNode handleModal={toggleMenu}/>
+          <SearchMoveNode handleModal={toggleMenu} />
         </Modal>
 
         <Modal
@@ -136,7 +175,7 @@ const FolderItem = ({ node, onPress }) => {
           animationType="slide"
           transparent={true}
         >
-         <ModalDeleteNode handleModal={toggleMenu}/>
+          <ModalDeleteNode handleModal={toggleMenu} />
         </Modal>
 
         <Modal
@@ -144,7 +183,7 @@ const FolderItem = ({ node, onPress }) => {
           animationType="none"
           transparent={true}
         >
-         <ModalMoreOptions handleModal={toggleMenu}/>
+          <ModalMoreOptions handleModal={toggleMenu} />
         </Modal>
       </View>
     </nodeContext.Provider>

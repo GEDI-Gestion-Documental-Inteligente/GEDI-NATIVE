@@ -4,6 +4,7 @@ import { useState } from "react";
 
 
 export const pickImage = async () => {
+  const [file, setFile] = useState(null);
   try {
     const imageRes = await DocumentPicker.getDocumentAsync({
       type: "image/*",
@@ -20,7 +21,9 @@ export const pickImage = async () => {
         size: image.size,
       };
 
-     return imageData;
+      console.log(imageData);
+      setFile(imageData);
+
      
     }
   } catch (error) {

@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 0,
     margin: 10,
     alignSelf: 'flex-start',
+    width:'80%'
   },
   userMessageContainer: {
     backgroundColor: '#fff',

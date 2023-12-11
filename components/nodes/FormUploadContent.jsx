@@ -16,6 +16,7 @@ import {
 } from "../../redux/modules/nodes/NodeThunks";
 import * as DocumentPicker from "expo-document-picker";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Picker } from "@react-native-picker/picker";
 
 export const FormUploadContent = ({ handleClose, children, closeDropdown }) => {
   const dispatch = useDispatch();
@@ -26,8 +27,61 @@ export const FormUploadContent = ({ handleClose, children, closeDropdown }) => {
     title: "",
     description: "",
     typeDocument: "",
+    nodeType: "",
   });
   const [file, setFile] = useState(null);
+  const [value, setValue] = useState("");
+
+  const items = [
+    {
+      value: "ipf:acta",
+      label: "Acta",
+    },
+    {
+      value: "ipf:certifActividad",
+      label: "Certificado de Actividad",
+    },
+    {
+      value: "ipf:comodato",
+      label: "Comodato de Alumno",
+    },
+    {
+      value: "ipf:contrato",
+      label: "Contrato",
+    },
+    {
+      value: "ipf:facura",
+      label: "Factura",
+    },
+    {
+      value: "ipf:lejajo",
+      label: "Legajo Alumno",
+    },
+    {
+      value: "ipf:libro-matriz",
+      label: "Libro Matriz",
+    },
+    {
+      value: "ipf:plan-estudio",
+      label: "Plan de Estudios",
+    },
+    {
+      value: "ipf:planilla-asistencia",
+      label: "Planilla de Asistencia",
+    },
+    {
+      value: "ipf:planilla-informe",
+      label: "Planilla de Informes",
+    },
+    {
+      value: "ipf:planilla-notas",
+      label: "Planilla de Notas",
+    },
+    {
+      value: "ipfititulo-alumno",
+      label: "Título del Alumno",
+    },
+  ];
 
   const pickDocument = async () => {
     try {
@@ -110,12 +164,7 @@ export const FormUploadContent = ({ handleClose, children, closeDropdown }) => {
           onChangeText={(text) => handleInputChange("description", text)}
           value={nodeData.description}
         />
-        <TextInput
-          style={styles.input}
-          placeholder="Tipo de Documento"
-          onChangeText={(text) => handleInputChange("typeDocument", text)}
-          value={nodeData.typeDocument}
-        />
+
         <Pressable onPress={pickDocument}>
           <View style={{ flexDirection: "row" }}>
             <Text style={{ color: "black", fontSize: 15, margin: 5 }}>
@@ -137,6 +186,23 @@ export const FormUploadContent = ({ handleClose, children, closeDropdown }) => {
             <Text style={styles.fileInfoText}>Ningún archivo seleccionado</Text>
           )}
         </View>
+        <TextInput
+          style={styles.input}
+          placeholder="Tipo de Documento"
+          
+          value={file ? file.mimeType : ''}
+        />
+        <Picker
+          selectedValue={nodeData.typeDocument}
+          style={styles.picker}
+          onValueChange={(itemValue) =>
+            handleInputChange("nodeType", itemValue)
+          }
+        >
+          {items.map((item, index) => (
+            <Picker.Item key={index} label={item.label} value={item.value} />
+          ))}
+        </Picker>
 
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <Pressable

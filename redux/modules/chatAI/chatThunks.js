@@ -17,7 +17,7 @@ export const sendMessage = createAsyncThunk("chat/sendMessage", async ({ticket, 
 
     if (response.data) {
       console.log(response.data);
-      return response.data.result;
+      return response.data;
     } else {
       return "Lo siento, intenta más tarde";
     }
